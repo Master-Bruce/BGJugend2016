@@ -12,6 +12,7 @@ android {
         targetSdkVersion 25
         versionCode 29
         versionName "2.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
