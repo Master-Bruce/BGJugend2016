@@ -1,0 +1,48 @@
+<resources>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+    <string name="settings_header">Einstellungen</string>
+
+    <!-- General settings -->
+    <string name="pref_show_pastevents">Alte Veranstaltungen anzeigen</string>
+
+    <!-- settings for User Data -->
+    <string name="pref_header_your_data">Deine Daten</string>
+    <string name="pref_user_name">Vor- &amp; Nachname</string>
+    <string name="pref_default_name"/>
+    <string name="pref_user_street">Straße</string>
+    <string name="pref_default_street" />
+    <string name="pref_user_city">PLZ &amp; Ort</string>
+    <string name="pref_default_city" />
+    <string name="pref_user_birthday">Geburtstag</string>
+    <string name="pref_default_birthday" />
+    <string name="pref_user_telephone">Telefon</string>
+    <string name="pref_default_telephone" />
+
+    <!-- settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_deadline_notifications">Anmeldeschluss Benachrichtigung</string>
+    <string name="pref_title_vibrate">Zum Termin benachrichtigen</string>
+    <string name="pref_notification_list_title">Benachrichtigungstag</string>
+    <string name="pref_notification_time_title">Benachrichtigungszeit</string>
+
+    <string-array name="notification_entries">
+        <item>1 Tag vorher</item>
+        <item>2 Tage vorher</item>
+        <item> 1 Woche vorher</item>
+        <item> 10 Tage vorher</item>
+    </string-array>
+    <string-array name="notification_entries_values">
+        <item>1</item>
+        <item>2</item>
+        <item>7</item>
+        <item>10</item>
+    </string-array>
+
+    <!-- settings for Info -->
+    <string name="pref_header_info">Info</string>
+    <string name="pref_privacy">Alle eingegebenen Daten werden lokal auf dem Gerät gespeichert. \nSie werden ausschließlich dazu verwendet dem Nutzer Funktionen zur Verfügung zu stellen und Arbeit abzunehmen.</string>
+    <string name="internet_text">Die Daten der Veranstaltungen sind auf einem Server gespeichert. Immer wenn Du die App öffnest wird geprüft, ob es Aktualisierungen gibt. Trotzdem ist die App mit all ihren Funktionen offline nutzbar.</string>
+</resources>

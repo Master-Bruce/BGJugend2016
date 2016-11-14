@@ -1,0 +1,36 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".HomeActivity">
+
+    <item android:id="@+id/menuBenachrichtigung"
+        android:title="@string/menu_notification"
+        android:checkable="true"
+        android:checked="false"
+        android:visible="false"
+        android:showAsAction="withText"
+        tools:ignore="AppCompatResource" />
+
+    <item android:id="@+id/menuCalendar"
+        android:title="@string/menu_calender"
+        android:visible="false"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/menuApply"
+        android:title="@string/menu_register"
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
+
+    <item android:id="@+id/menuTest"
+        android:title="@string/menu_test"
+        android:showAsAction="never"
+        tools:ignore="AppCompatResource"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/menuSearch"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:visible="false"/>
+</menu>
