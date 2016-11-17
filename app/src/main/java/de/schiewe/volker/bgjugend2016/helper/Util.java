@@ -1,13 +1,9 @@
 package de.schiewe.volker.bgjugend2016.helper;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +13,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.schiewe.volker.bgjugend2016.fragments.SettingsFragment;
+
+//import com.google.android.gms.common.GoogleApiAvailability;
 
 /**
  * Helper class
@@ -77,15 +75,15 @@ public class Util {
         return reImage;
     }
 
-    public static boolean checkPlayServices(Activity ctx) {
-        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
-        int result = googleAPI.isGooglePlayServicesAvailable(ctx);
-        if (result != ConnectionResult.SUCCESS) {
-            if (googleAPI.isUserResolvableError(result)) {
-                googleAPI.getErrorDialog(ctx, result, 9000).show();
-            }
-            return false;
-        }
-        return true;
-    }
+//    public static boolean checkPlayServices(Activity ctx) {
+//        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+//        int result = googleAPI.isGooglePlayServicesAvailable(ctx);
+//        if (result != ConnectionResult.SUCCESS) {
+//            if (googleAPI.isUserResolvableError(result)) {
+//                googleAPI.getErrorDialog(ctx, result, 9000).show();
+//            }
+//            return false;
+//        }
+//        return true;
+//    }
 }

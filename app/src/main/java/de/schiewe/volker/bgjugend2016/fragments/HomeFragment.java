@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment {
         Event reEvent = null;
         Date today = new Date();
         int i = 0;
-
+        // TODO: 17/11/2016 has to be more faster and more efficient
         while (reEvent == null && i < firebaseHandler.getEvents().size()) {
             String eventTime = firebaseHandler.getEvents().get(i).getDate().split("–")[0].trim();
             Date dEventTime = Util.parseDate(eventTime);
