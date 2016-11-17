@@ -25,7 +25,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +38,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import de.schiewe.volker.bgjugend2016.helper.AppPersist;
 import de.schiewe.volker.bgjugend2016.DatabaseListener;
 import de.schiewe.volker.bgjugend2016.R;
 import de.schiewe.volker.bgjugend2016.adapter.EventListAdapter;
@@ -52,12 +50,12 @@ import de.schiewe.volker.bgjugend2016.fragments.HomeFragment;
 import de.schiewe.volker.bgjugend2016.fragments.InfoFragment;
 import de.schiewe.volker.bgjugend2016.fragments.SettingsFragment;
 import de.schiewe.volker.bgjugend2016.fragments.TestFragment;
+import de.schiewe.volker.bgjugend2016.helper.AppPersist;
 import de.schiewe.volker.bgjugend2016.helper.FirebaseHandler;
 import de.schiewe.volker.bgjugend2016.helper.Util;
 import de.schiewe.volker.bgjugend2016.receiver.AlarmReceiver;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DatabaseListener {
-    private static final String TAG = "MainActivity";
     //region Members and Constants
     public static final String NOTIFY_TITLE = "NOTIFY_TITLE";
     public static final String NOTIFY_TEXT = "NOTIFY_TEXT";
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String OVERVIEW_FILENAME = "overview";
     public static final int ANIM_IN = R.anim.fade_in;
     public static final int ANIM_OUT = R.anim.fade_out;
-
+    private static final String TAG = "MainActivity";
     private AppPersist app;
     private FirebaseHandler fireDB;
 
@@ -124,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         newVersion();
-        Util.checkPlayServices(this);
+//        Util.checkPlayServices(this);
 
         // init Fragments
         homeFragment = new HomeFragment();
