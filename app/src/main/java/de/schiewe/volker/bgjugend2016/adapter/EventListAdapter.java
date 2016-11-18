@@ -27,20 +27,20 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     private SharedPreferences prefs;
     private FirebaseHandler firebaseHandler;
 
-    public EventListAdapter(SharedPreferences prefs, FirebaseHandler firebaseHandler){
+    public EventListAdapter(SharedPreferences prefs, FirebaseHandler firebaseHandler) {
         this.prefs = prefs;
         this.firebaseHandler = firebaseHandler;
     }
 
-    public void setData(String query){
+    public void setData(String query) {
         mEvents = new ArrayList<>();
-        for (Event currEvent : firebaseHandler.getEvents()){
-            if (Util.checkDate(currEvent.getDate(),prefs) && Util.checkAge(currEvent.getAge(),prefs)){
-              if (query == null) {
-                  mEvents.add(currEvent);
-              } else if (currEvent.getTitle().toLowerCase().contains(query.toLowerCase())) {
-                  mEvents.add(currEvent);
-              }
+        for (Event currEvent : firebaseHandler.getEvents()) {
+            if (Util.checkDate(currEvent.getDate(), prefs) && Util.checkAge(currEvent.getAge(), prefs)) {
+                if (query == null) {
+                    mEvents.add(currEvent);
+                } else if (currEvent.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                    mEvents.add(currEvent);
+                }
             }
         }
         notifyDataSetChanged();
@@ -54,6 +54,16 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_layout, viewGroup, false);
         return new ViewHolder(itemView);
+    }
+
+    public Event getEventById(int eventId) {
+        for (Event e :
+                mEvents) {
+            if (e.getId() == eventId) {
+                return e;
+            }
+        }
+        return null;
     }
 
     @Override

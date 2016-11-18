@@ -70,7 +70,4 @@
     <string name="konto_data">Förderverein Jugendarbeit\nIBAN: DE09120300001020195143\nBIC: BYLADEM1001\nDeutsche Kreditbank</string>
     <string name="more_informations">Weiter Informationen:\n http://herrnhuterspiele.de/</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>

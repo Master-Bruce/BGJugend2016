@@ -14,8 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import de.schiewe.volker.bgjugend2016.R;
 import de.schiewe.volker.bgjugend2016.activities.MainActivity;
+import de.schiewe.volker.bgjugend2016.data_models.Event;
 import de.schiewe.volker.bgjugend2016.helper.AppPersist;
 import de.schiewe.volker.bgjugend2016.helper.FirebaseHandler;
 
@@ -25,9 +28,9 @@ import de.schiewe.volker.bgjugend2016.helper.FirebaseHandler;
 public class SwipeEventFragment extends Fragment implements ViewPager.OnPageChangeListener {
 
     private AppPersist app;
-    private FirebaseHandler fbHandler;
     private MainActivity activity;
     private SharedPreferences sharedPrefs;
+    private ArrayList<Event> mData;
     private int startPos;
 
     public SwipeEventFragment() {
@@ -46,7 +49,6 @@ public class SwipeEventFragment extends Fragment implements ViewPager.OnPageChan
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         app = AppPersist.getInstance();
-        fbHandler = FirebaseHandler.getInstance(getActivity());
         View view = inflater.inflate(R.layout.fragment_swipe_event, container, false);
         // ViewPager and its adapters use support library
         // fragments, so use getSupportFragmentManager.
@@ -58,7 +60,8 @@ public class SwipeEventFragment extends Fragment implements ViewPager.OnPageChan
         return view;
     }
 
-    public void setItem(int position) {
+    public void setData(ArrayList<Event> events, int position) {
+        mData = events;
         startPos = position;
     }
 
@@ -86,10 +89,10 @@ public class SwipeEventFragment extends Fragment implements ViewPager.OnPageChan
 
     @Override
     public void onPageSelected(int position) {
-        app.setCurrEvent(position);
-        activity.setTitle(app.getCurrEvent().getTitle());
+        app.setCurrEvent(mData.get(position).getId());
+        activity.setTitle(mData.get(position).getTitle());
 
-        if (sharedPrefs.getBoolean("EventNotification" + app.getCurrEvent().getId(), false))
+        if (sharedPrefs.getBoolean("EventNotification" + mData.get(position), false))
             app.getMenu().findItem(R.id.menuBenachrichtigung).setChecked(true);
         else
             app.getMenu().findItem(R.id.menuBenachrichtigung).setChecked(false);
@@ -107,14 +110,13 @@ public class SwipeEventFragment extends Fragment implements ViewPager.OnPageChan
 
         @Override
         public Fragment getItem(int i) {
-//            app.setCurrEvent(i);
-            return EventFragment.newInstance(app.getEventAdapter().getEvents().get(i));
+            return EventFragment.newInstance(mData.get(i));
         }
 
 
         @Override
         public int getCount() {
-            return fbHandler.getEvents().size();
+            return mData.size();
         }
 
         @Override

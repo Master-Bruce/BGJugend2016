@@ -15,6 +15,7 @@ import java.util.Date;
 import de.schiewe.volker.bgjugend2016.R;
 import de.schiewe.volker.bgjugend2016.activities.MainActivity;
 import de.schiewe.volker.bgjugend2016.data_models.Event;
+import de.schiewe.volker.bgjugend2016.helper.AppPersist;
 import de.schiewe.volker.bgjugend2016.helper.FirebaseHandler;
 import de.schiewe.volker.bgjugend2016.helper.Util;
 
@@ -27,12 +28,14 @@ public class HomeFragment extends Fragment {
     private FirebaseHandler firebaseHandler;
     private View cardView;
     private ProgressBar loading;
+    private AppPersist app;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         firebaseHandler = FirebaseHandler.getInstance(getActivity());
+        app = AppPersist.getInstance();
         loading = (ProgressBar) view.findViewById(R.id.pbLoading);
         Button btnEvents = (Button) view.findViewById(R.id.btnEvents);
         btnEvents.setOnClickListener(new View.OnClickListener() {
@@ -92,11 +95,13 @@ public class HomeFragment extends Fragment {
         } else {
             imgWarning.setVisibility(View.INVISIBLE);
         }
+        if (nextEvent.getHeader() == null)
+            return;
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SwipeEventFragment eventFrag = new SwipeEventFragment();
-                eventFrag.setItem(nextEvent.getId());
+                eventFrag.setData(app.getEventAdapter().getEvents(), nextEvent.getId());
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.push_left_in, R.anim.fade_out, R.anim.fade_in, R.anim.push_right_out)
                         .replace(R.id.container, eventFrag)
@@ -107,23 +112,19 @@ public class HomeFragment extends Fragment {
     }
 
     private Event getNextEvent() {
-        Event reEvent = null;
         Date today = new Date();
         int i = 0;
-        // TODO: 17/11/2016 has to be more faster and more efficient
-        while (reEvent == null && i < firebaseHandler.getEvents().size()) {
+        while (i < firebaseHandler.getEvents().size()) {
             String eventTime = firebaseHandler.getEvents().get(i).getDate().split("–")[0].trim();
             Date dEventTime = Util.parseDate(eventTime);
 
             assert dEventTime != null;
             if (dEventTime.after(today)) {
-                reEvent = firebaseHandler.getEvents().get(i);
+                return firebaseHandler.getEvents().get(i);
             }
             i++;
         }
-        if (reEvent == null)
-            return new Event("Keine Veranstaltungen", "", "nächstes Jahr mehr", new Date());
+        return new Event("Keine Veranstaltungen", "", "nächstes Jahr mehr", new Date());
 
-        return reEvent;
     }
 }

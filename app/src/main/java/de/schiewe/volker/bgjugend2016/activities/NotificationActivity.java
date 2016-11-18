@@ -46,7 +46,7 @@ public class NotificationActivity extends Activity {
     }
 
     private void setNewAlarm(long time){
-//TODO
+        //TODO
         Calendar calendar = Calendar.getInstance();
 
         finish();

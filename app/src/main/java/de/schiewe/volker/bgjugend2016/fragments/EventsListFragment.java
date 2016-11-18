@@ -64,20 +64,15 @@ public class EventsListFragment extends Fragment implements EventListAdapter.OnI
 
     @Override
     public void onItemClick(View view, int position) {
-        app.setCurrEvent(app.getEventAdapter().getEvents().get(position).getId());
+        int eventId = app.getEventAdapter().getEvents().get(position).getId();
+        app.setCurrEvent(eventId);
 
         SwipeEventFragment swipeEventFragment = new SwipeEventFragment();
-        swipeEventFragment.setItem(position);
+        swipeEventFragment.setData(app.getEventAdapter().getEvents(), position);
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.push_left_in, R.anim.fade_out, R.anim.fade_in, 0)
                 .replace(R.id.container, swipeEventFragment, MainActivity.EVENT_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
-//        EventFragment eventFrag = new EventFragment();
-//        getFragmentManager().beginTransaction()
-//                .setCustomAnimations(R.anim.push_left_in, R.anim.fade_out, R.anim.fade_in, 0)
-//                .replace(R.id.container, eventFrag, MainActivity.EVENT_FRAGMENT)
-//                .addToBackStack(null)
-//                .commit();
     }
 }

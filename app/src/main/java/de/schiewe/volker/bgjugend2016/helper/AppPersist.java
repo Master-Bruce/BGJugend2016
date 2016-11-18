@@ -28,7 +28,7 @@ public class AppPersist {
     }
 
     public Event getCurrEvent() {
-        return fbHandler.getEvents().get(currEvent);
+        return eventAdapter.getEventById(currEvent);
     }
 
     public void setCurrEvent(int currEvent) {
