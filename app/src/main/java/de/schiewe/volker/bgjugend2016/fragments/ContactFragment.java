@@ -77,7 +77,7 @@ public class ContactFragment extends Fragment {
                 activity.overridePendingTransition(0, 0);
             }
         });
-        mPTText.setText(fireDB.getPlanungsTeam());
+        mPTText.setText(fireDB.getPlanungsteam());
     }
 
     @Override

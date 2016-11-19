@@ -30,6 +30,7 @@ import de.schiewe.volker.bgjugend2016.activities.MainActivity;
 import de.schiewe.volker.bgjugend2016.data_models.Contact;
 import de.schiewe.volker.bgjugend2016.data_models.Event;
 import de.schiewe.volker.bgjugend2016.data_models.Info;
+import de.schiewe.volker.bgjugend2016.fragments.SettingsFragment;
 
 /**
  * Connection to firebase service and database
@@ -39,6 +40,7 @@ import de.schiewe.volker.bgjugend2016.data_models.Info;
 public class FirebaseHandler {
     private static final String TAG = "FirebaseHandler";
     private static final String HEADER = "header";
+    private static final String DB_TRIGGER = "db_trigger";
     private static FirebaseHandler instance;
 
     //region fields
@@ -57,17 +59,6 @@ public class FirebaseHandler {
     private String planungsTeam = "";
     //endregion
 
-    public static FirebaseHandler getInstance(Context ctx) {
-        if (instance == null)
-            instance = new FirebaseHandler(ctx);
-        return instance;
-    }
-
-    public static FirebaseHandler getInstance(){
-        if (instance != null) return instance;
-        return null;
-    }
-
     private FirebaseHandler(final Context ctx) {
         this.ctx = ctx;
         this.prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -77,13 +68,46 @@ public class FirebaseHandler {
         database = FirebaseDatabase.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
-        dbReference = database.getReference("Database");
+        int db_trigger = prefs.getInt(DB_TRIGGER, 0);
+        boolean trigger;
+        if (prefs.getInt(SettingsFragment.PREF_TEST_INT, 0) < 6)
+            trigger = (db_trigger == 0);
+        else
+            trigger = !(db_trigger == 0);
+
+        if (trigger)
+            dbReference = database.getReference("Database");
+        else
+            dbReference = database.getReference("Database2");
+
         jbReference = database.getReference("JB_Data");
         stgReference = storage.getReferenceFromUrl("gs://jugendarbeit-ebu.appspot.com").child("event_img");
         dbReference.keepSynced(true);
     }
 
+    public static FirebaseHandler getInstance(Context ctx) {
+        if (instance == null)
+            instance = new FirebaseHandler(ctx);
+        return instance;
+    }
+
+    public static FirebaseHandler getInstance() {
+        if (instance != null) return instance;
+        return null;
+    }
+
     public void init() {
+        database.getReference("DB-Trigger").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Integer value = dataSnapshot.getValue(Integer.class);
+                prefs.edit().putInt(DB_TRIGGER, value).apply();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
         dbReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -226,11 +250,11 @@ public class FirebaseHandler {
         this.listener = listener;
     }
 
-    public String getPlanungsTeam() {
+    public String getPlanungsteam() {
         return planungsTeam;
     }
 
-    public void cleanFiles() {
+    private void cleanFiles() {
         String[] fileList = ctx.fileList();
         boolean fileExist = false;
         for (String s : fileList) {

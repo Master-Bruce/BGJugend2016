@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "25.0.0"
 
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId "de.schiewe.volker.bgjugend2016"
         minSdkVersion 11
         targetSdkVersion 25
-        versionCode 29
-        versionName "2.0"
+        versionCode 31
+        versionName "2.1 - RC2"
     }
     buildTypes {
         release {

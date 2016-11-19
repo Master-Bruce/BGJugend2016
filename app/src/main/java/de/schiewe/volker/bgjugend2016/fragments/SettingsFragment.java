@@ -41,69 +41,11 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private static final String PREF_INFO = "pref_info";
     private static final String PREF_FEEDBACK = "pref_feedback";
     //endregion
-
-    private int pref_int = 0;
     private static String version;
+    private int pref_int = 0;
     private MainActivity activity;
     private AppPersist app;
     private SharedPreferences prefs;
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activity = (MainActivity) getActivity();
-        app = AppPersist.getInstance();
-        try {
-            version = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-        pref_int = prefs.getInt(PREF_TEST_INT, 0);
-
-        addPreferencesFromResource(R.xml.preferences);
-
-        bindPreferenceSummaryToValue(findPreference(PREF_NAME));
-        bindPreferenceSummaryToValue(findPreference(PREF_STREET));
-        bindPreferenceSummaryToValue(findPreference(PREF_CITY));
-        bindPreferenceSummaryToValue(findPreference(PREF_BIRTHDAY));
-        bindPreferenceSummaryToValue(findPreference(PREF_TELEPHONE));
-
-        findPreference(PREF_INFO).setSummary(version);
-        findPreference(PREF_INFO).setOnPreferenceClickListener(this);
-
-        findPreference(PREF_SHOW_PASTEVENTS).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                prefs.edit().putBoolean(SHOW_PASTEVENTS, (Boolean) newValue).apply();
-               app.getEventAdapter().setData(null);
-
-               app.getInfoAdapter().setData();
-                return true;
-            }
-        });
-
-        findPreference(PREF_AGE).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-
-                prefs.edit().putBoolean(SHOW_AGE_EVENTS, (Boolean) newValue).apply();
-
-                app.getEventAdapter().setData(null);
-                return true;
-            }
-        });
-        findPreference(PREF_FEEDBACK).setOnPreferenceClickListener(this);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        activity.setTitle(getString(R.string.settings_header));
-    }
-
     /**
      * A preference value change listener that updates the preference's summary to reflect its new value.
      */
@@ -139,6 +81,61 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         }
     };
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity = (MainActivity) getActivity();
+        app = AppPersist.getInstance();
+        try {
+            version = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        pref_int = prefs.getInt(PREF_TEST_INT, 0);
+
+        addPreferencesFromResource(R.xml.preferences);
+
+        bindPreferenceSummaryToValue(findPreference(PREF_NAME));
+        bindPreferenceSummaryToValue(findPreference(PREF_STREET));
+        bindPreferenceSummaryToValue(findPreference(PREF_CITY));
+        bindPreferenceSummaryToValue(findPreference(PREF_BIRTHDAY));
+        bindPreferenceSummaryToValue(findPreference(PREF_TELEPHONE));
+
+        findPreference(PREF_INFO).setSummary(version);
+        findPreference(PREF_INFO).setOnPreferenceClickListener(this);
+
+        findPreference(PREF_SHOW_PASTEVENTS).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                prefs.edit().putBoolean(SHOW_PASTEVENTS, (Boolean) newValue).apply();
+                app.getEventAdapter().setData(null);
+
+                app.getInfoAdapter().setData();
+                return true;
+            }
+        });
+
+        findPreference(PREF_AGE).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+
+                prefs.edit().putBoolean(SHOW_AGE_EVENTS, (Boolean) newValue).apply();
+
+                app.getEventAdapter().setData(null);
+                return true;
+            }
+        });
+        findPreference(PREF_FEEDBACK).setOnPreferenceClickListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        activity.setTitle(getString(R.string.settings_header));
+    }
+
     private void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
@@ -169,7 +166,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                     Toast.makeText(activity, String.valueOf(pref_int), Toast.LENGTH_SHORT).show();
                 } else if (pref_int == 6) {
                     Toast.makeText(activity, "Test Optionen aktiviert", Toast.LENGTH_SHORT).show();
-                   app.getMenu().findItem(R.id.menuTest).setVisible(true);
+                    app.getMenu().findItem(R.id.menuTest).setVisible(true);
                     prefs.edit().putInt(PREF_TEST_INT, pref_int).apply();
                     app.getEventAdapter().setData(null);
                 } else if (pref_int > 6) {
@@ -183,7 +180,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                                 public void onClick(DialogInterface dialog, int which) {
                                     pref_int = 0;
                                     prefs.edit().putInt(PREF_TEST_INT, pref_int).apply();
-                                   app.getEventAdapter().setData(null);
+                                    app.getEventAdapter().setData(null);
                                     app.getMenu().findItem(R.id.menuTest).setVisible(false);
                                     Log.d("AlertDialog", "Positive");
                                 }

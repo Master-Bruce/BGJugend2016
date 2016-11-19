@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -49,7 +50,6 @@ import de.schiewe.volker.bgjugend2016.fragments.EventsListFragment;
 import de.schiewe.volker.bgjugend2016.fragments.HomeFragment;
 import de.schiewe.volker.bgjugend2016.fragments.InfoFragment;
 import de.schiewe.volker.bgjugend2016.fragments.SettingsFragment;
-import de.schiewe.volker.bgjugend2016.fragments.TestFragment;
 import de.schiewe.volker.bgjugend2016.helper.AppPersist;
 import de.schiewe.volker.bgjugend2016.helper.FirebaseHandler;
 import de.schiewe.volker.bgjugend2016.helper.Util;
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String OVERVIEW_FILENAME = "overview";
     public static final int ANIM_IN = R.anim.fade_in;
     public static final int ANIM_OUT = R.anim.fade_out;
-    private static final String TAG = "MainActivity";
     private AppPersist app;
     private FirebaseHandler fireDB;
 
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ContactFragment contactFragment;
     private DonateFragment donateFragment;
     private SettingsFragment settingsFragment;
-    private TestFragment testFragment;
     private FragmentManager fragManager;
     private DrawerLayout drawer;
     private AlarmManager alarmMgr;
@@ -132,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         contactFragment = new ContactFragment();
         donateFragment = new DonateFragment();
         settingsFragment = new SettingsFragment();
-        testFragment = new TestFragment();
 
         //NavDrawer init
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -190,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -338,13 +335,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             }
-            case R.id.menuTest: {
-                fragManager.beginTransaction()
-                        .replace(R.id.container, testFragment)
-                        .addToBackStack(null)
-                        .commit();
-                break;
-            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -412,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         PendingIntent alarmIntent = PendingIntent.getBroadcast(MainActivity.this, ID, intent, 0);
         alarmMgr.cancel(alarmIntent);
 
-        sharedPref.edit().putBoolean("EventNotification" + ID/10, false).apply();
+        sharedPref.edit().putBoolean("EventNotification" + ID / 10, false).apply();
     }
 
     private String remainingDays(int days) {
@@ -464,7 +454,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         app.setEventAdapter(new EventListAdapter(sharedPref, fireDB));
         app.getEventAdapter().setData(null);
 
-        app.setInfoAdapter( new InfoListAdapter(sharedPref, fireDB));
+        app.setInfoAdapter(new InfoListAdapter(sharedPref, fireDB));
         app.getInfoAdapter().setData();
 
         homeFragment.setupCard();

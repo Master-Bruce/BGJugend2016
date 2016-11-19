@@ -3,34 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".HomeActivity">
 
-    <item android:id="@+id/menuBenachrichtigung"
-        android:title="@string/menu_notification"
+    <item
+        android:id="@+id/menuBenachrichtigung"
         android:checkable="true"
         android:checked="false"
+        android:title="@string/menu_notification"
         android:visible="false"
-        android:showAsAction="withText"
-        tools:ignore="AppCompatResource" />
+        app:showAsAction="withText" />
 
-    <item android:id="@+id/menuCalendar"
+    <item
+        android:id="@+id/menuCalendar"
         android:title="@string/menu_calender"
         android:visible="false"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
-    <item android:id="@+id/menuApply"
+    <item
+        android:id="@+id/menuApply"
         android:title="@string/menu_register"
-        app:showAsAction="ifRoom"
-        android:visible="false"/>
-
-    <item android:id="@+id/menuTest"
-        android:title="@string/menu_test"
-        android:showAsAction="never"
-        tools:ignore="AppCompatResource"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menuSearch"
         android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="always"
+        android:visible="false"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        android:visible="false"/>
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menuTest"
+        android:title="@string/menu_test"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 </menu>
