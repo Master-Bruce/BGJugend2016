@@ -101,7 +101,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 SwipeEventFragment eventFrag = new SwipeEventFragment();
-                eventFrag.setData(app.getEventAdapter().getEvents(), nextEvent.getId());
+                eventFrag.setData(app.getEventAdapter().getEvents(), app.getEventAdapter().getEvents().indexOf(nextEvent));
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.push_left_in, R.anim.fade_out, R.anim.fade_in, R.anim.push_right_out)
                         .replace(R.id.container, eventFrag)

@@ -430,6 +430,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         for (int i = 0; i < 2; i++) {
             try {
                 dates[i] = new SimpleDateFormat("dd. MMMM yyyy", Locale.GERMAN).parse(eventDates[i].trim());
+                dates[i].setHours(1); // for Calender insert
+//                ToDo find a better way
             } catch (ParseException e) {
                 e.printStackTrace();
             }
