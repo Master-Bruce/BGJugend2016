@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -43,6 +44,7 @@ import de.schiewe.volker.bgjugend2016.DatabaseListener;
 import de.schiewe.volker.bgjugend2016.R;
 import de.schiewe.volker.bgjugend2016.adapter.EventListAdapter;
 import de.schiewe.volker.bgjugend2016.adapter.InfoListAdapter;
+import de.schiewe.volker.bgjugend2016.data_models.Event;
 import de.schiewe.volker.bgjugend2016.fragments.ContactFragment;
 import de.schiewe.volker.bgjugend2016.fragments.DonateFragment;
 import de.schiewe.volker.bgjugend2016.fragments.EventFragment;
@@ -50,6 +52,7 @@ import de.schiewe.volker.bgjugend2016.fragments.EventsListFragment;
 import de.schiewe.volker.bgjugend2016.fragments.HomeFragment;
 import de.schiewe.volker.bgjugend2016.fragments.InfoFragment;
 import de.schiewe.volker.bgjugend2016.fragments.SettingsFragment;
+import de.schiewe.volker.bgjugend2016.fragments.SwipeEventFragment;
 import de.schiewe.volker.bgjugend2016.helper.AppPersist;
 import de.schiewe.volker.bgjugend2016.helper.FirebaseHandler;
 import de.schiewe.volker.bgjugend2016.helper.Util;
@@ -66,13 +69,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String OVERVIEW_FILENAME = "overview";
     public static final int ANIM_IN = R.anim.fade_in;
     public static final int ANIM_OUT = R.anim.fade_out;
+    private static final String TAG = "MainActivity";
     private AppPersist app;
     private FirebaseHandler fireDB;
 
     private SharedPreferences sharedPref;
     private HomeFragment homeFragment;
     private EventsListFragment eventsListFragment;
-    private EventFragment eventFragment;
     private InfoFragment infoFragment;
     private ContactFragment contactFragment;
     private DonateFragment donateFragment;
@@ -82,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AlarmManager alarmMgr;
 
     private ProgressDialog progressDialog;
+    private int deep_event_id;
+    private SwipeEventFragment swipeEventFragment;
     //endregion
 
     public static Date getDateObject(String date) {
@@ -125,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // init Fragments
         homeFragment = new HomeFragment();
         eventsListFragment = new EventsListFragment();
-        eventFragment = new EventFragment();
         infoFragment = new InfoFragment();
         contactFragment = new ContactFragment();
         donateFragment = new DonateFragment();
@@ -162,6 +166,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
+        Bundle bundle = getIntent().getExtras();
+        deep_event_id = -1;
+        if (bundle != null) {
+            deep_event_id = bundle.getInt(DeepActivity.ID_KEY);
+        }
+
+
         //show home fragment
         if (fragManager == null) {
             fragManager = getSupportFragmentManager();
@@ -181,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id != -1) {
             app.setCurrEvent(id);
             fragManager.beginTransaction()
-                    .replace(R.id.container, eventFragment)
+                    .replace(R.id.container, swipeEventFragment)
                     .commit();
         }
     }
@@ -267,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id != -1) {
             app.setCurrEvent(id);
             fragManager.beginTransaction()
-                    .replace(R.id.container, eventFragment)
+                    .replace(R.id.container, swipeEventFragment)
                     .commit();
         }
 
@@ -295,7 +306,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
         }
-        return true;
+        boolean value = super.onCreateOptionsMenu(menu);
+        if (swipeEventFragment != null && swipeEventFragment.isVisible())
+            swipeEventFragment.onResume();
+        return value;
+
     }
 
     @Override
@@ -333,6 +348,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             .putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE);
                     startActivity(intent);
                 }
+                break;
+            }
+            case R.id.menuShare: {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, app.getCurrEvent().getTitle() + ": http://app.jugend.ebu.de/2017/" + app.getCurrEvent().getId());
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
                 break;
             }
         }
@@ -458,6 +481,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         app.setInfoAdapter(new InfoListAdapter(sharedPref, fireDB));
         app.getInfoAdapter().setData();
+
+        // Deeplink handling
+        if (deep_event_id != -1) {
+            ArrayList<Event> list = app.getEventAdapter().getEvents();
+            swipeEventFragment = new SwipeEventFragment();
+            swipeEventFragment.setData(list, list.indexOf(fireDB.getEvents().get(deep_event_id)));
+            if (fragManager == null) {
+                fragManager = getSupportFragmentManager();
+                fragManager.beginTransaction()
+                        .add(R.id.container, swipeEventFragment)
+                        .commit();
+            } else {
+                fragManager.beginTransaction().replace(R.id.container, swipeEventFragment).commit();
+            }
+        }
 
         homeFragment.setupCard();
         if (progressDialog != null)

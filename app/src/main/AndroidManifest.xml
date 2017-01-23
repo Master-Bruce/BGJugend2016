@@ -47,6 +47,19 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".activities.ImageActivity" />
+        <activity android:name=".activities.DeepActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <!-- Handles app://www.jugend.ebu.de/ URI's -->
+                <data
+                    android:host="app.jugend.ebu.de"
+                    android:scheme="http" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

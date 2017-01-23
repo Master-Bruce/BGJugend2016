@@ -20,7 +20,6 @@ import de.schiewe.volker.bgjugend2016.R;
 import de.schiewe.volker.bgjugend2016.activities.MainActivity;
 import de.schiewe.volker.bgjugend2016.data_models.Event;
 import de.schiewe.volker.bgjugend2016.helper.AppPersist;
-import de.schiewe.volker.bgjugend2016.helper.FirebaseHandler;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,8 +67,10 @@ public class SwipeEventFragment extends Fragment implements ViewPager.OnPageChan
     @Override
     public void onResume() {
         super.onResume();
+        if (app.getMenu() == null) return;
         app.getMenu().findItem(R.id.menuBenachrichtigung).setVisible(true);
         app.getMenu().findItem(R.id.menuApply).setVisible(true);
+        app.getMenu().findItem(R.id.menuShare).setVisible(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
             app.getMenu().findItem(R.id.menuCalendar).setVisible(true);
     }
@@ -80,6 +81,7 @@ public class SwipeEventFragment extends Fragment implements ViewPager.OnPageChan
         app.getMenu().findItem(R.id.menuBenachrichtigung).setVisible(false);
         app.getMenu().findItem(R.id.menuApply).setVisible(false);
         app.getMenu().findItem(R.id.menuCalendar).setVisible(false);
+        app.getMenu().findItem(R.id.menuShare).setVisible(false);
     }
 
     @Override
