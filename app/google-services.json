@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "849512330906-mlie3en7r1hdnh7hg4uu8n9bjvdlfaf9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.schiewe.volker.bgjugend2016",
+            "certificate_hash": "85909FE24E51852409B170EC9E0E54A0E6155861"
+          }
+        },
+        {
           "client_id": "849512330906-llefpgh821a74voqqe460hf2ruh8cill.apps.googleusercontent.com",
           "client_type": 3
         }

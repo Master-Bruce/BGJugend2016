@@ -3,9 +3,7 @@ package de.schiewe.volker.bgjugend2016.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.design.widget.NavigationView;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +23,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.schiewe.volker.bgjugend2016.DatabaseListener;
-import de.schiewe.volker.bgjugend2016.R;
 import de.schiewe.volker.bgjugend2016.activities.MainActivity;
 import de.schiewe.volker.bgjugend2016.data_models.Contact;
 import de.schiewe.volker.bgjugend2016.data_models.Event;
@@ -68,21 +65,31 @@ public class FirebaseHandler {
         database = FirebaseDatabase.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
-        int db_trigger = prefs.getInt(DB_TRIGGER, 0);
-        boolean trigger;
-        if (prefs.getInt(SettingsFragment.PREF_TEST_INT, 0) < 6)
-            trigger = (db_trigger == 0);
-        else
-            trigger = !(db_trigger == 0);
-
-        if (trigger)
-            dbReference = database.getReference("Database");
-        else
-            dbReference = database.getReference("Database2");
-
         jbReference = database.getReference("JB_Data");
         stgReference = storage.getReferenceFromUrl("gs://jugendarbeit-ebu.appspot.com").child("event_img");
-        dbReference.keepSynced(true);
+
+        database.getReference("DB-Trigger").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Integer db_trigger = dataSnapshot.getValue(Integer.class);
+                boolean trigger;
+                if (prefs.getInt(SettingsFragment.PREF_TEST_INT, 0) < 6)
+                    trigger = (db_trigger == 0);
+                else
+                    trigger = !(db_trigger == 0);
+
+                if (trigger)
+                    dbReference = database.getReference("Database");
+                else
+                    dbReference = database.getReference("Database2");
+                init();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
     }
 
     public static FirebaseHandler getInstance(Context ctx) {
@@ -93,21 +100,10 @@ public class FirebaseHandler {
 
     public static FirebaseHandler getInstance() {
         if (instance != null) return instance;
-        return null;
+        throw new IllegalArgumentException("No existing instance, run getInstance with context parameter first.");
     }
 
-    public void init() {
-        database.getReference("DB-Trigger").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Integer value = dataSnapshot.getValue(Integer.class);
-                prefs.edit().putInt(DB_TRIGGER, value).apply();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+    private void init() {
         dbReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -145,7 +141,7 @@ public class FirebaseHandler {
                         }
                     }
                 }
-
+                downloadHeader();
                 listener.onDataCreated();
                 cleanFiles();
             }
@@ -158,6 +154,7 @@ public class FirebaseHandler {
         jbReference.child("Contact").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                jbList.clear();
                 for (DataSnapshot value : dataSnapshot.getChildren()) {
                     jbList.add(value.getValue(Contact.class));
                 }
@@ -168,21 +165,21 @@ public class FirebaseHandler {
 
             }
         });
-        database.getReference("HeaderImage").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int value = Integer.parseInt(dataSnapshot.getValue(String.class));
-                if (value != prefs.getInt(HEADER, 0)) {
-                    downloadHeader();
-                    prefs.edit().putInt(HEADER, value).apply();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//        database.getReference("HeaderImage").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                int value = Integer.parseInt(dataSnapshot.getValue(String.class));
+//                if (value != prefs.getInt(HEADER, 0)) {
+//                    downloadHeader();
+//                    prefs.edit().putInt(HEADER, value).apply();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
         database.getReference("Planungsteam").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -194,6 +191,7 @@ public class FirebaseHandler {
 
             }
         });
+        dbReference.keepSynced(true);
     }
 
     public ArrayList<Event> getEvents() {
@@ -208,7 +206,7 @@ public class FirebaseHandler {
         return jbList;
     }
 
-    public void downloadHeader() {
+    private void downloadHeader() {
         final File header = new File(ctx.getFilesDir(), MainActivity.HEADER_FILENAME + ".jpg");
         File overView = new File(ctx.getFilesDir(), MainActivity.OVERVIEW_FILENAME + ".jpg");
         //download from firebase an save to internal storage
@@ -217,16 +215,13 @@ public class FirebaseHandler {
         navRef.getFile(header).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                ImageView NavImage = (ImageView) ((NavigationView) ((MainActivity) ctx)
-                        .findViewById(R.id.nav_view)).getHeaderView(0)
-                        .findViewById(R.id.drawerImageView);
-                NavImage.setImageBitmap(Util.getImage(ctx, MainActivity.HEADER_FILENAME));
+                Log.i(TAG, "onSuccess: saved NavigationDrawer image");
             }
         });
         overRef.getFile(overView).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                Log.i(TAG, "onSuccess: Übersicht gespeichert");
+                Log.i(TAG, "onSuccess: saved overview image");
             }
         });
     }

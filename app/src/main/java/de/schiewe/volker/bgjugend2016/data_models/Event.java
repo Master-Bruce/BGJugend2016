@@ -17,6 +17,7 @@ public class Event {
     private String Team;
     private Contact Contact;
     private String Image;
+    private String Url;
 
     private int Id;
     private java.util.Date dDeadline;
@@ -94,5 +95,13 @@ public class Event {
 
     public void setId(int id) {
         Id = id;
+    }
+
+    public String getUrl() {
+        return Url;
+    }
+
+    public void setUrl(String url) {
+        Url = url;
     }
 }

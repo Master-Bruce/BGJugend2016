@@ -13,7 +13,7 @@ import java.util.Date;
 
 import de.schiewe.volker.bgjugend2016.R;
 import de.schiewe.volker.bgjugend2016.data_models.Event;
-import de.schiewe.volker.bgjugend2016.helper.FirebaseHandler;
+import de.schiewe.volker.bgjugend2016.helper.AppPersist;
 import de.schiewe.volker.bgjugend2016.helper.Util;
 
 /**
@@ -25,16 +25,16 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     private ArrayList<Event> mEvents;
     private Date today = new Date();
     private SharedPreferences prefs;
-    private FirebaseHandler firebaseHandler;
+    private AppPersist app;
 
-    public EventListAdapter(SharedPreferences prefs, FirebaseHandler firebaseHandler) {
+    public EventListAdapter(SharedPreferences prefs) {
         this.prefs = prefs;
-        this.firebaseHandler = firebaseHandler;
+        app = AppPersist.getInstance();
     }
 
     public void setData(String query) {
         mEvents = new ArrayList<>();
-        for (Event currEvent : firebaseHandler.getEvents()) {
+        for (Event currEvent : app.getEvents()) {
             if (Util.checkDate(currEvent.getDate(), prefs) && Util.checkAge(currEvent.getAge(), prefs)) {
                 if (query == null) {
                     mEvents.add(currEvent);

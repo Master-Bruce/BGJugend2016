@@ -2,9 +2,12 @@ package de.schiewe.volker.bgjugend2016.helper;
 
 import android.view.Menu;
 
+import java.util.ArrayList;
+
 import de.schiewe.volker.bgjugend2016.adapter.EventListAdapter;
 import de.schiewe.volker.bgjugend2016.adapter.InfoListAdapter;
 import de.schiewe.volker.bgjugend2016.data_models.Event;
+import de.schiewe.volker.bgjugend2016.data_models.Info;
 
 /**
  * For global variables
@@ -17,14 +20,14 @@ public class AppPersist {
     private InfoListAdapter infoAdapter;
     private FirebaseHandler fbHandler;
 
+    private AppPersist() {
+        fbHandler = FirebaseHandler.getInstance();
+    }
+
     public static AppPersist getInstance() {
         if (instance == null)
             instance = new AppPersist();
         return instance;
-    }
-
-    private AppPersist(){
-        fbHandler = FirebaseHandler.getInstance();
     }
 
     public Event getCurrEvent() {
@@ -41,6 +44,7 @@ public class AppPersist {
 
     public void setEventAdapter(EventListAdapter eventAdapter) {
         this.eventAdapter = eventAdapter;
+        this.eventAdapter.setData(null);
     }
 
     public InfoListAdapter getInfoAdapter() {
@@ -57,5 +61,13 @@ public class AppPersist {
 
     public void setMenu(Menu menu) {
         this.menu = menu;
+    }
+
+    public ArrayList<Event> getEvents() {
+        return fbHandler.getEvents();
+    }
+
+    public ArrayList<Info> getInfos() {
+        return fbHandler.getInfos();
     }
 }

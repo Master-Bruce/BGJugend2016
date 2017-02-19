@@ -56,6 +56,7 @@ public class SwipeEventFragment extends Fragment implements ViewPager.OnPageChan
         viewPager.setAdapter(eventPageAdapter);
         viewPager.setCurrentItem(startPos);
         viewPager.addOnPageChangeListener(this);
+        this.onPageSelected(startPos);
         return view;
     }
 
@@ -94,10 +95,12 @@ public class SwipeEventFragment extends Fragment implements ViewPager.OnPageChan
         app.setCurrEvent(mData.get(position).getId());
         activity.setTitle(mData.get(position).getTitle());
 
-        if (sharedPrefs.getBoolean("EventNotification" + mData.get(position), false))
-            app.getMenu().findItem(R.id.menuBenachrichtigung).setChecked(true);
-        else
-            app.getMenu().findItem(R.id.menuBenachrichtigung).setChecked(false);
+        if (app.getMenu() != null) {
+            if (sharedPrefs.getBoolean("EventNotification" + mData.get(position), false))
+                app.getMenu().findItem(R.id.menuBenachrichtigung).setChecked(true);
+            else
+                app.getMenu().findItem(R.id.menuBenachrichtigung).setChecked(false);
+        }
     }
 
     @Override

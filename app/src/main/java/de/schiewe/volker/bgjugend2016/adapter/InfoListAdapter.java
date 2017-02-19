@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import de.schiewe.volker.bgjugend2016.R;
 import de.schiewe.volker.bgjugend2016.data_models.Info;
-import de.schiewe.volker.bgjugend2016.helper.FirebaseHandler;
+import de.schiewe.volker.bgjugend2016.helper.AppPersist;
 import de.schiewe.volker.bgjugend2016.helper.Util;
 
 /**
@@ -21,18 +21,18 @@ import de.schiewe.volker.bgjugend2016.helper.Util;
  */
 public class InfoListAdapter extends  RecyclerView.Adapter<InfoListAdapter.ViewHolder> {
 
-    private FirebaseHandler firebaseHandler;
     private ArrayList<Info> mInfos;
     private SharedPreferences prefs;
+    private AppPersist app;
 
-    public InfoListAdapter(SharedPreferences prefs, FirebaseHandler fh){
+    public InfoListAdapter(SharedPreferences prefs) {
         this.prefs = prefs;
-        this.firebaseHandler = fh;
+        app = AppPersist.getInstance();
     }
 
     public void setData(){
         mInfos = new ArrayList<>();
-        for (Info currInfo : firebaseHandler.getInfos()){
+        for (Info currInfo : app.getInfos()) {
             String[] array = currInfo.getWannWo().split(", ");
             if (Util.checkDate(array[0], prefs))
                 mInfos.add(currInfo);

@@ -3,7 +3,6 @@ package de.schiewe.volker.bgjugend2016.activities;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +39,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import de.schiewe.volker.bgjugend2016.DatabaseListener;
 import de.schiewe.volker.bgjugend2016.R;
 import de.schiewe.volker.bgjugend2016.adapter.EventListAdapter;
 import de.schiewe.volker.bgjugend2016.adapter.InfoListAdapter;
@@ -54,11 +52,10 @@ import de.schiewe.volker.bgjugend2016.fragments.InfoFragment;
 import de.schiewe.volker.bgjugend2016.fragments.SettingsFragment;
 import de.schiewe.volker.bgjugend2016.fragments.SwipeEventFragment;
 import de.schiewe.volker.bgjugend2016.helper.AppPersist;
-import de.schiewe.volker.bgjugend2016.helper.FirebaseHandler;
 import de.schiewe.volker.bgjugend2016.helper.Util;
 import de.schiewe.volker.bgjugend2016.receiver.AlarmReceiver;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DatabaseListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //region Members and Constants
     public static final String NOTIFY_TITLE = "NOTIFY_TITLE";
     public static final String NOTIFY_TEXT = "NOTIFY_TEXT";
@@ -71,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final int ANIM_OUT = R.anim.fade_out;
     private static final String TAG = "MainActivity";
     private AppPersist app;
-    private FirebaseHandler fireDB;
 
     private SharedPreferences sharedPref;
     private HomeFragment homeFragment;
@@ -84,8 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private AlarmManager alarmMgr;
 
-    private ProgressDialog progressDialog;
-    private int deep_event_id;
+    private int deep_link_id = -1;
     private SwipeEventFragment swipeEventFragment;
     //endregion
 
@@ -115,12 +110,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //init firebase;
-        fireDB = FirebaseHandler.getInstance(this);
-        fireDB.setDbListener(this);
-        fireDB.init();
+        //deeplink
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            deep_link_id = bundle.getInt(SplashActivity.URI_KEY, -1);
+        }
 
         app = AppPersist.getInstance();
+
         alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -142,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        //setup drawer image
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         assert navigationView != null;
         navigationView.setNavigationItemSelectedListener(this);
@@ -149,9 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .findViewById(R.id.drawerImageView);
         if (headerView != null) {
             Bitmap bitmap = Util.getImage(this, HEADER_FILENAME);
-            if (bitmap == null)
-                fireDB.downloadHeader();
-            else {
+            if (bitmap != null) {
                 headerView.setImageBitmap(bitmap);
                 headerView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -163,15 +159,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
             }
-
         }
 
-        Bundle bundle = getIntent().getExtras();
-        deep_event_id = -1;
-        if (bundle != null) {
-            deep_event_id = bundle.getInt(DeepActivity.ID_KEY);
+        if (deep_link_id != -1) {
+            ArrayList<Event> list = app.getEvents();
+            swipeEventFragment = new SwipeEventFragment();
+            app.setCurrEvent(deep_link_id);
+            swipeEventFragment.setData(list, deep_link_id);
+            if (fragManager == null) {
+                fragManager = getSupportFragmentManager();
+                fragManager.beginTransaction()
+                        .add(R.id.container, swipeEventFragment)
+                        .commit();
+            } else {
+                fragManager.beginTransaction().replace(R.id.container, swipeEventFragment).commit();
+            }
         }
+        app.setEventAdapter(new EventListAdapter(sharedPref));
+        app.getEventAdapter().setData(null);
 
+        app.setInfoAdapter(new InfoListAdapter(sharedPref));
+        app.getInfoAdapter().setData();
+
+        homeFragment.setupCard();
 
         //show home fragment
         if (fragManager == null) {
@@ -353,7 +363,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menuShare: {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, app.getCurrEvent().getTitle() + ": http://app.jugend.ebu.de/2017/" + app.getCurrEvent().getId());
+                sendIntent.putExtra(Intent.EXTRA_TEXT, app.getCurrEvent().getTitle() + ": " + app.getCurrEvent().getUrl());
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
                 break;
@@ -474,34 +484,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(intent);
     }
 
-    @Override
-    public void onDataCreated() {
-        app.setEventAdapter(new EventListAdapter(sharedPref, fireDB));
-        app.getEventAdapter().setData(null);
-
-        app.setInfoAdapter(new InfoListAdapter(sharedPref, fireDB));
-        app.getInfoAdapter().setData();
-
-        // Deeplink handling
-        if (deep_event_id != -1) {
-            ArrayList<Event> list = app.getEventAdapter().getEvents();
-            swipeEventFragment = new SwipeEventFragment();
-            swipeEventFragment.setData(list, list.indexOf(fireDB.getEvents().get(deep_event_id)));
-            if (fragManager == null) {
-                fragManager = getSupportFragmentManager();
-                fragManager.beginTransaction()
-                        .add(R.id.container, swipeEventFragment)
-                        .commit();
-            } else {
-                fragManager.beginTransaction().replace(R.id.container, swipeEventFragment).commit();
-            }
-        }
-
-        homeFragment.setupCard();
-        if (progressDialog != null)
-            progressDialog.dismiss();
-    }
-
     private void newVersion() {
         int version = -1;
         try {
@@ -510,8 +492,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if (sharedPref.getInt(LAST_VERSION, 0) != version) {
             sharedPref.edit().putInt(LAST_VERSION, version).apply();
-            progressDialog = ProgressDialog.show(this, "",
-                    "Lade Daten...", true, false);
         }
     }
 }
