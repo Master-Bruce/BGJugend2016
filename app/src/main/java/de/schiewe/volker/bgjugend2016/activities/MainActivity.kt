@@ -14,24 +14,19 @@ import de.schiewe.volker.bgjugend2016.fragments.PreferenceFragment
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info
-import de.schiewe.volker.bgjugend2016.testContent
 import kotlinx.android.synthetic.main.activity_main.*
-import android.arch.lifecycle.ViewModelProviders
-import de.schiewe.volker.bgjugend2016.helper.EventViewModel
 
 
 class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedListener, EventFragment.GetEventListener {
     override fun getEventById(event_id: Int): Event {
-        val item =  testContent[event_id]
-        if (item is Event)
-            return item
+
         throw NotImplementedError("Item should be of type event")
     }
 
     override fun onListItemSelected(item: BaseEvent) {
         if (item is Info)
             return
-        val eventFragment = EventFragment.newInstance(testContent.indexOf(item))
+        val eventFragment = EventFragment.newInstance(1)
         openFragment(eventFragment, true)
     }
 
@@ -71,11 +66,7 @@ class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedLi
         setContentView(R.layout.activity_main)
 
         supportActionBar!!.title = "Jugendarbeit EBU"
-        val model = ViewModelProviders.of(this).get(EventViewModel::class.java)
-        model.getEvents().observe(this, Observer{ events ->
-            openFragment(EventListFragment.newInstance())
-        })
-
+        openFragment(EventListFragment.newInstance())
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 

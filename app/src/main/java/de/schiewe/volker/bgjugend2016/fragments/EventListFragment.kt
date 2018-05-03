@@ -1,5 +1,7 @@
 package de.schiewe.volker.bgjugend2016.fragments
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,11 +13,9 @@ import android.view.ViewGroup
 import de.schiewe.volker.bgjugend2016.R
 
 import de.schiewe.volker.bgjugend2016.helper.EventRecyclerViewAdapter
+import de.schiewe.volker.bgjugend2016.helper.EventViewModel
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
-import de.schiewe.volker.bgjugend2016.models.Info
-import de.schiewe.volker.bgjugend2016.testContent
-import java.util.*
 
 class EventListFragment : Fragment() {
     private var listener: OnListItemSelectedListener? = null
@@ -28,7 +28,11 @@ class EventListFragment : Fragment() {
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = EventRecyclerViewAdapter(testContent, listener)
+                adapter = EventRecyclerViewAdapter(listOf(), listener)
+                val viewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
+                viewModel.getEvents().observe(this@EventListFragment, Observer<List<Event>> { events ->
+                    (adapter as EventRecyclerViewAdapter).setData(events!!)
+                })
             }
         }
         return view

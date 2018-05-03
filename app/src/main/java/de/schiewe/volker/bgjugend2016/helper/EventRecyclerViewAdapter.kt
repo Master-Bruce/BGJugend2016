@@ -14,15 +14,18 @@ import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info
 
 import kotlinx.android.synthetic.main.item_event.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EventRecyclerViewAdapter(
-        private val mValues: MutableList<BaseEvent>,
+        private var mValues: List<BaseEvent>,
         private val mListener: OnListItemSelectedListener?)
     : RecyclerView.Adapter<EventRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
-    private val EVENT_VIEW_TYPE = 0;
-    private val INFO_VIEW_TYPE = 1;
+    private val EVENT_VIEW_TYPE = 0
+    private val INFO_VIEW_TYPE = 1
+    private val sdf = SimpleDateFormat("dd.MM.YYYY", Locale.GERMANY)
 
     init {
         mOnClickListener = View.OnClickListener { v ->
@@ -65,6 +68,9 @@ class EventRecyclerViewAdapter(
         val item = mValues[position]
         holder.title.text = item.title
         holder.place.text = item.place
+        val stringStartDate = sdf.format(item.startDate!!)
+        val stringEndDate = sdf.format(Date(item.endDate!!))
+        holder.date.text = "$stringStartDate - $stringEndDate"
 
         with(holder.mView) {
             tag = item
@@ -73,6 +79,11 @@ class EventRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int = mValues.size
+
+    fun setData(data: List<BaseEvent>) {
+        mValues = data
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val title: TextView = mView.title

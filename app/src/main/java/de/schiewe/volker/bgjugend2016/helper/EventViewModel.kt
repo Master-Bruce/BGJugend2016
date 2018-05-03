@@ -12,17 +12,22 @@ class EventViewModel : ViewModel() {
 
     fun getEvents(): LiveData<List<Event>> {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
-        val yearDbRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("2018")
+        val yearDbRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("2018/events")
         val eventListener = object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    //TODO: get Event objects
-                    // ...
+                    val list: MutableList<Event> = mutableListOf()
+                    dataSnapshot.children.forEach{
+                        val event:Event? = it.getValue(Event::class.java)
+                        list.add(event!!)
+                    }
+                    events.value = list
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
+                events.value = null
                 // Failed to read value
             }
         }
