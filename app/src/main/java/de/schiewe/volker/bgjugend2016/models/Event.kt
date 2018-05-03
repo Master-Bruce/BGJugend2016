@@ -13,7 +13,7 @@ class Event : BaseEvent() {
     var maxAge: Int? = null
     var peopleNumber: Int? = null
     var cost: Int? = null
-    var deadline: String = ""
+    var deadline: Long? = null
     var team: String = ""
     //        val contact: Contact,
     var imagePath: String = ""

@@ -1,4 +1,4 @@
-package de.schiewe.volker.bgjugend2016.helper
+package de.schiewe.volker.bgjugend2016.viewModels
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
@@ -11,7 +11,6 @@ class EventViewModel : ViewModel() {
     var events: MutableLiveData<List<Event>> = MutableLiveData()
 
     fun getEvents(): LiveData<List<Event>> {
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         val yearDbRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("2018/events")
         val eventListener = object : ValueEventListener {
 

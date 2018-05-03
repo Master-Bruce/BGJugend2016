@@ -12,6 +12,7 @@ import de.schiewe.volker.bgjugend2016.fragments.EventListFragment.OnListItemSele
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info
+import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
 
 import kotlinx.android.synthetic.main.item_event.view.*
 import java.text.SimpleDateFormat
@@ -19,7 +20,8 @@ import java.util.*
 
 class EventRecyclerViewAdapter(
         private var mValues: List<BaseEvent>,
-        private val mListener: OnListItemSelectedListener?)
+        private val mListener: OnListItemSelectedListener?,
+        private val mViewModel: SharedViewModel)
     : RecyclerView.Adapter<EventRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
@@ -29,10 +31,11 @@ class EventRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as BaseEvent
+            val item = v.tag as Event
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
-            mListener?.onListItemSelected(item)
+            mViewModel.select(item)
+            mListener?.onEventSelected()
         }
     }
 

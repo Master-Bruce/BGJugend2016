@@ -13,9 +13,11 @@ import android.view.ViewGroup
 import de.schiewe.volker.bgjugend2016.R
 
 import de.schiewe.volker.bgjugend2016.helper.EventRecyclerViewAdapter
-import de.schiewe.volker.bgjugend2016.helper.EventViewModel
-import de.schiewe.volker.bgjugend2016.models.BaseEvent
+import de.schiewe.volker.bgjugend2016.viewModels.EventViewModel
 import de.schiewe.volker.bgjugend2016.models.Event
+import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
+
+
 
 class EventListFragment : Fragment() {
     private var listener: OnListItemSelectedListener? = null
@@ -23,14 +25,14 @@ class EventListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_event_list, container, false)
-
+        val eventViewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
+        val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = EventRecyclerViewAdapter(listOf(), listener)
-                val viewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
-                viewModel.getEvents().observe(this@EventListFragment, Observer<List<Event>> { events ->
+                adapter = EventRecyclerViewAdapter(listOf(), listener, sharedViewModel)
+                eventViewModel.getEvents().observe(this@EventListFragment, Observer<List<Event>> { events ->
                     (adapter as EventRecyclerViewAdapter).setData(events!!)
                 })
             }
@@ -53,7 +55,7 @@ class EventListFragment : Fragment() {
     }
 
     interface OnListItemSelectedListener {
-        fun onListItemSelected(item: BaseEvent)
+        fun onEventSelected()
     }
 
     companion object {
