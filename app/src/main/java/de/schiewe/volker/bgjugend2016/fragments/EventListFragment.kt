@@ -12,8 +12,8 @@ import android.view.ViewGroup
 import de.schiewe.volker.bgjugend2016.R
 
 import de.schiewe.volker.bgjugend2016.helper.EventRecyclerViewAdapter
+import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.viewModels.EventViewModel
-import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_event_list.*
 
@@ -34,8 +34,8 @@ class EventListFragment : Fragment() {
         with(list) {
             layoutManager = LinearLayoutManager(context)
             adapter = EventRecyclerViewAdapter(listOf(), listener, sharedViewModel)
-            eventViewModel.getEvents().observe(this@EventListFragment, Observer<List<Event>> { events ->
-                (adapter as EventRecyclerViewAdapter).setData(events!!)
+            eventViewModel.getEvents().observe(this@EventListFragment, Observer<List<BaseEvent>> { events ->
+                (adapter as EventRecyclerViewAdapter).setEvents(events!!)
             })
         }
     }

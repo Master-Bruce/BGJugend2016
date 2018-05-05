@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import de.schiewe.volker.bgjugend2016.R
+import de.schiewe.volker.bgjugend2016.formatDate
 
 
 import de.schiewe.volker.bgjugend2016.fragments.EventListFragment.OnListItemSelectedListener
@@ -32,11 +33,10 @@ class EventRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as Event
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-            mViewModel.select(item)
-            mListener?.onEventSelected()
+            if (v.tag is Event){
+                mViewModel.select(v.tag as Event)
+                mListener?.onEventSelected()
+            }
         }
     }
 
@@ -72,8 +72,8 @@ class EventRecyclerViewAdapter(
         val item = mValues[position]
         holder.title.text = item.title
         holder.place.text = item.place
-        val stringStartDate = sdf.format(item.startDate!!)
-        val stringEndDate = sdf.format(Date(item.endDate!!))
+        val stringStartDate = formatDate(item.startDate, sdf)
+        val stringEndDate = formatDate(item.endDate, sdf)
         holder.date.text = "$stringStartDate - $stringEndDate"
 
         with(holder.mView) {
@@ -84,8 +84,8 @@ class EventRecyclerViewAdapter(
 
     override fun getItemCount(): Int = mValues.size
 
-    fun setData(data: List<BaseEvent>) {
-        mValues = data
+    fun setEvents(data: List<BaseEvent>) {
+        mValues = data.sorted()
         notifyDataSetChanged()
     }
 
