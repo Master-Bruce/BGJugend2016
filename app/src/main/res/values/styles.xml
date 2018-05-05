@@ -7,9 +7,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
     </style>
 
-    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:textColorSecondary">@android:color/black</item>
+    <style name="FloatingActionButtonTheme" parent="AppTheme">
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
+
 </resources>

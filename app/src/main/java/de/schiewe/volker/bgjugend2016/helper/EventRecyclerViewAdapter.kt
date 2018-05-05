@@ -18,6 +18,8 @@ import kotlinx.android.synthetic.main.item_event.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+private const val EVENT_VIEW_TYPE = 0
+private const val INFO_VIEW_TYPE = 1
 class EventRecyclerViewAdapter(
         private var mValues: List<BaseEvent>,
         private val mListener: OnListItemSelectedListener?,
@@ -25,8 +27,7 @@ class EventRecyclerViewAdapter(
     : RecyclerView.Adapter<EventRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
-    private val EVENT_VIEW_TYPE = 0
-    private val INFO_VIEW_TYPE = 1
+
     private val sdf = SimpleDateFormat("dd.MM.YYYY", Locale.GERMANY)
 
     init {

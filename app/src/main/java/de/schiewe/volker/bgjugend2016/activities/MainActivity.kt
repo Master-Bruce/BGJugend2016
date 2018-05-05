@@ -54,9 +54,11 @@ class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar!!.title = "Jugendarbeit EBU"
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        if (savedInstanceState == null) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+            openFragment(EventListFragment.newInstance())
+        }
 
-        openFragment(EventListFragment.newInstance())
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 

@@ -5,8 +5,6 @@
     <string name="title_contact">Kontakt</string>
     <string name="title_settings">Einstellungen</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_old_events">Alte Veranstaltungen anzeigen</string>
     <string name="notifications">Benachrichtigungen</string>
     <string name="title_deadline_notification">Anmeldeschluss Benachrichtigung</string>
