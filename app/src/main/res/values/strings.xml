@@ -8,4 +8,12 @@
     <string name="title_old_events">Alte Veranstaltungen anzeigen</string>
     <string name="notifications">Benachrichtigungen</string>
     <string name="title_deadline_notification">Anmeldeschluss Benachrichtigung</string>
+    <string name="title_filter">Filter</string>
+    <string name="age">Alter</string>
+    <string name="people_number">Teilnehmeranzahl</string>
+    <string name="cost">Kosten</string>
+    <string name="deadline">Anmeldeschluss</string>
+    <string name="team">Team</string>
+    <string name="registration">Anmeldung</string>
+    <string name="register">Anmelden</string>
 </resources>

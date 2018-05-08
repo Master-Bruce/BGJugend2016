@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_event_list.*
 
 
 class EventListFragment : Fragment() {
-    private var listener: OnListItemSelectedListener? = null
+    private var itemSelectedListener: OnListItemSelectedListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -29,11 +29,11 @@ class EventListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val eventViewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
         val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
-
+        filter_button.setOnClickListener({ _ -> itemSelectedListener?.onFilterButtonClicked() })
         // Set the adapter
         with(list) {
             layoutManager = LinearLayoutManager(context)
-            adapter = EventRecyclerViewAdapter(listOf(), listener, sharedViewModel)
+            adapter = EventRecyclerViewAdapter(listOf(), itemSelectedListener, sharedViewModel)
             eventViewModel.getEvents().observe(this@EventListFragment, Observer<List<BaseEvent>> { events ->
                 (adapter as EventRecyclerViewAdapter).setEvents(events!!)
             })
@@ -43,7 +43,7 @@ class EventListFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnListItemSelectedListener) {
-            listener = context
+            itemSelectedListener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnListItemSelectedListener")
         }
@@ -51,11 +51,12 @@ class EventListFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        listener = null
+        itemSelectedListener = null
     }
 
     interface OnListItemSelectedListener {
         fun onEventSelected()
+        fun onFilterButtonClicked()
     }
 
     companion object {

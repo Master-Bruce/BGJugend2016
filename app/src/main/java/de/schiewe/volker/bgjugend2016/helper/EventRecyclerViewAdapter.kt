@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import de.schiewe.volker.bgjugend2016.R
-import de.schiewe.volker.bgjugend2016.formatDate
 
 
 import de.schiewe.volker.bgjugend2016.fragments.EventListFragment.OnListItemSelectedListener
@@ -72,9 +71,7 @@ class EventRecyclerViewAdapter(
         val item = mValues[position]
         holder.title.text = item.title
         holder.place.text = item.place
-        val stringStartDate = formatDate(item.startDate, sdf)
-        val stringEndDate = formatDate(item.endDate, sdf)
-        holder.date.text = "$stringStartDate - $stringEndDate"
+        holder.date.text = item.dateString()
 
         with(holder.mView) {
             tag = item

@@ -7,14 +7,15 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import com.google.firebase.database.FirebaseDatabase
 import de.schiewe.volker.bgjugend2016.R
-import de.schiewe.volker.bgjugend2016.fragments.EventFragment
-import de.schiewe.volker.bgjugend2016.fragments.EventListFragment
-import de.schiewe.volker.bgjugend2016.fragments.InfoFragment
-import de.schiewe.volker.bgjugend2016.fragments.PreferenceFragment
+import de.schiewe.volker.bgjugend2016.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedListener {
+    override fun onFilterButtonClicked() {
+        FilterModalBottomSheet().show(supportFragmentManager!!, "Sheet")
+    }
+
     override fun onEventSelected() {
         val eventFragment = EventFragment.newInstance()
         openFragment(eventFragment, true)
