@@ -9,11 +9,19 @@ import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info
 
+private const val EVENT_REFERENCE = "events"
+private const val INFO_REFERENCE = "infos"
 
 class EventViewModel : ViewModel() {
-    var baseEvents: MediatorLiveData<List<BaseEvent>> = MediatorLiveData()
-    var events: MutableLiveData<List<Event>> = MutableLiveData()
-    var infos: MutableLiveData<List<Info>> = MutableLiveData()
+    private var baseEvents: MediatorLiveData<List<BaseEvent>> = MediatorLiveData()
+    private var events: MutableLiveData<List<Event>> = MutableLiveData()
+    private var infos: MutableLiveData<List<Info>> = MutableLiveData()
+
+    var databaseName: String? = null
+        set(value) {
+            field = value
+            this.initFirebaseListeners()
+        }
 
     init {
         baseEvents.addSource(events, { events ->
@@ -32,8 +40,8 @@ class EventViewModel : ViewModel() {
         })
     }
 
-    fun getEvents(): LiveData<List<BaseEvent>> {
-        FirebaseDatabase.getInstance().getReference("2018/events")
+    private fun initFirebaseListeners() {
+        FirebaseDatabase.getInstance().getReference("${this.databaseName}/$EVENT_REFERENCE")
                 .addValueEventListener(
                         object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -51,8 +59,9 @@ class EventViewModel : ViewModel() {
                                 events = MutableLiveData()
                                 // Failed to read value
                             }
-                        })
-        FirebaseDatabase.getInstance().getReference("2018/infos")
+                        }
+                )
+        FirebaseDatabase.getInstance().getReference("${this.databaseName}/$INFO_REFERENCE")
                 .addValueEventListener(
                         object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -70,9 +79,11 @@ class EventViewModel : ViewModel() {
                                 infos = MutableLiveData()
                                 // Failed to read value
                             }
-                        })
+                        }
+                )
+    }
 
-
+    fun getEvents(): LiveData<List<BaseEvent>> {
         return baseEvents
     }
 }
