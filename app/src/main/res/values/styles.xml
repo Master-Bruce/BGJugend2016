@@ -20,4 +20,8 @@
         <item name="android:background">@android:color/darker_gray</item>
     </style>
 
+    <style name="LinearLayoutChildren" parent="AppTheme">
+        <item name="android:layout_marginBottom">15dp</item>
+    </style>
+
 </resources>

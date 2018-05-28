@@ -5,6 +5,17 @@
     <string name="title_contact">Kontakt</string>
     <string name="title_settings">Einstellungen</string>
 
+    <!--SharedPreferencesKeys-->
+    <string name="filter_infos_key">FILTER_INFOS_KEY</string>
+    <string name="filter_age_key">FILTER_AGE_KEY</string>
+    <string name="filter_old_events_key">FILTER_OLD_EVENTS_KEY</string>
+    <string name="name_key">NAME_KEY</string>
+    <string name="street_key">STREET_KEY</string>
+    <string name="place_key">PLACE_KEY</string>
+    <string name="birthday_key">BIRTHDAY_KEY</string>
+    <string name="telephone_key">TELEPHONE_KEY</string>
+    <string name="version_key">VERSION_KEY</string>
+
     <string name="title_old_events">Alte Veranstaltungen anzeigen</string>
     <string name="notifications">Benachrichtigungen</string>
     <string name="title_deadline_notification">Anmeldeschluss Benachrichtigung</string>
@@ -16,4 +27,18 @@
     <string name="team">Team</string>
     <string name="registration">Anmeldung</string>
     <string name="register">Anmelden</string>
+    <string name="hide_infos">Infos ausblenden</string>
+    <string name="filter_age">Nach Alter filtern</string>
+    <string name="filter_old_events">Alte Veranstaltungen anzeigen</string>
+    <string name="your_data">Deine Daten</string>
+    <string name="birthday">Geburtstag</string>
+    <string name="street">Straße</string>
+    <string name="plz_and_place"><![CDATA[PLZ & Ort]]></string>
+    <string name="telephone">Telefon</string>
+    <string name="name"><![CDATA[Vor- & Nachname]]></string>
+    <string name="wrong_date_format">Geburtstag im Format \'01.01.2000\' eingeben.</string>
+
+    <string name="privacy_text">Alle eingegebenen Daten werden lokal auf dem Gerät gespeichert. \nSie werden ausschließlich dazu verwendet dem Nutzer Funktionen zur Verfügung zu stellen und Arbeit abzunehmen.</string>
+    <string name="internet_text">Die Daten der Veranstaltungen sind auf einem Server gespeichert. Immer wenn Du die App öffnest wird geprüft, ob es Aktualisierungen gibt. Trotzdem ist die App mit all ihren Funktionen offline nutzbar.</string>
+    <string name="missing_birthday">Du musst erst deinen Geburtstag in den Einstellungen speichern.</string>
 </resources>

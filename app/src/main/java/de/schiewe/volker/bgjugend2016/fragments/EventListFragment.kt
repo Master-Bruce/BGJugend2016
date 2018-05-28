@@ -35,19 +35,26 @@ class EventListFragment : Fragment() {
         val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
 
         generalDataViewModel.getGeneralData().observe(this, Observer { generalData: GeneralData? ->
-            if (generalData != null){
-                Log.d("TAAAAG", "DatabaseNem: ${generalData.currentDatabaseName}")
+            if (generalData != null) {
                 eventViewModel.databaseName = generalData.currentDatabaseName
             }
         })
 
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        val adapter = EventRecyclerViewAdapter(listOf(), itemSelectedListener, sharedViewModel, sharedPref,
+                getString(R.string.filter_infos_key),
+                getString(R.string.filter_age_key),
+                getString(R.string.filter_old_events_key),
+                getString(R.string.birthday_key)
+        )
+
         filter_button.setOnClickListener({ _ -> itemSelectedListener?.onFilterButtonClicked() })
         // Set the adapter
         with(list) {
-            layoutManager = LinearLayoutManager(context)
-            adapter = EventRecyclerViewAdapter(listOf(), itemSelectedListener, sharedViewModel)
+            this.layoutManager = LinearLayoutManager(context)
+            this.adapter = adapter
             eventViewModel.getEvents().observe(this@EventListFragment, Observer<List<BaseEvent>> { events ->
-                (adapter as EventRecyclerViewAdapter).setEvents(events!!)
+                (adapter).setEvents(events!!)
             })
         }
     }

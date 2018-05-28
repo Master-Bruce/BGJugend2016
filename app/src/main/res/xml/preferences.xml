@@ -2,14 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/title_settings">
 
-    <CheckBoxPreference
-        android:key="checkbox_preference"
-        android:title="@string/title_old_events" />
-
-    <CheckBoxPreference
-        android:key="checkbox_preference"
-        android:title="@string/title_old_events" />
-
     <PreferenceCategory android:title="@string/notifications">
 
         <CheckBoxPreference
@@ -18,4 +10,72 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/your_data">
+
+        <EditTextPreference
+            android:capitalize="words"
+            android:inputType="textCapWords"
+            android:key="@string/name_key"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/name" />
+
+        <EditTextPreference
+            android:capitalize="words"
+            android:inputType="textCapWords"
+            android:key="@string/street_key"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/street" />
+
+        <EditTextPreference
+            android:capitalize="words"
+            android:inputType="textCapWords"
+            android:key="@string/place_key"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/plz_and_place" />
+
+        <EditTextPreference
+            android:capitalize="words"
+            android:inputType="date"
+            android:key="@string/birthday_key"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/birthday" />
+
+        <EditTextPreference
+            android:id="@+id/hello"
+            android:capitalize="words"
+            android:inputType="number"
+            android:key="@string/telephone_key"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/telephone" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="info_category"
+        android:title="Info">
+        <Preference
+            android:key="@string/version_key"
+            android:title="Jugendarbeit BG" />
+
+        <de.schiewe.volker.bgjugend2016.helper.InfoDialogPreference
+            android:dialogMessage="@string/privacy_text"
+            android:positiveButtonText="OK"
+            android:title="Was passiert mit meinen Daten?" />
+
+        <de.schiewe.volker.bgjugend2016.helper.InfoDialogPreference
+            android:dialogMessage="@string/internet_text"
+            android:positiveButtonText="OK"
+            android:title="Wieso brauche ich Internet?" />
+
+        <Preference
+            android:key="pref_feedback"
+            android:summary="Created by Volker Schiewe"
+            android:title="Feedback senden" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

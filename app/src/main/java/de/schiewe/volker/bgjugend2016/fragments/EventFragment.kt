@@ -22,9 +22,8 @@ class EventFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_event, container, false)
-
         val storageReference: FirebaseStorage = FirebaseStorage.getInstance()
-//        val eventImage: ImageView = rootView!!.findViewById(R.id.event_image)
+
         val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
         sharedViewModel.getSelected().observe(activity!!, Observer { item ->
             event = item
