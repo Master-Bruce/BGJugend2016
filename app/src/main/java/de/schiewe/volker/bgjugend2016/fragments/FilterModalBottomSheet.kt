@@ -1,10 +1,9 @@
 package de.schiewe.volker.bgjugend2016.fragments
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.BottomSheetDialogFragment
-import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,7 @@ class FilterModalBottomSheet : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
         val filterInfos = sharedPref.getBoolean(getString(R.string.filter_infos_key), false)
         val filterAge = sharedPref.getBoolean(getString(R.string.filter_age_key), false)
         val filterOldEvents = sharedPref.getBoolean(getString(R.string.filter_old_events_key), true)
@@ -33,7 +32,7 @@ class FilterModalBottomSheet : BottomSheetDialogFragment() {
         }
 
         container_age_filter.setOnClickListener { _: View ->
-            if (sharedPref.getInt(getString(R.string.birthday_key), -1) != -1)
+            if (sharedPref.getString(getString(R.string.birthday_key), "") != "")
                 this.handleFilterClick(sharedPref, switch_age_filter, getString(R.string.filter_age_key))
             else
                 Toast.makeText(activity, getString(R.string.missing_birthday), Toast.LENGTH_LONG).show()

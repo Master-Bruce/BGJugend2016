@@ -2,7 +2,6 @@ package de.schiewe.volker.bgjugend2016.helper
 
 import android.content.SharedPreferences
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import de.schiewe.volker.bgjugend2016.R
 
 
 import de.schiewe.volker.bgjugend2016.fragments.EventListFragment.OnListItemSelectedListener
+import de.schiewe.volker.bgjugend2016.getAge
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info
@@ -31,7 +31,7 @@ class EventRecyclerViewAdapter(
         private val filterInfoKey: String,
         private val filterAgeKey: String,
         private val filterOldEventsKey: String,
-        private val ageKey: String
+        private val birthdayKey: String
 ) : RecyclerView.Adapter<EventRecyclerViewAdapter.ViewHolder>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
@@ -112,7 +112,7 @@ class EventRecyclerViewAdapter(
             if (shardPref.getBoolean(filterInfoKey, false) && item is Info)
                 shouldAddItem = false
             if (shardPref.getBoolean(filterAgeKey, false) && item is Event) {
-                val age = shardPref.getInt(ageKey, -1)
+                val age = getAge(shardPref.getString(birthdayKey, ""), Calendar.getInstance())
                 if (age != -1 && item.minAge!! > age || item.maxAge!! < age)
                     shouldAddItem = false
             }

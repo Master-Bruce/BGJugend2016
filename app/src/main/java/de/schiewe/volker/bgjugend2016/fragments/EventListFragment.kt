@@ -4,14 +4,13 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import de.schiewe.volker.bgjugend2016.R
-
 import de.schiewe.volker.bgjugend2016.helper.EventRecyclerViewAdapter
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.GeneralData
@@ -40,7 +39,7 @@ class EventListFragment : Fragment() {
             }
         })
 
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
         val adapter = EventRecyclerViewAdapter(listOf(), itemSelectedListener, sharedViewModel, sharedPref,
                 getString(R.string.filter_infos_key),
                 getString(R.string.filter_age_key),
