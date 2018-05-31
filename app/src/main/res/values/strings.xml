@@ -17,4 +17,10 @@
     <string name="hide_infos">Infos ausblenden</string>
     <string name="filter_age">Nach Alter filtern</string>
     <string name="filter_old_events">Alte Veranstaltungen anzeigen</string>
+    <string name="the_youth_team">Das Planungsteam</string>
+    <string name="our_youth_workers">Unsere Jugendbeauftragten</string>
+    <string name="sponsoring_association">Der Förderverein</string>
+    <string name="text_sponsoring">Um die Jugendarbeit der Herrnhuter Brüdergemeine zu unterstützen wurde der „Förderverein der Jugendarbeit der Evangelischen Brüder-Unität Herrnhuter Brüdergemeine“ gegründet. \nMit den Einnahmen aus der Vermarktung von alten Herrnhuter Spielen versucht der Verein Projekte unsere Jugendarbeit zu fördern.</string>
+    <string name="bank_account"><b>Spendenkonto:</b>\nFörderverein Jugendarbeit\nIBAN: DE09120300001020195143\nBIC: BYLADEM1001\nDeutsche Kreditbank</string>
+    <string name="more_information">Weiter Informationen:  http://herrnhuterspiele.de</string>
 </resources>

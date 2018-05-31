@@ -36,7 +36,7 @@ class FilterModalBottomSheet : BottomSheetDialogFragment() {
                 this.handleFilterClick(sharedPref, switch_age_filter, getString(R.string.filter_age_key))
             else
                 Toast.makeText(activity, getString(R.string.missing_birthday), Toast.LENGTH_LONG).show()
-                // TODO Fix SnackBar
+                // FIXME Fix SnackBar
                 // Snackbar.make(view, getString(R.string.missing_birthday), Snackbar.LENGTH_LONG).show()
         }
 

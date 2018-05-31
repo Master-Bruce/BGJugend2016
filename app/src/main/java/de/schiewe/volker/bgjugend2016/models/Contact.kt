@@ -10,6 +10,7 @@ class Contact {
     val address: String = ""
     val telephone: String = ""
     val mail: String = ""
+    val image: String = ""
 
     fun formattedAddress():Spanned{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
