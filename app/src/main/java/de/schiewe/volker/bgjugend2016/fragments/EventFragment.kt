@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.firebase.storage.FirebaseStorage
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.helper.GlideApp
@@ -28,10 +31,14 @@ class EventFragment : Fragment() {
         sharedViewModel.getSelected().observe(activity!!, Observer { item ->
             event = item
             storageReference.getReference("event_img/${event!!.imagePath}").downloadUrl.addOnSuccessListener { uri ->
+                val eventImage = rootView.findViewById<ImageView>(R.id.event_image)
                 GlideApp.with(this@EventFragment)
                         .load(uri)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.placeholder)
-                        .into(event_image)
+                        .transition(DrawableTransitionOptions.withCrossFade(2000))
+                        .into(eventImage)
+
             }
         })
         return rootView

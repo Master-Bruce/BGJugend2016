@@ -17,12 +17,12 @@
             <android.support.design.widget.CoordinatorLayout
                 android:id="@+id/image_constrains"
                 android:layout_width="match_parent"
-                android:layout_height="225dp">
+                android:layout_height="275dp">
 
                 <ImageView
                     android:id="@+id/event_image"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="250dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/placeholder"
                     app:layout_constraintEnd_toEndOf="parent"
