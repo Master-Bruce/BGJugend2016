@@ -14,6 +14,7 @@ class Event : BaseEvent() {
     override var endDate: Long? = null
     override var place: String = ""
 
+    var pk: Int = 0
     var header: String = ""
     var text: String = ""
     var minAge: Int? = null
@@ -45,6 +46,14 @@ class Event : BaseEvent() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             return Html.fromHtml(this.text, Html.FROM_HTML_MODE_COMPACT)
         return Html.fromHtml(this.text)
+    }
+
+    fun getStartDateCalendar(): Calendar? {
+        if (this.startDate == null)
+            return null
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = this.startDate!!
+        return calendar
     }
 
     companion object Factory {

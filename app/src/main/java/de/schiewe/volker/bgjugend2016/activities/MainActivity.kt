@@ -59,6 +59,20 @@ class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedLi
             FirebaseDatabase.getInstance().setPersistenceEnabled(true)
             openFragment(EventListFragment.newInstance())
         }
+        // TODO REMOVE ME
+//        val notifications = NotificationHelper(this)
+//        val event = Event()
+//        event.pk = 1
+//        event.startDate = Calendar.getInstance().timeInMillis
+//        event.title = "Kinderrüsttage"
+//        val event2 = Event()
+//        event2.pk = 2
+//        event2.startDate = Calendar.getInstance().timeInMillis
+//        event2.title = "Herrnhaag"
+//        notifications.setNotification(event, true)
+//        notifications.setNotification(event2, true)
+//        notifications.setNotification(event, false)
+
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }

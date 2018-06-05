@@ -23,4 +23,12 @@ class UtilsUnitTest {
         calendar.set(2018, 1, 1)
         Assert.assertEquals(-1, getAge("Test", calendar))
     }
+
+    @Test
+    fun test_get_id_from_string(){
+        var id = getIdFromString("Fußball Österreich")
+        Assert.assertEquals("FUSSBALL_OESTERREICH", id)
+        id = getIdFromString("Älterer Übergang")
+        Assert.assertEquals("AELTERER_UEBERGANG", id)
+    }
 }

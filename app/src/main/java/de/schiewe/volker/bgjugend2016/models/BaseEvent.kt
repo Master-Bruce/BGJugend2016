@@ -13,7 +13,7 @@ open class BaseEvent : Comparable<BaseEvent> {
     open var place: String = ""
 
     fun dateString(): String {
-        val sdf = SimpleDateFormat("dd.MM.YYYY", Locale.GERMANY)
+        val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
         return "${formatDate(this.startDate, sdf)} - ${formatDate(this.endDate, sdf)}"
     }
 

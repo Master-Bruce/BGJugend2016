@@ -36,3 +36,14 @@ fun getByteArrayFromBase64(base64String: String): ByteArray {
         android.util.Base64.decode(base64String, android.util.Base64.DEFAULT)
     }
 }
+
+fun getIdFromString(string: String):String{
+    return string
+            .toLowerCase()
+            .replace("ö", "oe")
+            .replace("ä", "ae")
+            .replace("ü", "ue")
+            .replace("ß", "ss")
+            .replace(" ", "_")
+            .toUpperCase()
+}

@@ -26,7 +26,7 @@ class EventRecyclerViewAdapter(
         private var mValues: List<BaseEvent>,
         private val mListener: OnListItemSelectedListener?,
         private val mViewModel: SharedViewModel,
-        private val shardPref: SharedPreferences,
+        private val sharedPref: SharedPreferences,
 
         private val filterInfoKey: String,
         private val filterAgeKey: String,
@@ -52,7 +52,7 @@ class EventRecyclerViewAdapter(
         }
         for (item in mValues)
             mFilteredValues.add(item)
-        shardPref.registerOnSharedPreferenceChangeListener(this)
+        sharedPref.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -83,7 +83,7 @@ class EventRecyclerViewAdapter(
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        shardPref.unregisterOnSharedPreferenceChangeListener(this)
+        sharedPref.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -109,14 +109,14 @@ class EventRecyclerViewAdapter(
         mFilteredValues = mutableListOf()
         for (item in mValues) {
             var shouldAddItem = true
-            if (shardPref.getBoolean(filterInfoKey, false) && item is Info)
+            if (sharedPref.getBoolean(filterInfoKey, false) && item is Info)
                 shouldAddItem = false
-            if (shardPref.getBoolean(filterAgeKey, false) && item is Event) {
-                val age = getAge(shardPref.getString(birthdayKey, ""), Calendar.getInstance())
+            if (sharedPref.getBoolean(filterAgeKey, false) && item is Event) {
+                val age = getAge(sharedPref.getString(birthdayKey, ""), Calendar.getInstance())
                 if (age != -1 && item.minAge!! > age || item.maxAge!! < age)
                     shouldAddItem = false
             }
-            if (!shardPref.getBoolean(filterOldEventsKey, true) && item.endDate!! < Date().time)
+            if (!sharedPref.getBoolean(filterOldEventsKey, true) && item.endDate!! < Date().time)
                 shouldAddItem = false
 
             if (shouldAddItem)
