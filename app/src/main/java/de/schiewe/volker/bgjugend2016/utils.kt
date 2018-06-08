@@ -1,6 +1,9 @@
 package de.schiewe.volker.bgjugend2016
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
+import android.support.v7.preference.PreferenceManager
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,7 +40,7 @@ fun getByteArrayFromBase64(base64String: String): ByteArray {
     }
 }
 
-fun getIdFromString(string: String):String{
+fun getIdFromString(string: String): String {
     return string
             .toLowerCase()
             .replace("ö", "oe")
@@ -46,4 +49,24 @@ fun getIdFromString(string: String):String{
             .replace("ß", "ss")
             .replace(" ", "_")
             .toUpperCase()
+}
+
+fun isNewVersion(sharedPrefs: SharedPreferences, lastVersionKey: String): Boolean {
+    if (BuildConfig.VERSION_CODE != sharedPrefs.getInt(lastVersionKey, 0))
+        return true
+    return false
+}
+
+fun migrateToCurrentVersion(context: Context) {
+    val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+    // migrate user data
+    with(sharedPref.edit()) {
+        putString(context.getString(R.string.name_key), sharedPref.getString("pref_name", ""))
+        putString(context.getString(R.string.street_key), sharedPref.getString("pref_street", ""))
+        putString(context.getString(R.string.place_key), sharedPref.getString("pref_city", ""))
+        putString(context.getString(R.string.birthday_key), sharedPref.getString("pref_birthday", ""))
+        putString(context.getString(R.string.telephone_key), sharedPref.getString("pref_telephone", ""))
+        apply()
+    }
+//    TODO migrate rest of shared prefs
 }

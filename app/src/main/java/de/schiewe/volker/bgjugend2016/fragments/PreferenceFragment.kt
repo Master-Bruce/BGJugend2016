@@ -1,14 +1,17 @@
 package de.schiewe.volker.bgjugend2016.fragments
 
 
+import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
+import android.widget.TimePicker
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.helper.InfoDialogPreference
+import de.schiewe.volker.bgjugend2016.helper.TimePreference
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,7 +50,8 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
                 getString(R.string.street_key),
                 getString(R.string.place_key),
                 getString(R.string.birthday_key),
-                getString(R.string.telephone_key)
+                getString(R.string.telephone_key),
+                getString(R.string.notification_time_key)
         )
         for (key in keys) {
             val preference = preferenceScreen.findPreference(key)
@@ -58,16 +62,28 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference?) {
-        if (preference != null) {
-            if (activity != null && preference is InfoDialogPreference) {
-                val builder = AlertDialog.Builder(activity!!)
-                builder.setMessage(preference.dialogMessage)
-                        .setTitle(preference.title)
-                        .setPositiveButton(preference.positiveButtonText, { dialogInterface: DialogInterface, i: Int -> dialogInterface.dismiss() })
-                val dialog = builder.create()
-                dialog.show()
-            } else
-                super.onDisplayPreferenceDialog(preference)
+        if (activity != null && preference != null) {
+            when (preference) {
+                is InfoDialogPreference -> {
+                    val builder = AlertDialog.Builder(activity!!)
+                    builder.setMessage(preference.dialogMessage)
+                            .setTitle(preference.title)
+                            .setPositiveButton(preference.positiveButtonText, { dialogInterface: DialogInterface, i: Int -> dialogInterface.dismiss() })
+                    val dialog = builder.create()
+                    dialog.show()
+                }
+                is TimePreference -> {
+                    val onTimeSetListener = TimePickerDialog.OnTimeSetListener(
+                            { view: TimePicker?, hourOfDay: Int, minute: Int ->
+                                preference.setTime(hourOfDay, minute)
+                            })
+                    val dialog = TimePickerDialog(activity, onTimeSetListener, preference.getHour(), preference.getMinute(), true)
+                    dialog.show()
+                }
+                else -> {
+                    super.onDisplayPreferenceDialog(preference)
+                }
+            }
         }
     }
 

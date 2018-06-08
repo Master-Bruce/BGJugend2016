@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.preference.PreferenceManager
 import android.view.Menu
 import com.google.firebase.database.FirebaseDatabase
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.fragments.*
+import de.schiewe.volker.bgjugend2016.isNewVersion
+import de.schiewe.volker.bgjugend2016.migrateToCurrentVersion
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -59,7 +62,12 @@ class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedLi
             FirebaseDatabase.getInstance().setPersistenceEnabled(true)
             openFragment(EventListFragment.newInstance())
         }
-        // TODO REMOVE ME
+
+        if (isNewVersion(PreferenceManager.getDefaultSharedPreferences(this), getString(R.string.last_version_key))) {
+                migrateToCurrentVersion(this)
+        }
+
+//        TODO REMOVE ME
 //        val notifications = NotificationHelper(this)
 //        val event = Event()
 //        event.pk = 1

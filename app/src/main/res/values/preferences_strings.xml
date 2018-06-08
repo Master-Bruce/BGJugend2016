@@ -10,7 +10,8 @@
     <string name="birthday_key">BIRTHDAY_KEY</string>
     <string name="telephone_key">TELEPHONE_KEY</string>
     <string name="version_key">VERSION_KEY</string>
-
+    <string name="last_version_key">last_version</string>
+    <string name="notification_time_key">NOTIFIACTION_TIME_KEY</string>
 
     <string name="your_data">Deine Daten</string>
     <string name="birthday">Geburtstag</string>

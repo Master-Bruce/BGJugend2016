@@ -8,6 +8,9 @@
             android:key="checkbox_preference"
             android:title="@string/title_deadline_notification" />
 
+        <de.schiewe.volker.bgjugend2016.helper.TimePreference
+            android:key="@string/notification_time_key"
+            android:title="Benachrichtigungszeit"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/your_data">
