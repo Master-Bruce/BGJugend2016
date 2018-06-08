@@ -12,6 +12,12 @@
     <string name="version_key">VERSION_KEY</string>
     <string name="last_version_key">last_version</string>
     <string name="notification_time_key">NOTIFIACTION_TIME_KEY</string>
+    <string name="notification_day_key">NOTIFIACTION_DAY_KEY</string>
+    <string name="deadline_notification_key">DEADLINE_NOTIFICATION_KEY</string>
+    <string name="date_notification_key">DATE_NOTIFICATION_KEY</string>
+
+    <string name="notification_day">Benachrichtigungstag</string>
+    <string name="notification_time">Benachrichtigungszeit</string>
 
     <string name="your_data">Deine Daten</string>
     <string name="birthday">Geburtstag</string>
@@ -21,7 +27,8 @@
     <string name="name"><![CDATA[Vor- & Nachname]]></string>
     <string name="wrong_date_format">Geburtstag im Format \'01.01.2000\' eingeben.</string>
     <string name="notifications">Benachrichtigungen</string>
-    <string name="title_deadline_notification">Anmeldeschluss Benachrichtigung</string>
+    <string name="deadline_notification">Anmeldeschluss Benachrichtigung</string>
+    <string name="date_notification">Zum Termin benachrichtigen</string>
 
     <string name="privacy_text">Alle eingegebenen Daten werden lokal auf dem Gerät gespeichert. \nSie werden ausschließlich dazu verwendet dem Nutzer Funktionen zur Verfügung zu stellen und Arbeit abzunehmen.</string>
     <string name="internet_text">Die Daten der Veranstaltungen sind auf einem Server gespeichert. Immer wenn Du die App öffnest wird geprüft, ob es Aktualisierungen gibt. Trotzdem ist die App mit all ihren Funktionen offline nutzbar.</string>

@@ -33,6 +33,10 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
                         false
                     }
                 }
+                getString(R.string.notification_day_key) -> {
+                    val dayString = if (newValue == "1") "Tag" else "Tage"
+                    preference.summary = "$newValue $dayString vorher"
+                }
                 else -> {
                     preference.summary = newValue as CharSequence?
                 }
@@ -51,12 +55,18 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
                 getString(R.string.place_key),
                 getString(R.string.birthday_key),
                 getString(R.string.telephone_key),
-                getString(R.string.notification_time_key)
+                getString(R.string.notification_time_key),
+                getString(R.string.notification_day_key)
         )
         for (key in keys) {
             val preference = preferenceScreen.findPreference(key)
             preference.onPreferenceChangeListener = this
-            preference.summary = preference.sharedPreferences.getString(preference.key, "")
+            preference.summary = preference.sharedPreferences.getString(key, "")
+            if (key == getString(R.string.notification_day_key)) {
+                val value = preference.sharedPreferences.getString(key, "")
+                val dayString = if (value == "1") "Tag" else "Tage"
+                preference.summary = "$value $dayString vorher"
+            }
         }
         preferenceScreen.findPreference(getString(R.string.version_key)).summary = activity?.packageManager?.getPackageInfo(activity?.packageName, 0)?.versionName ?: ""
     }

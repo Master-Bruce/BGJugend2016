@@ -5,12 +5,23 @@
     <PreferenceCategory android:title="@string/notifications">
 
         <CheckBoxPreference
-            android:key="checkbox_preference"
-            android:title="@string/title_deadline_notification" />
+            android:key="@string/deadline_notification_key"
+            android:title="@string/deadline_notification" />
+
+        <CheckBoxPreference
+            android:key="@string/date_notification_key"
+            android:title="@string/date_notification" />
+
+        <ListPreference
+            android:defaultValue="7"
+            android:entries="@array/notification_day_list"
+            android:entryValues="@array/notification_day_values"
+            android:key="@string/notification_day_key"
+            android:title="@string/notification_day" />
 
         <de.schiewe.volker.bgjugend2016.helper.TimePreference
             android:key="@string/notification_time_key"
-            android:title="Benachrichtigungszeit"/>
+            android:title="@string/notification_time" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/your_data">
