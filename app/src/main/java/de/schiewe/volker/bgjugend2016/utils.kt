@@ -61,6 +61,12 @@ fun migrateToCurrentVersion(context: Context) {
     val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
     // migrate user data
     with(sharedPref.edit()) {
+        putString(context.getString(R.string.deadline_notification_key), sharedPref.getString("notifications_deadline", ""))
+        putString(context.getString(R.string.date_notification_key), sharedPref.getString("notifications_date", ""))
+        putString(context.getString(R.string.notification_day_key), sharedPref.getString("notification_list", ""))
+        val hourOfDay: String = sharedPref.getString("notification_time", "")
+        putString(context.getString(R.string.notification_time_key),"$hourOfDay:00")
+
         putString(context.getString(R.string.name_key), sharedPref.getString("pref_name", ""))
         putString(context.getString(R.string.street_key), sharedPref.getString("pref_street", ""))
         putString(context.getString(R.string.place_key), sharedPref.getString("pref_city", ""))
@@ -68,5 +74,4 @@ fun migrateToCurrentVersion(context: Context) {
         putString(context.getString(R.string.telephone_key), sharedPref.getString("pref_telephone", ""))
         apply()
     }
-//    TODO migrate rest of shared prefs
 }
