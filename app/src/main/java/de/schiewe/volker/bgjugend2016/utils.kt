@@ -1,9 +1,14 @@
 package de.schiewe.volker.bgjugend2016
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Build
+import android.provider.CalendarContract
 import android.support.v7.preference.PreferenceManager
+import de.schiewe.volker.bgjugend2016.models.BaseEvent
+import de.schiewe.volker.bgjugend2016.models.Event
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -66,7 +71,7 @@ fun migrateToCurrentVersion(context: Context) {
         putString(context.getString(R.string.notification_day_key), sharedPref.getString("notification_list", ""))
         val hourOfDay: String = sharedPref.getString("notification_time", "")
         if (hourOfDay != "")
-            putString(context.getString(R.string.notification_time_key),"$hourOfDay:00")
+            putString(context.getString(R.string.notification_time_key), "$hourOfDay:00")
 
         putString(context.getString(R.string.name_key), sharedPref.getString("pref_name", ""))
         putString(context.getString(R.string.street_key), sharedPref.getString("pref_street", ""))
@@ -75,4 +80,30 @@ fun migrateToCurrentVersion(context: Context) {
         putString(context.getString(R.string.telephone_key), sharedPref.getString("pref_telephone", ""))
         apply()
     }
+}
+
+fun openPlaceOnMap(context: Context, place: String) {
+    val url = "http://maps.google.co.in/maps?q=$place"
+    val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    context.startActivity(mapIntent)
+}
+
+fun addEventToCalender(context: Context, event: BaseEvent) {
+    val calenderIntent = Intent(Intent.ACTION_INSERT)
+            .setType("vnd.android.cursor.item/event")
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.startDate)
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.endDate)
+            .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true)
+            .putExtra(CalendarContract.Events.TITLE, event.title)
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, event.place)
+            .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+            .putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE)
+    context.startActivity(calenderIntent)
+}
+
+fun shareEvent(context: Context, event: Event) {
+    val shareIntent = Intent(Intent.ACTION_SEND)
+            .setType("text/plain")
+            .putExtra(Intent.EXTRA_TEXT, event.title + ": " + event.url)
+    context.startActivity(shareIntent)
 }

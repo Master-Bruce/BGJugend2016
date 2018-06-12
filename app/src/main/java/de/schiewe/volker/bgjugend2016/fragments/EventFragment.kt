@@ -12,8 +12,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.firebase.storage.FirebaseStorage
 import de.schiewe.volker.bgjugend2016.R
+import de.schiewe.volker.bgjugend2016.addEventToCalender
 import de.schiewe.volker.bgjugend2016.helper.GlideApp
 import de.schiewe.volker.bgjugend2016.models.Event
+import de.schiewe.volker.bgjugend2016.openPlaceOnMap
+import de.schiewe.volker.bgjugend2016.shareEvent
 import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_event.*
 
@@ -67,9 +70,9 @@ class EventFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
             contact_phone.text = event!!.contact?.telephone ?: ""
             contact_mail.text = event!!.contact?.mail ?: ""
         }
-        fab_register.setOnClickListener({registerForEvent()})
-        button_register.setOnClickListener({registerForEvent()})
-        place_text.setOnClickListener({openMap()})
+        fab_register.setOnClickListener({ registerForEvent() })
+        button_register.setOnClickListener({ registerForEvent() })
+        place_text.setOnClickListener({ openMap() })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -85,7 +88,8 @@ class EventFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
                 item.isChecked = !item.isChecked
             }
             R.id.menu_calender -> {
-                // Todo start calender
+                if (event != null && activity != null)
+                    addEventToCalender(activity!!, event!!)
             }
             R.id.menu_map -> {
                 this.openMap()
@@ -94,7 +98,8 @@ class EventFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
                 this.registerForEvent()
             }
             R.id.menu_share -> {
-                // TODO share intent
+                if (event != null && activity != null)
+                    shareEvent(activity!!, event!!)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -118,12 +123,14 @@ class EventFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
         }
     }
 
-    private fun registerForEvent(){
+    private fun registerForEvent() {
+        // TODO let user insert his data if necessary
         // TODO open registration mail
     }
 
-    private fun openMap(){
-        // TODO open Map
+    private fun openMap() {
+        if (event != null && activity != null)
+            openPlaceOnMap(activity!!, event!!.place)
     }
 
     companion object {
