@@ -6,7 +6,9 @@ import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +31,8 @@ class EventListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (activity as AppCompatActivity).setSupportActionBar(toolbar as Toolbar)
+        (toolbar as Toolbar).title = getString(R.string.title_events)
         val eventViewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
         val generalDataViewModel = ViewModelProviders.of(activity!!).get(GeneralDataViewModel::class.java)
         val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)

@@ -19,7 +19,7 @@ fun getAge(dateString: String, today: Calendar): Int {
     if (dateString == "")
         return -1
     return try {
-        val sdf = SimpleDateFormat("dd.MM.YYYY", Locale.GERMANY)
+        val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
         val date: Date = sdf.parse(dateString)
         val calendar = Calendar.getInstance()
         calendar.time = date
@@ -61,11 +61,12 @@ fun migrateToCurrentVersion(context: Context) {
     val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
     // migrate user data
     with(sharedPref.edit()) {
-        putString(context.getString(R.string.deadline_notification_key), sharedPref.getString("notifications_deadline", ""))
-        putString(context.getString(R.string.date_notification_key), sharedPref.getString("notifications_date", ""))
+        putBoolean(context.getString(R.string.deadline_notification_key), sharedPref.getBoolean("notifications_deadline", false))
+        putBoolean(context.getString(R.string.date_notification_key), sharedPref.getBoolean("notifications_date", false))
         putString(context.getString(R.string.notification_day_key), sharedPref.getString("notification_list", ""))
         val hourOfDay: String = sharedPref.getString("notification_time", "")
-        putString(context.getString(R.string.notification_time_key),"$hourOfDay:00")
+        if (hourOfDay != "")
+            putString(context.getString(R.string.notification_time_key),"$hourOfDay:00")
 
         putString(context.getString(R.string.name_key), sharedPref.getString("pref_name", ""))
         putString(context.getString(R.string.street_key), sharedPref.getString("pref_street", ""))

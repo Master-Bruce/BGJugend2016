@@ -38,7 +38,7 @@ class Event : BaseEvent() {
     }
 
     fun deadlineString(): String {
-        val sdf = SimpleDateFormat("dd.MM.YYYY", Locale.GERMANY)
+        val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
         return formatDate(this.deadline, sdf)
     }
 

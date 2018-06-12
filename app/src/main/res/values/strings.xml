@@ -2,6 +2,7 @@
     <string name="app_name">BGJugend2016</string>
     <string name="title_events">Veranstaltungen</string>
     <string name="title_info">Info</string>
+    <string name="title_informations">Informationen</string>
     <string name="title_contact">Kontakt</string>
     <string name="title_settings">Einstellungen</string>
 
@@ -23,4 +24,8 @@
     <string name="text_sponsoring">Um die Jugendarbeit der Herrnhuter Brüdergemeine zu unterstützen wurde der „Förderverein der Jugendarbeit der Evangelischen Brüder-Unität Herrnhuter Brüdergemeine“ gegründet. \nMit den Einnahmen aus der Vermarktung von alten Herrnhuter Spielen versucht der Verein Projekte unsere Jugendarbeit zu fördern.</string>
     <string name="bank_account"><b>Spendenkonto:</b>\nFörderverein Jugendarbeit\nIBAN: DE09120300001020195143\nBIC: BYLADEM1001\nDeutsche Kreditbank</string>
     <string name="more_information">Weiter Informationen:  http://herrnhuterspiele.de</string>
+    <string name="add_to_calender">Zum Kalender hinzufügen</string>
+    <string name="share">Teilen</string>
+    <string name="show_on_map">Auf der Karte anzeigen</string>
+    <string name="app_title">Jugendarbeit EBU</string>
 </resources>

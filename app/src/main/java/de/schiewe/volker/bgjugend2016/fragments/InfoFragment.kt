@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ class InfoFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (toolbar as Toolbar).title = getString(R.string.title_informations)
         val generalDataViewModel = ViewModelProviders.of(activity!!).get(GeneralDataViewModel::class.java)
         val adapter = YouthWorkerRecyclerViewAdapter(listOf())
         with(list_youth_worker) {

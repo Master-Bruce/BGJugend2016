@@ -2,4 +2,39 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/menu_register"
+        android:icon="@drawable/ic_email_black_24dp"
+        android:orderInCategory="10"
+        android:title="@string/register"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_share"
+        android:icon="@drawable/ic_share_24dp"
+        android:orderInCategory="20"
+        android:title="@string/share"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_notification"
+        android:checkable="true"
+        android:orderInCategory="30"
+        android:title="@string/notifications"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_calender"
+        android:icon="@drawable/ic_event_24dp"
+        android:orderInCategory="40"
+        android:title="@string/add_to_calender"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_map"
+        android:icon="@drawable/ic_place_black_24dp"
+        android:orderInCategory="50"
+        android:title="@string/show_on_map"
+        app:showAsAction="ifRoom" />
+
 </menu>

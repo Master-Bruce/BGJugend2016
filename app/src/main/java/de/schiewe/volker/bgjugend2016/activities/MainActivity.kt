@@ -5,7 +5,6 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.PreferenceManager
-import android.view.Menu
 import com.google.firebase.database.FirebaseDatabase
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.fragments.*
@@ -57,7 +56,7 @@ class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        supportActionBar!!.title = "Jugendarbeit EBU"
+
         if (savedInstanceState == null) {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true)
             openFragment(EventListFragment.newInstance())
@@ -83,10 +82,5 @@ class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedLi
 
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
     }
 }

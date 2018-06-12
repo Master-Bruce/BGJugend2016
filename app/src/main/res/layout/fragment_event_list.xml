@@ -1,27 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        android:name="de.schiewe.volker.bgjugend2016.Fragments.EventFragment"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".fragments.EventListFragment"
-        tools:listitem="@layout/item_event" />
+        android:layout_height="match_parent">
 
-    <android.support.design.widget.FloatingActionButton
-        android:theme="@style/FloatingActionButtonTheme"
-        android:id="@+id/filter_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_filter_black_24dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        app:fabSize="normal" />
-</android.support.design.widget.CoordinatorLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:name="de.schiewe.volker.bgjugend2016.Fragments.EventFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".fragments.EventListFragment"
+            tools:listitem="@layout/item_event" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/filter_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_filter_black_24dp"
+            android:theme="@style/FloatingActionButtonTheme"
+            app:fabSize="normal" />
+    </android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

@@ -3,10 +3,10 @@ package de.schiewe.volker.bgjugend2016.fragments
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.v7.app.AppCompatActivity
+import android.view.*
 import android.widget.ImageView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -18,8 +18,10 @@ import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_event.*
 
 
-class EventFragment : Fragment() {
+class EventFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
     private var event: Event? = null
+    private var menu: Menu? = null
+    private var menuItems: List<Int> = listOf(R.id.menu_register, R.id.menu_notification, R.id.menu_calender, R.id.menu_map, R.id.menu_share)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -45,9 +47,14 @@ class EventFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (event != null){
-            event_title.text = event!!.title
+        (activity as AppCompatActivity).setSupportActionBar(event_toolbar)
+        setHasOptionsMenu(true)
+        main_appbar.addOnOffsetChangedListener(this)
+
+        if (event != null) {
+            event_toolbar.title = event!!.title
             header_text.text = event!!.header
+            place_text.text = event!!.place
             event_text.text = event!!.formattedText()
             age_text.text = event!!.ageString()
             people_text.text = event!!.peopleNumber.toString()
@@ -60,9 +67,64 @@ class EventFragment : Fragment() {
             contact_phone.text = event!!.contact?.telephone ?: ""
             contact_mail.text = event!!.contact?.mail ?: ""
         }
-
+        fab_register.setOnClickListener({registerForEvent()})
+        button_register.setOnClickListener({registerForEvent()})
+        place_text.setOnClickListener({openMap()})
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        this.menu = menu
+        inflater?.inflate(R.menu.main_menu, menu)
+        changeMenuVisibility(false)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_notification -> {
+                // TODO set or remove notification
+                item.isChecked = !item.isChecked
+            }
+            R.id.menu_calender -> {
+                // Todo start calender
+            }
+            R.id.menu_map -> {
+                this.openMap()
+            }
+            R.id.menu_register -> {
+                this.registerForEvent()
+            }
+            R.id.menu_share -> {
+                // TODO share intent
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+        val scrollRange = appBarLayout!!.totalScrollRange
+        if (scrollRange + verticalOffset == 0) {
+            changeMenuVisibility(true)
+        } else {
+            changeMenuVisibility(false)
+        }
+    }
+
+    private fun changeMenuVisibility(visibility: Boolean) {
+        if (menu != null) {
+            for (itemId in this.menuItems) {
+                val item = menu!!.findItem(itemId)
+                item.isVisible = visibility
+            }
+        }
+    }
+
+    private fun registerForEvent(){
+        // TODO open registration mail
+    }
+
+    private fun openMap(){
+        // TODO open Map
+    }
 
     companion object {
         @JvmStatic

@@ -2,7 +2,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/title_settings">
 
-    <PreferenceCategory android:title="@string/notifications">
+    <PreferenceCategory
+        android:id="@+id/toolbar"
+        android:title="@string/notifications">
 
         <CheckBoxPreference
             android:key="@string/deadline_notification_key"
