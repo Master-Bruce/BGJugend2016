@@ -26,8 +26,12 @@ const val DATE_NOTIFICATION: Int = 1
 class NotificationHelper(val context: Context) {
     private val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
 
-    fun restoreNotifactions() {
-        TODO("Create all notifications based on data in sharedPreferences")
+    fun restoreNotifactions(eventList: List<Event>) {
+        for (event in eventList){
+            if (sharedPref.getBoolean(NOTIFICATION_KEY_PREFIX + event.pk, false)){
+                setNotification(event, true)
+            }
+        }
     }
 
     fun setNotification(event: Event, value: Boolean): Boolean {

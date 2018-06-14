@@ -4,12 +4,15 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info
 
-private const val EVENT_REFERENCE = "events"
+const val EVENT_REFERENCE = "events"
 private const val INFO_REFERENCE = "infos"
 
 class EventViewModel : ViewModel() {
