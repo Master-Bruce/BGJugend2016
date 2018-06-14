@@ -10,9 +10,9 @@
             android:key="@string/deadline_notification_key"
             android:title="@string/deadline_notification" />
 
-        <CheckBoxPreference
-            android:key="@string/date_notification_key"
-            android:title="@string/date_notification" />
+        <!--<CheckBoxPreference-->
+            <!--android:key="@string/date_notification_key"-->
+            <!--android:title="@string/date_notification" />-->
 
         <ListPreference
             android:defaultValue="7"

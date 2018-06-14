@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.*
@@ -14,6 +15,7 @@ import com.google.firebase.storage.FirebaseStorage
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.addEventToCalender
 import de.schiewe.volker.bgjugend2016.helper.GlideApp
+import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.openPlaceOnMap
 import de.schiewe.volker.bgjugend2016.shareEvent
@@ -79,13 +81,31 @@ class EventFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
         this.menu = menu
         inflater?.inflate(R.menu.main_menu, menu)
         changeMenuVisibility(false)
+
+        if (menu != null && event != null && activity != null) {
+            val notificationHelper = NotificationHelper(activity!!)
+            val notificationItem = menu.findItem(R.id.menu_notification)
+            notificationItem.isChecked = notificationHelper.isNotificationEnabled(event!!.pk)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_notification -> {
-                // TODO set or remove notification
-                item.isChecked = !item.isChecked
+                if (event != null && activity != null) {
+                    val newValue = !item.isChecked
+                    val notifications = NotificationHelper(activity!!)
+                    val snackbarText = if (notifications.setNotification(event!!, newValue)) {
+                        item.isChecked = newValue
+                        if (newValue)
+                            "Benachrichtigung erstellt."
+                        else
+                            "Benachrichtigung entfernt"
+                    } else
+                        "Schon zu spät"
+
+                    view?.let { Snackbar.make(it, snackbarText, Snackbar.LENGTH_LONG).show() }
+                }
             }
             R.id.menu_calender -> {
                 if (event != null && activity != null)

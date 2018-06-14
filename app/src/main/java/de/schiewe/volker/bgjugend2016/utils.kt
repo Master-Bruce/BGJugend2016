@@ -57,22 +57,28 @@ fun getIdFromString(string: String): String {
 }
 
 fun isNewVersion(sharedPrefs: SharedPreferences, lastVersionKey: String): Boolean {
-    if (BuildConfig.VERSION_CODE != sharedPrefs.getInt(lastVersionKey, 0))
+    if (BuildConfig.VERSION_CODE != sharedPrefs.getInt(lastVersionKey, 0)) {
+        with(sharedPrefs.edit()) {
+            putInt(lastVersionKey, BuildConfig.VERSION_CODE)
+            apply()
+        }
         return true
+    }
     return false
 }
 
 fun migrateToCurrentVersion(context: Context) {
     val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
-    // migrate user data
     with(sharedPref.edit()) {
+        // migrate notification settings
         putBoolean(context.getString(R.string.deadline_notification_key), sharedPref.getBoolean("notifications_deadline", false))
         putBoolean(context.getString(R.string.date_notification_key), sharedPref.getBoolean("notifications_date", false))
-        putString(context.getString(R.string.notification_day_key), sharedPref.getString("notification_list", ""))
+        putString(context.getString(R.string.notification_day_key), sharedPref.getString("notification_list", "7"))
         val hourOfDay: String = sharedPref.getString("notification_time", "")
         if (hourOfDay != "")
             putString(context.getString(R.string.notification_time_key), "$hourOfDay:00")
 
+        // migrate user data
         putString(context.getString(R.string.name_key), sharedPref.getString("pref_name", ""))
         putString(context.getString(R.string.street_key), sharedPref.getString("pref_street", ""))
         putString(context.getString(R.string.place_key), sharedPref.getString("pref_city", ""))

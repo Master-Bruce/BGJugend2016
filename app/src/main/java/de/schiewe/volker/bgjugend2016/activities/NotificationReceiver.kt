@@ -24,10 +24,10 @@ class NotificationReceiver : BroadcastReceiver() {
             notificationManager.createNotificationChannel(mChannel)
         }
 
-        val notification = intent.getParcelableExtra(NOTIFICATION_INTENT_KEY) as Notification
+        val notification = intent.getParcelableExtra<Notification>(NOTIFICATION_INTENT_KEY)
         val notificationId = intent.getIntExtra(NOTIFICATION_ID_KEY, -1)
-        if (notificationId == -1) {
-            Log.e("NotificationReceiver", "No valid notification ID was submitted!")
+        if (notificationId == -1 || notification == null) {
+            Log.e("NotificationReceiver", "No valid notification or notificationId was submitted!")
             return
         }
         notificationManager.notify(notificationId, notification)

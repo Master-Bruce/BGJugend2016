@@ -62,13 +62,13 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
                     val builder = AlertDialog.Builder(activity!!)
                     builder.setMessage(preference.dialogMessage)
                             .setTitle(preference.title)
-                            .setPositiveButton(preference.positiveButtonText, { dialogInterface: DialogInterface, i: Int -> dialogInterface.dismiss() })
+                            .setPositiveButton(preference.positiveButtonText, { dialogInterface: DialogInterface, _: Int -> dialogInterface.dismiss() })
                     val dialog = builder.create()
                     dialog.show()
                 }
                 is TimePreference -> {
                     val onTimeSetListener = TimePickerDialog.OnTimeSetListener(
-                            { view: TimePicker?, hourOfDay: Int, minute: Int ->
+                            { _: TimePicker?, hourOfDay: Int, minute: Int ->
                                 preference.setTime(hourOfDay, minute)
                             })
                     val dialog = TimePickerDialog(activity, onTimeSetListener, preference.getHour(), preference.getMinute(), true)
