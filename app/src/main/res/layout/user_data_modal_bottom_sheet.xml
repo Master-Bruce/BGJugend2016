@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/title_user_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/is_your_data_correct"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.design.widget.TextInputLayout
+        android:theme="@style/TextInputLayoutStyle"
+        android:id="@+id/user_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/title_user_data"
+        app:hintTextAppearance="@style/EditTextTextAppearance">
+
+        <EditText
+            android:theme="@style/EditTextTheme"
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name"
+            android:inputType="textCapWords"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:theme="@style/TextInputLayoutStyle"
+        android:id="@+id/user_street_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/user_name_layout"
+        app:hintTextAppearance="@style/EditTextTextAppearance">
+
+        <EditText
+            android:theme="@style/EditTextTheme"
+            android:id="@+id/user_street"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/street" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:theme="@style/TextInputLayoutStyle"
+        android:id="@+id/user_place_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/user_street_layout"
+        app:hintTextAppearance="@style/EditTextTextAppearance">
+
+        <EditText
+            android:theme="@style/EditTextTheme"
+            android:id="@+id/user_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/plz_and_place" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:theme="@style/TextInputLayoutStyle"
+        android:id="@+id/user_birthday_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/user_place_layout"
+        app:hintTextAppearance="@style/EditTextTextAppearance">
+
+        <EditText
+            android:theme="@style/EditTextTheme"
+            android:id="@+id/user_birthday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:hint="@string/birthday" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:theme="@style/TextInputLayoutStyle"
+        android:id="@+id/user_telephone_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/user_birthday_layout"
+        app:hintTextAppearance="@style/EditTextTextAppearance">
+
+        <EditText
+            android:theme="@style/EditTextTheme"
+            android:id="@+id/user_telephone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:hint="@string/telephone" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/user_data_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        app:layout_constraintTop_toBottomOf="@id/user_telephone_layout" />
+</android.support.constraint.ConstraintLayout>

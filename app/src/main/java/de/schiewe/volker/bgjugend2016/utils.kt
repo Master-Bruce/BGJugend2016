@@ -113,3 +113,32 @@ fun shareEvent(context: Context, event: Event) {
             .putExtra(Intent.EXTRA_TEXT, event.title + ": " + event.url)
     context.startActivity(shareIntent)
 }
+
+fun generateMailText(context: Context, event: Event, sharedPrefs: SharedPreferences): String {
+    val contactFirstName = event.contact?.name?.split(" ")!![0]
+    val name = sharedPrefs.getString(context.getString(R.string.name_key), "")
+    val street = sharedPrefs.getString(context.getString(R.string.street_key), "")
+    val city = sharedPrefs.getString(context.getString(R.string.place_key), "")
+    val birthday = sharedPrefs.getString(context.getString(R.string.birthday_key), "")
+    val telephone = sharedPrefs.getString(context.getString(R.string.telephone_key), "")
+
+    return "Hallo $contactFirstName, \n" +
+            "Ich möchte mich für die Veranstaltung ${event.title} vom ${event.dateString()} anmelden.\n\n" +
+            "$name\n" +
+            "$street\n" +
+            "$city\n" +
+            "$birthday\n" +
+            "$telephone\n\n" +
+            "Viele Grüße\n ${name.split(" ")[0]}"
+}
+
+fun validateDateString(date: String): Boolean {
+    return try {
+        val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
+        sdf.parse(date)
+        true
+    } catch (e: ParseException) {
+        false
+    }
+
+}

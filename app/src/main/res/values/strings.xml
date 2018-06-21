@@ -28,4 +28,11 @@
     <string name="share">Teilen</string>
     <string name="show_on_map">Auf der Karte anzeigen</string>
     <string name="app_title">Jugendarbeit EBU</string>
+    <string name="send_mail">E-Mail senden …</string>
+    <string name="is_your_data_correct">Sind deine Daten richtig?</string>
+    <string name="use_correct_phonenumber">Korrekte Telefonnummer eingeben!</string>
+    <string name="check_input">Eingabe überprüfen!</string>
+    <string name="input_plz_and_place">PLZ und Ort eingeben!</string>
+    <string name="input_street">Straße eingeben!</string>
+    <string name="input_name">Namen eingeben!</string>
 </resources>

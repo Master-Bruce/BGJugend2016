@@ -14,10 +14,8 @@ import android.widget.TimePicker
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.helper.InfoDialogPreference
 import de.schiewe.volker.bgjugend2016.helper.TimePreference
+import de.schiewe.volker.bgjugend2016.validateDateString
 import kotlinx.android.synthetic.main.pref_screen.*
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener {
@@ -62,15 +60,15 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
                     val builder = AlertDialog.Builder(activity!!)
                     builder.setMessage(preference.dialogMessage)
                             .setTitle(preference.title)
-                            .setPositiveButton(preference.positiveButtonText, { dialogInterface: DialogInterface, _: Int -> dialogInterface.dismiss() })
+                            .setPositiveButton(preference.positiveButtonText)
+                            { dialogInterface: DialogInterface, _: Int -> dialogInterface.dismiss() }
                     val dialog = builder.create()
                     dialog.show()
                 }
                 is TimePreference -> {
-                    val onTimeSetListener = TimePickerDialog.OnTimeSetListener(
-                            { _: TimePicker?, hourOfDay: Int, minute: Int ->
-                                preference.setTime(hourOfDay, minute)
-                            })
+                    val onTimeSetListener = TimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
+                        preference.setTime(hourOfDay, minute)
+                    }
                     val dialog = TimePickerDialog(activity, onTimeSetListener, preference.getHour(), preference.getMinute(), true)
                     dialog.show()
                 }
@@ -85,12 +83,10 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
         if (preference != null) {
             when (preference.key) {
                 getString(R.string.birthday_key) -> {
-                    return try {
-                        val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
-                        sdf.parse(newValue as String?)
+                    return if (validateDateString(newValue as String)) {
                         preference.summary = newValue
                         true
-                    } catch (pe: ParseException) {
+                    } else {
                         if (view != null)
                             Snackbar.make(view!!, getString(R.string.wrong_date_format), Snackbar.LENGTH_LONG).show()
                         false

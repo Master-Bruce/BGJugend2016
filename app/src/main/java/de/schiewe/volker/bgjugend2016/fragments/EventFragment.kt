@@ -2,28 +2,30 @@ package de.schiewe.volker.bgjugend2016.fragments
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.preference.PreferenceManager
 import android.view.*
 import android.widget.ImageView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.firebase.storage.FirebaseStorage
-import de.schiewe.volker.bgjugend2016.R
-import de.schiewe.volker.bgjugend2016.addEventToCalender
+import de.schiewe.volker.bgjugend2016.*
+import de.schiewe.volker.bgjugend2016.helper.AppBarStateChangeListener
 import de.schiewe.volker.bgjugend2016.helper.GlideApp
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
 import de.schiewe.volker.bgjugend2016.models.Event
-import de.schiewe.volker.bgjugend2016.openPlaceOnMap
-import de.schiewe.volker.bgjugend2016.shareEvent
 import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_event.*
 
 
-class EventFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
+class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottomSheet.UserDataSubmitListener {
+
     private var event: Event? = null
     private var menu: Menu? = null
     private var menuItems: List<Int> = listOf(R.id.menu_register, R.id.menu_notification, R.id.menu_calender, R.id.menu_map, R.id.menu_share)
@@ -72,9 +74,9 @@ class EventFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
             contact_phone.text = event!!.contact?.telephone ?: ""
             contact_mail.text = event!!.contact?.mail ?: ""
         }
-        fab_register.setOnClickListener({ registerForEvent() })
-        button_register.setOnClickListener({ registerForEvent() })
-        place_text.setOnClickListener({ openMap() })
+        fab_register.setOnClickListener { onRegisterClick() }
+        button_register.setOnClickListener { onRegisterClick() }
+        place_text.setOnClickListener { openMap() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -115,7 +117,7 @@ class EventFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
                 this.openMap()
             }
             R.id.menu_register -> {
-                this.registerForEvent()
+                this.onRegisterClick()
             }
             R.id.menu_share -> {
                 if (event != null && activity != null)
@@ -125,9 +127,9 @@ class EventFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-        val scrollRange = appBarLayout!!.totalScrollRange
-        if (scrollRange + verticalOffset == 0) {
+    override var mCurrentState: AppBarStateChangeListener.State = AppBarStateChangeListener.State.IDLE
+    override fun onStateChanged(appBarLayout: AppBarLayout?, state: AppBarStateChangeListener.State) {
+        if (state == AppBarStateChangeListener.State.COLLAPSED) {
             changeMenuVisibility(true)
         } else {
             changeMenuVisibility(false)
@@ -138,19 +140,35 @@ class EventFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
         if (menu != null) {
             for (itemId in this.menuItems) {
                 val item = menu!!.findItem(itemId)
-                item.isVisible = visibility
+                val showAsAction = if (visibility) MenuItem.SHOW_AS_ACTION_IF_ROOM else MenuItem.SHOW_AS_ACTION_NEVER
+                item.setShowAsAction(showAsAction)
+
+                if (itemId == R.id.menu_register)
+                    item.isVisible = visibility
             }
         }
-    }
-
-    private fun registerForEvent() {
-        // TODO let user insert his data if necessary
-        // TODO open registration mail
     }
 
     private fun openMap() {
         if (event != null && activity != null)
             openPlaceOnMap(activity!!, event!!.place)
+    }
+
+    private fun onRegisterClick() {
+        UserDataModalBottomSheet().show(childFragmentManager, USER_DATA_BOTTOM_SHEET)
+    }
+
+    override fun onUserDataSubmit() {
+        (childFragmentManager.findFragmentByTag(USER_DATA_BOTTOM_SHEET) as UserDataModalBottomSheet).dismiss()
+        if (event == null)
+            return
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity)
+
+        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", event?.contact?.mail, null))
+        // TODO correct grammar
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Anmeldung für ${event?.title}")
+        emailIntent.putExtra(Intent.EXTRA_TEXT, generateMailText(activity!!, event!!, sharedPrefs))
+        startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
     }
 
     companion object {
