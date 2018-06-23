@@ -44,7 +44,7 @@ class BootReceiver : BroadcastReceiver() {
                                                                     eventList.add(event!!)
                                                                 }
                                                                 val notifications = NotificationHelper(context)
-                                                                notifications.restoreNotifactions(eventList)
+                                                                notifications.restoreNotifications(eventList)
                                                             }
                                                         }
 

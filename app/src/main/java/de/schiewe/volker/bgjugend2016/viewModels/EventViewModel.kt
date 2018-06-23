@@ -27,20 +27,20 @@ class EventViewModel : ViewModel() {
         }
 
     init {
-        baseEvents.addSource(events, { events ->
+        baseEvents.addSource(events) { events ->
             if (infos.value != null)
                 baseEvents.value = events as List<BaseEvent> + infos.value as List<BaseEvent>
             else
                 baseEvents.value = events
-        })
+        }
 
-        baseEvents.addSource(infos, { infos ->
+        baseEvents.addSource(infos) { infos ->
             if (events.value != null)
                 baseEvents.value = infos as List<BaseEvent> + events.value as List<BaseEvent>
             else
                 baseEvents.value = infos
 
-        })
+        }
     }
 
     private fun initFirebaseListeners() {

@@ -13,11 +13,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import de.schiewe.volker.bgjugend2016.R
+import de.schiewe.volker.bgjugend2016.helper.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.helper.EventRecyclerViewAdapter
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
-import de.schiewe.volker.bgjugend2016.models.GeneralData
-import de.schiewe.volker.bgjugend2016.viewModels.EventViewModel
-import de.schiewe.volker.bgjugend2016.viewModels.GeneralDataViewModel
 import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_event_list.*
 
@@ -33,15 +31,8 @@ class EventListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).setSupportActionBar(toolbar as Toolbar)
         (toolbar as Toolbar).title = getString(R.string.title_events)
-        val eventViewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
-        val generalDataViewModel = ViewModelProviders.of(activity!!).get(GeneralDataViewModel::class.java)
-        val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
 
-        generalDataViewModel.getGeneralData().observe(this, Observer { generalData: GeneralData? ->
-            if (generalData != null) {
-                eventViewModel.databaseName = generalData.currentDatabaseName
-            }
-        })
+        val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
         val adapter = EventRecyclerViewAdapter(listOf(), itemSelectedListener, sharedViewModel, sharedPref,
@@ -53,10 +44,11 @@ class EventListFragment : Fragment() {
 
         filter_button.setOnClickListener({ _ -> itemSelectedListener?.onFilterButtonClicked() })
         // Set the adapter
+        val databaseHelper = DatabaseHelper(activity!!)
         with(list) {
             this.layoutManager = LinearLayoutManager(context)
             this.adapter = adapter
-            eventViewModel.getEvents().observe(this@EventListFragment, Observer<List<BaseEvent>> { events ->
+            databaseHelper.getEvents().observe(this@EventListFragment, Observer<List<BaseEvent>> { events ->
                 (adapter).setEvents(events!!)
             })
         }

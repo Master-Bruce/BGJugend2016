@@ -26,9 +26,11 @@ const val DATE_NOTIFICATION: Int = 1
 class NotificationHelper(val context: Context) {
     private val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
 
-    fun restoreNotifactions(eventList: List<Event>) {
-        for (event in eventList){
-            if (sharedPref.getBoolean(NOTIFICATION_KEY_PREFIX + event.pk, false)){
+    fun restoreNotifications(eventList: List<Event>, deleteFirst: Boolean = false) {
+        for (event in eventList) {
+            if (sharedPref.getBoolean(NOTIFICATION_KEY_PREFIX + event.pk, false)) {
+                if (deleteFirst)
+                    setNotification(event, false)
                 setNotification(event, true)
             }
         }
@@ -44,7 +46,7 @@ class NotificationHelper(val context: Context) {
             else
                 notificationSet
         } else {
-            this.cancelNotification(event)
+            this.cancelNotification(event.pk)
             true
         }
         if (returnValue)
@@ -86,16 +88,16 @@ class NotificationHelper(val context: Context) {
         return false
     }
 
-    private fun cancelNotification(event: Event) {
+    private fun cancelNotification(eventId: Int) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val receiverIntent = Intent(context, NotificationReceiver::class.java)
 
         // cancel notification on date
-        var pendingIntent = PendingIntent.getBroadcast(context, event.pk, receiverIntent, 0)
+        var pendingIntent = PendingIntent.getBroadcast(context, eventId, receiverIntent, 0)
         alarmManager.cancel(pendingIntent)
 
         // cancel notification on deadline
-        pendingIntent = PendingIntent.getBroadcast(context, 100 + event.pk, receiverIntent, 0)
+        pendingIntent = PendingIntent.getBroadcast(context, 100 + eventId, receiverIntent, 0)
         alarmManager.cancel(pendingIntent)
 
     }
