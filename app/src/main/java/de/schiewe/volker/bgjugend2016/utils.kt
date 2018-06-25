@@ -69,6 +69,7 @@ fun isNewVersion(sharedPrefs: SharedPreferences, lastVersionKey: String): Boolea
 }
 
 fun migrateToCurrentVersion(context: Context) {
+    //TODO set only when preference is empty
     val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
     with(sharedPref.edit()) {
         // migrate notification settings

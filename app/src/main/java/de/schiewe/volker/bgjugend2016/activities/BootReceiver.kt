@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import de.schiewe.volker.bgjugend2016.helper.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.GeneralData
@@ -25,7 +25,7 @@ class BootReceiver : BroadcastReceiver() {
         if (context == null)
             return
         var generalData: GeneralData?
-        FirebaseDatabase.getInstance()
+        DatabaseHelper.getDatabase()
                 .getReference("generalData")
                 .addValueEventListener(
                         object : ValueEventListener {
@@ -33,7 +33,7 @@ class BootReceiver : BroadcastReceiver() {
                                 if (dataSnapshot.exists()) {
                                     generalData = dataSnapshot.getValue(GeneralData::class.java)
                                     val databaseName = generalData?.currentDatabaseName
-                                    FirebaseDatabase.getInstance().getReference("$databaseName/$EVENT_REFERENCE")
+                                    DatabaseHelper.getDatabase().getReference("$databaseName/$EVENT_REFERENCE")
                                             .addValueEventListener(
                                                     object : ValueEventListener {
                                                         override fun onDataChange(dataSnapshot: DataSnapshot) {

@@ -117,7 +117,7 @@ class EventRecyclerViewAdapter(
                 if (age != -1 && item.minAge!! > age || item.maxAge!! < age)
                     shouldAddItem = false
             }
-            if (!sharedPref.getBoolean(filterOldEventsKey, true) && item.endDate!! < Date().time)
+            if (!sharedPref.getBoolean(filterOldEventsKey, true) && item.endDate != null && item.endDate!! < Date().time)
                 shouldAddItem = false
 
             if (shouldAddItem)

@@ -13,8 +13,8 @@ android {
         applicationId "de.schiewe.volker.bgjugend2016"
         minSdkVersion 18
         targetSdkVersion 27
-        versionCode 300
-        versionName "3.0.0"
+        versionCode 302
+        versionName "3.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

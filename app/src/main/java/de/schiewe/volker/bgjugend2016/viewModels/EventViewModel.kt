@@ -7,8 +7,8 @@ import android.arch.lifecycle.ViewModel
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import de.schiewe.volker.bgjugend2016.helper.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info
@@ -46,7 +46,7 @@ class EventViewModel : ViewModel() {
     }
 
     private fun initFirebaseListeners() {
-        FirebaseDatabase.getInstance().getReference("${this.databaseName}/$EVENT_REFERENCE")
+        DatabaseHelper.getDatabase().getReference("${this.databaseName}/$EVENT_REFERENCE")
                 .addValueEventListener(
                         object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -70,7 +70,7 @@ class EventViewModel : ViewModel() {
                             }
                         }
                 )
-        FirebaseDatabase.getInstance().getReference("${this.databaseName}/$INFO_REFERENCE")
+        DatabaseHelper.getDatabase().getReference("${this.databaseName}/$INFO_REFERENCE")
                 .addValueEventListener(
                         object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {

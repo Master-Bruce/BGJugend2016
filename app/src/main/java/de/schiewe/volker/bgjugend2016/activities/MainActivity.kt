@@ -1,15 +1,20 @@
 package de.schiewe.volker.bgjugend2016.activities
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.PreferenceManager
-import com.google.firebase.database.FirebaseDatabase
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.fragments.*
+import de.schiewe.volker.bgjugend2016.helper.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.isNewVersion
 import de.schiewe.volker.bgjugend2016.migrateToCurrentVersion
+import de.schiewe.volker.bgjugend2016.models.Event
+import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -23,6 +28,35 @@ class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedLi
         openFragment(eventFragment, true)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val intentData = intent.data
+        if (intentData is Uri){
+            // Deep Link handling
+            DatabaseHelper(this).getEvents().observe(this, Observer { events ->
+                val event = events?.single { event -> event is Event && Uri.parse(event.url) == intentData }
+                if (event != null){
+                    val sharedViewModel = ViewModelProviders.of(this).get(SharedViewModel::class.java)
+                    sharedViewModel.select(event as Event)
+                    openFragment(EventFragment.newInstance())
+                    DatabaseHelper(this).getEvents().removeObservers(this@MainActivity)
+                }
+            })
+        }
+
+        if (savedInstanceState == null) {
+            // Open default Fragment
+            openFragment(EventListFragment.newInstance())
+        }
+
+        if (isNewVersion(PreferenceManager.getDefaultSharedPreferences(this), getString(R.string.last_version_key))) {
+            migrateToCurrentVersion(this)
+        }
+
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -51,36 +85,5 @@ class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedLi
         if (addToBackStack)
             transaction.addToBackStack(null)
         transaction.commit()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        if (savedInstanceState == null) {
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true)
-            openFragment(EventListFragment.newInstance())
-        }
-
-        if (isNewVersion(PreferenceManager.getDefaultSharedPreferences(this), getString(R.string.last_version_key))) {
-                migrateToCurrentVersion(this)
-        }
-
-//        TODO REMOVE ME
-//        val notifications = NotificationHelper(this)
-//        val event = Event()
-//        event.pk = 1
-//        event.startDate = Calendar.getInstance().timeInMillis
-//        event.title = "Kinderrüsttage"
-//        val event2 = Event()
-//        event2.pk = 2
-//        event2.startDate = Calendar.getInstance().timeInMillis
-//        event2.title = "Herrnhaag"
-//        notifications.setNotification(event, true)
-//        notifications.setNotification(event2, true)
-//        notifications.setNotification(event, false)
-
-
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 }

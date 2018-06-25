@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.FragmentActivity
+import com.google.firebase.database.FirebaseDatabase
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.GeneralData
 import de.schiewe.volker.bgjugend2016.viewModels.EventViewModel
@@ -26,4 +27,17 @@ class DatabaseHelper(private val context: FragmentActivity) {
         val generalDataViewModel = ViewModelProviders.of(context).get(GeneralDataViewModel::class.java)
         return generalDataViewModel.getGeneralData()
     }
+
+
+    companion object {
+        var mDatabase: FirebaseDatabase? = null
+        fun getDatabase(): FirebaseDatabase {
+            if (mDatabase == null) {
+                mDatabase = FirebaseDatabase.getInstance()
+                mDatabase!!.setPersistenceEnabled(true)
+            }
+            return mDatabase!!
+        }
+    }
 }
+
