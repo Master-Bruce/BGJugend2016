@@ -19,8 +19,10 @@ class Event : BaseEvent() {
     var text: String = ""
     var minAge: Int? = null
     var maxAge: Int? = null
+    var ageText: String? = null
     var peopleNumber: Int? = null
     var cost: Int? = null
+    var costText: String? = null
     var deadline: Long? = null
     var team: String = ""
     val contact: Contact? = null
@@ -28,13 +30,18 @@ class Event : BaseEvent() {
     var url: String = ""
 
     fun ageString(): String {
+        if (this.ageText != null)
+            return this.ageText!!
         if (this.maxAge == null)
             return "ab ${this.minAge} Jahren"
         return "von ${this.minAge} bis ${this.maxAge} Jahren"
     }
 
     fun costString(): String {
-        return "${this.cost} €"
+        var text = "${this.cost} € "
+        if (this.costText != null)
+            text += this.costText
+        return text
     }
 
     fun deadlineString(): String {

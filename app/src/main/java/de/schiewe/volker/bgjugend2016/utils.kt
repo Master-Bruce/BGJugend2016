@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.provider.CalendarContract
+import android.support.v4.widget.CircularProgressDrawable
 import android.support.v7.preference.PreferenceManager
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
@@ -140,5 +141,14 @@ fun validateDateString(date: String): Boolean {
     } catch (e: ParseException) {
         false
     }
+}
 
+fun getProgressBar(context: Context, stroke: Float, radius: Float): CircularProgressDrawable {
+    val circularProgressDrawable = CircularProgressDrawable(context)
+    circularProgressDrawable.strokeWidth = stroke
+    circularProgressDrawable.centerRadius = radius
+    circularProgressDrawable.setColorSchemeColors(context.resources.getColor(R.color.white))
+    circularProgressDrawable.start()
+
+    return circularProgressDrawable
 }

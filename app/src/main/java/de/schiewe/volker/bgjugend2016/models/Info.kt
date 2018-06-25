@@ -1,6 +1,6 @@
 package de.schiewe.volker.bgjugend2016.models
 
-class Info: BaseEvent(){
+class Info : BaseEvent() {
     override var title: String = ""
     override var startDate: Long? = null
     override var endDate: Long? = null
@@ -8,5 +8,6 @@ class Info: BaseEvent(){
 
     var who: String = ""
     var regestration: String = ""
+    var dateText: String? = null
 
 }

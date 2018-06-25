@@ -26,7 +26,7 @@ class InfoFragment : Fragment() {
         (toolbar as Toolbar).title = getString(R.string.title_informations)
         val databaseHelper = DatabaseHelper(activity!!)
 
-        val adapter = YouthWorkerRecyclerViewAdapter(listOf())
+        val adapter = YouthWorkerRecyclerViewAdapter(listOf(), context)
         with(list_youth_worker) {
             this.layoutManager = StaticGridLayoutManager(context, 2)
 

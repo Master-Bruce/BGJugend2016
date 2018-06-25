@@ -91,7 +91,8 @@ class EventRecyclerViewAdapter(
         holder.title.text = item.title
         holder.place.text = item.place
         holder.date.text = item.dateString()
-
+        if (item is Info && item.dateText != null)
+            holder.date.text = item.dateText
         with(holder.mView) {
             tag = item
             setOnClickListener(mOnClickListener)

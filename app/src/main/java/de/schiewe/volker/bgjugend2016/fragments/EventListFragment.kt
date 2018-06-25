@@ -31,7 +31,6 @@ class EventListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).setSupportActionBar(toolbar as Toolbar)
         (toolbar as Toolbar).title = getString(R.string.title_events)
-
         val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)

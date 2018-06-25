@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -16,6 +17,8 @@ const val EVENT_REFERENCE = "events"
 private const val INFO_REFERENCE = "infos"
 
 class EventViewModel : ViewModel() {
+    private val TAG: String = this.javaClass.name
+
     private var baseEvents: MediatorLiveData<List<BaseEvent>> = MediatorLiveData()
     private var events: MutableLiveData<List<Event>> = MutableLiveData()
     private var infos: MutableLiveData<List<Info>> = MutableLiveData()
@@ -39,7 +42,6 @@ class EventViewModel : ViewModel() {
                 baseEvents.value = infos as List<BaseEvent> + events.value as List<BaseEvent>
             else
                 baseEvents.value = infos
-
         }
     }
 
@@ -51,8 +53,12 @@ class EventViewModel : ViewModel() {
                                 if (dataSnapshot.exists()) {
                                     val eventList: MutableList<Event> = mutableListOf()
                                     dataSnapshot.children.forEach {
-                                        val event: Event? = it.getValue(Event::class.java)
-                                        eventList.add(event!!)
+                                        try {
+                                            val event: Event? = it.getValue(Event::class.java)
+                                            eventList.add(event!!)
+                                        } catch (e: Exception) {
+                                            Log.d(TAG, "Event could not be parsed (key: ${it.key}, Exception: $e)")
+                                        }
                                     }
                                     events.value = eventList
                                 }
@@ -71,8 +77,12 @@ class EventViewModel : ViewModel() {
                                 if (dataSnapshot.exists()) {
                                     val infoList: MutableList<Info> = mutableListOf()
                                     dataSnapshot.children.forEach {
-                                        val info: Info? = it.getValue(Info::class.java)
-                                        infoList.add(info!!)
+                                        try {
+                                            val info: Info? = it.getValue(Info::class.java)
+                                            infoList.add(info!!)
+                                        } catch (e: Exception) {
+                                            Log.d(TAG, "Info could not be parsed (key: ${it.key}, Exception: $e)")
+                                        }
                                     }
                                     infos.value = infoList
                                 }

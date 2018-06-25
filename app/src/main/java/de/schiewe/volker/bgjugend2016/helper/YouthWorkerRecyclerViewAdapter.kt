@@ -1,19 +1,21 @@
 package de.schiewe.volker.bgjugend2016.helper
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.getByteArrayFromBase64
+import de.schiewe.volker.bgjugend2016.getProgressBar
 import de.schiewe.volker.bgjugend2016.models.Contact
 import kotlinx.android.synthetic.main.item_youth_worker.view.*
 
 class YouthWorkerRecyclerViewAdapter(
-        private var mValues: List<Contact>
+        private var mValues: List<Contact>,
+        private val context: Context?
 ) : RecyclerView.Adapter<YouthWorkerRecyclerViewAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -22,10 +24,13 @@ class YouthWorkerRecyclerViewAdapter(
         holder.address.text = item.formattedAddress()
         holder.phone.text = item.telephone
         holder.mail.text = item.mail
-        if (item.image != "")
-            Glide.with(holder.view)
+        if (item.image != "" && context != null) {
+            val progressbar = getProgressBar(context, 5f, 50f)
+            GlideApp.with(holder.view)
                     .load(getByteArrayFromBase64(item.image))
+                    .placeholder(progressbar)
                     .into(holder.image)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_event.*
 
 
 class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottomSheet.UserDataSubmitListener {
-
+    private val TAG = this.javaClass.simpleName
     private var event: Event? = null
     private var menu: Menu? = null
     private var menuItems: List<Int> = listOf(R.id.menu_register, R.id.menu_notification, R.id.menu_calender, R.id.menu_map, R.id.menu_share)
@@ -34,21 +34,10 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_event, container, false)
-        val storageReference: FirebaseStorage = FirebaseStorage.getInstance()
 
         val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
         sharedViewModel.getSelected().observe(activity!!, Observer { item ->
             event = item
-            storageReference.getReference("event_img/${event!!.imagePath}").downloadUrl.addOnSuccessListener { uri ->
-                val eventImage = rootView.findViewById<ImageView>(R.id.event_image)
-                GlideApp.with(this@EventFragment)
-                        .load(uri)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .placeholder(R.drawable.placeholder)
-                        .transition(DrawableTransitionOptions.withCrossFade(2000))
-                        .into(eventImage)
-
-            }
         })
         return rootView
     }
@@ -57,6 +46,7 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
         (activity as AppCompatActivity).setSupportActionBar(event_toolbar)
         setHasOptionsMenu(true)
         main_appbar.addOnOffsetChangedListener(this)
+        val storage: FirebaseStorage = FirebaseStorage.getInstance()
 
         if (event != null) {
             event_toolbar.title = event!!.title
@@ -73,6 +63,18 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
             contact_address.text = event!!.contact?.formattedAddress() ?: ""
             contact_phone.text = event!!.contact?.telephone ?: ""
             contact_mail.text = event!!.contact?.mail ?: ""
+
+            val imageReference = storage.getReference("event_img/${event!!.imagePath}")
+            val eventImage = view.findViewById<ImageView>(R.id.event_image)
+
+            GlideApp.with(this@EventFragment)
+                    .load(imageReference)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(getProgressBar(activity!!, 10f, 100f))
+                    .transition(DrawableTransitionOptions.withCrossFade(300))
+                    .error(R.drawable.youth_sheep)
+                    .into(eventImage)
+
         }
         fab_register.setOnClickListener { onRegisterClick() }
         button_register.setOnClickListener { onRegisterClick() }
