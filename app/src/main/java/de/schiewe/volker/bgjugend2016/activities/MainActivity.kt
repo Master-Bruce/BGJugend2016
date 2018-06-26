@@ -2,12 +2,14 @@ package de.schiewe.volker.bgjugend2016.activities
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.PreferenceManager
+import android.view.MenuItem
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.fragments.*
 import de.schiewe.volker.bgjugend2016.helper.DatabaseHelper
@@ -18,32 +20,16 @@ import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedListener {
-    override fun onFilterButtonClicked() {
-        FilterModalBottomSheet().show(supportFragmentManager!!, "Sheet")
-    }
-
-    override fun onEventSelected() {
-        val eventFragment = EventFragment.newInstance()
-        openFragment(eventFragment, true)
-    }
+class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val intentData = intent.data
-        if (intentData is Uri){
-            // Deep Link handling
-            DatabaseHelper(this).getEvents().observe(this, Observer { events ->
-                val event = events?.single { event -> event is Event && Uri.parse(event.url) == intentData }
-                if (event != null){
-                    val sharedViewModel = ViewModelProviders.of(this).get(SharedViewModel::class.java)
-                    sharedViewModel.select(event as Event)
-                    openFragment(EventFragment.newInstance())
-                    DatabaseHelper(this).getEvents().removeObservers(this@MainActivity)
-                }
-            })
+        if (intentData is Uri) {
+            // Deep Link and Notification click handling
+            handleIntentData(intentData)
         }
 
         if (savedInstanceState == null) {
@@ -55,28 +41,54 @@ class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedLi
             migrateToCurrentVersion(this)
         }
 
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.setOnNavigationItemSelectedListener(this)
     }
 
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    override fun onNewIntent(intent: Intent?) {
+        if (intent != null && intent.data is Uri)
+            handleIntentData(intent.data)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_events -> {
                 val eventFragment = EventListFragment.newInstance()
                 openFragment(eventFragment)
-                return@OnNavigationItemSelectedListener true
+                return true
             }
             R.id.navigation_info -> {
                 val infoFragment = InfoFragment.newInstance()
                 openFragment(infoFragment)
-                return@OnNavigationItemSelectedListener true
+                return true
             }
             R.id.navigation_settings -> {
                 val preferenceFragment = PreferenceFragment.newInstance()
                 openFragment(preferenceFragment)
-                return@OnNavigationItemSelectedListener true
+                return true
             }
         }
-        false
+        return false
+    }
+
+    override fun onFilterButtonClicked() {
+        FilterModalBottomSheet().show(supportFragmentManager!!, "Sheet")
+    }
+
+    override fun onEventSelected() {
+        val eventFragment = EventFragment.newInstance()
+        openFragment(eventFragment, true)
+    }
+
+    private fun handleIntentData(uri: Uri) {
+        DatabaseHelper(this).getEvents().observe(this, Observer { events ->
+            val event = events?.single { event -> event is Event && Uri.parse(event.url) == uri }
+            if (event != null) {
+                val sharedViewModel = ViewModelProviders.of(this).get(SharedViewModel::class.java)
+                sharedViewModel.select(event as Event)
+                openFragment(EventFragment.newInstance())
+                DatabaseHelper(this).getEvents().removeObservers(this@MainActivity)
+            }
+        })
     }
 
     private fun openFragment(fragment: Fragment, addToBackStack: Boolean = false) {

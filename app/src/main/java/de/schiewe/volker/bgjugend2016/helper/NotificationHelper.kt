@@ -7,10 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.media.RingtoneManager
+import android.net.Uri
 import android.preference.PreferenceManager
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.res.ResourcesCompat
 import de.schiewe.volker.bgjugend2016.R
+import de.schiewe.volker.bgjugend2016.activities.MainActivity
 import de.schiewe.volker.bgjugend2016.activities.NotificationReceiver
 import de.schiewe.volker.bgjugend2016.models.Event
 import java.util.*
@@ -139,6 +141,10 @@ class NotificationHelper(val context: Context) {
     }
 
     private fun buildNotification(event: Event, type: Int): Notification {
+        val resultIntent = Intent(context, MainActivity::class.java)
+        resultIntent.data = Uri.parse(event.url)
+        val resultPendingIntent = PendingIntent.getActivity(context, type, resultIntent, PendingIntent.FLAG_ONE_SHOT)
+
         val builder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
                 .setContentTitle(event.title)
                 .setContentText(createNotificationText(type))
@@ -146,6 +152,8 @@ class NotificationHelper(val context: Context) {
                 .setSmallIcon(R.drawable.ic_notication)
                 .setLargeIcon((ResourcesCompat.getDrawable(context.resources, R.drawable.youth_sheep, null) as BitmapDrawable).bitmap)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setContentIntent(resultPendingIntent)
+
         return builder.build()
     }
 
