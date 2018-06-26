@@ -1,4 +1,4 @@
-package de.schiewe.volker.bgjugend2016.helper
+package de.schiewe.volker.bgjugend2016.layout
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -10,6 +10,7 @@ import android.widget.TextView
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.getByteArrayFromBase64
 import de.schiewe.volker.bgjugend2016.getProgressBar
+import de.schiewe.volker.bgjugend2016.helper.GlideApp
 import de.schiewe.volker.bgjugend2016.models.Contact
 import kotlinx.android.synthetic.main.item_youth_worker.view.*
 

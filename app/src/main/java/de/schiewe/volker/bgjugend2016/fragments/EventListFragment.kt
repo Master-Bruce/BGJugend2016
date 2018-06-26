@@ -13,10 +13,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import de.schiewe.volker.bgjugend2016.R
-import de.schiewe.volker.bgjugend2016.helper.DatabaseHelper
-import de.schiewe.volker.bgjugend2016.helper.EventRecyclerViewAdapter
+import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
+import de.schiewe.volker.bgjugend2016.layout.EventRecyclerViewAdapter
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
-import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
+import de.schiewe.volker.bgjugend2016.views.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_event_list.*
 
 

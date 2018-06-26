@@ -1,4 +1,4 @@
-package de.schiewe.volker.bgjugend2016.viewModels
+package de.schiewe.volker.bgjugend2016.views
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData

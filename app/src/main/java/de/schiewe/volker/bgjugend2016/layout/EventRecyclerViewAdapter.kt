@@ -1,4 +1,4 @@
-package de.schiewe.volker.bgjugend2016.helper
+package de.schiewe.volker.bgjugend2016.layout
 
 import android.content.SharedPreferences
 import android.support.v7.widget.RecyclerView
@@ -14,7 +14,7 @@ import de.schiewe.volker.bgjugend2016.getAge
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info
-import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
+import de.schiewe.volker.bgjugend2016.views.SharedViewModel
 
 import kotlinx.android.synthetic.main.item_event.view.*
 import java.util.*

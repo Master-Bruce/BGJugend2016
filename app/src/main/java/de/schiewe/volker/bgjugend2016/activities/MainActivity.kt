@@ -12,12 +12,12 @@ import android.support.v7.preference.PreferenceManager
 import android.view.MenuItem
 import com.facebook.drawee.backends.pipeline.Fresco
 import de.schiewe.volker.bgjugend2016.R
+import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.fragments.*
-import de.schiewe.volker.bgjugend2016.helper.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.isNewVersion
 import de.schiewe.volker.bgjugend2016.migrateToCurrentVersion
 import de.schiewe.volker.bgjugend2016.models.Event
-import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
+import de.schiewe.volker.bgjugend2016.views.SharedViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 

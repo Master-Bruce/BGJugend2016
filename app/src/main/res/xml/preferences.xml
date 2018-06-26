@@ -21,7 +21,7 @@
             android:key="@string/notification_day_key"
             android:title="@string/notification_day" />
 
-        <de.schiewe.volker.bgjugend2016.helper.TimePreference
+        <de.schiewe.volker.bgjugend2016.views.TimePreference
             android:key="@string/notification_time_key"
             android:title="@string/notification_time" />
     </PreferenceCategory>
@@ -78,12 +78,12 @@
             android:key="@string/version_key"
             android:title="Jugendarbeit BG" />
 
-        <de.schiewe.volker.bgjugend2016.helper.InfoDialogPreference
+        <de.schiewe.volker.bgjugend2016.views.InfoDialogPreference
             android:dialogMessage="@string/privacy_text"
             android:positiveButtonText="OK"
             android:title="Was passiert mit meinen Daten?" />
 
-        <de.schiewe.volker.bgjugend2016.helper.InfoDialogPreference
+        <de.schiewe.volker.bgjugend2016.views.InfoDialogPreference
             android:dialogMessage="@string/internet_text"
             android:positiveButtonText="OK"
             android:title="Wieso brauche ich Internet?" />

@@ -1,4 +1,4 @@
-package de.schiewe.volker.bgjugend2016.helper
+package de.schiewe.volker.bgjugend2016.database
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentActivity
 import com.google.firebase.database.FirebaseDatabase
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.GeneralData
-import de.schiewe.volker.bgjugend2016.viewModels.EventViewModel
-import de.schiewe.volker.bgjugend2016.viewModels.GeneralDataViewModel
 
 class DatabaseHelper(private val context: FragmentActivity) {
 

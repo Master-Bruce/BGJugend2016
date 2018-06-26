@@ -15,12 +15,12 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.TimePicker
 import de.schiewe.volker.bgjugend2016.R
-import de.schiewe.volker.bgjugend2016.helper.DatabaseHelper
-import de.schiewe.volker.bgjugend2016.helper.InfoDialogPreference
+import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
-import de.schiewe.volker.bgjugend2016.helper.TimePreference
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.validateDateString
+import de.schiewe.volker.bgjugend2016.views.InfoDialogPreference
+import de.schiewe.volker.bgjugend2016.views.TimePreference
 import kotlinx.android.synthetic.main.pref_screen.*
 
 

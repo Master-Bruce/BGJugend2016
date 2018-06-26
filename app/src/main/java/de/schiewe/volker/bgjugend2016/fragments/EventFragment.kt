@@ -20,11 +20,11 @@ import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.google.firebase.storage.FirebaseStorage
 import com.stfalcon.frescoimageviewer.ImageViewer
 import de.schiewe.volker.bgjugend2016.*
-import de.schiewe.volker.bgjugend2016.helper.AppBarStateChangeListener
 import de.schiewe.volker.bgjugend2016.helper.GlideApp
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
+import de.schiewe.volker.bgjugend2016.interfaces.AppBarStateChangeListener
 import de.schiewe.volker.bgjugend2016.models.Event
-import de.schiewe.volker.bgjugend2016.viewModels.SharedViewModel
+import de.schiewe.volker.bgjugend2016.views.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_event.*
 
 

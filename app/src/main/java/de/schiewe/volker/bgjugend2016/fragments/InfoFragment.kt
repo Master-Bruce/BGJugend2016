@@ -9,9 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 
 import de.schiewe.volker.bgjugend2016.R
-import de.schiewe.volker.bgjugend2016.helper.DatabaseHelper
-import de.schiewe.volker.bgjugend2016.helper.StaticGridLayoutManager
-import de.schiewe.volker.bgjugend2016.helper.YouthWorkerRecyclerViewAdapter
+import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
+import de.schiewe.volker.bgjugend2016.layout.StaticGridLayoutManager
+import de.schiewe.volker.bgjugend2016.layout.YouthWorkerRecyclerViewAdapter
 import de.schiewe.volker.bgjugend2016.models.GeneralData
 import kotlinx.android.synthetic.main.fragment_info.*
 

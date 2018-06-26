@@ -1,4 +1,4 @@
-package de.schiewe.volker.bgjugend2016.helper
+package de.schiewe.volker.bgjugend2016.interfaces
 
 import android.support.design.widget.AppBarLayout
 

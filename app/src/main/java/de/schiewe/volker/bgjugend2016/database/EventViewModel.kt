@@ -1,4 +1,4 @@
-package de.schiewe.volker.bgjugend2016.viewModels
+package de.schiewe.volker.bgjugend2016.database
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
@@ -8,7 +8,6 @@ import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import de.schiewe.volker.bgjugend2016.helper.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info

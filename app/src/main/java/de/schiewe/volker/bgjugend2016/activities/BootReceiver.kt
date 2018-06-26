@@ -7,11 +7,11 @@ import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import de.schiewe.volker.bgjugend2016.helper.DatabaseHelper
+import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
+import de.schiewe.volker.bgjugend2016.database.EVENT_REFERENCE
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.GeneralData
-import de.schiewe.volker.bgjugend2016.viewModels.EVENT_REFERENCE
 
 class BootReceiver : BroadcastReceiver() {
     private val TAG: String = this.javaClass.simpleName

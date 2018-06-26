@@ -1,4 +1,4 @@
-package de.schiewe.volker.bgjugend2016.helper
+package de.schiewe.volker.bgjugend2016.layout
 
 import android.content.Context
 import android.support.v7.widget.GridLayoutManager
