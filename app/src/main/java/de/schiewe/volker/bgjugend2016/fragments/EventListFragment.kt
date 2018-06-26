@@ -33,7 +33,7 @@ class EventListFragment : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         toolbar.title = getString(R.string.title_events)
         val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
-
+        event_list_progress.visibility = View.VISIBLE
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
         val adapter = EventRecyclerViewAdapter(listOf(), itemSelectedListener, sharedViewModel, sharedPref,
                 getString(R.string.filter_infos_key),
@@ -50,6 +50,7 @@ class EventListFragment : Fragment() {
             this.adapter = adapter
             databaseHelper.getEvents().observe(this@EventListFragment, Observer<List<BaseEvent>> { events ->
                 (adapter).setEvents(events!!)
+                event_list_progress.visibility = View.GONE
             })
         }
     }
