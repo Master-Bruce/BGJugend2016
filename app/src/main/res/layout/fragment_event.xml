@@ -35,7 +35,8 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:background="@color/colorAccent"
-                    app:layout_collapseMode="parallax" />
+                    app:layout_collapseMode="parallax"
+                    android:contentDescription="@string/event_image" />
 
                 <View
                     android:layout_width="match_parent"
@@ -211,7 +212,6 @@
 
 
                 <!-- Contact-->
-                <!--TODO remove textviews if data is empty-->
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/contact_container"
                     android:layout_width="match_parent"
@@ -265,7 +265,7 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Anmelden"
+                android:text="@string/register"
                 android:textColor="@color/colorPrimary" />
 
         </LinearLayout>

@@ -4,6 +4,8 @@ package de.schiewe.volker.bgjugend2016.fragments
 import android.app.TimePickerDialog
 import android.arch.lifecycle.Observer
 import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
@@ -22,7 +24,7 @@ import de.schiewe.volker.bgjugend2016.validateDateString
 import kotlinx.android.synthetic.main.pref_screen.*
 
 
-class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener {
+class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
     private val events: List<Event> = listOf()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -51,6 +53,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
             }
         }
         preferenceScreen.findPreference(getString(R.string.deadline_notification_key)).onPreferenceChangeListener = this
+        preferenceScreen.findPreference(getString(R.string.feedback_key)).onPreferenceClickListener = this
         preferenceScreen.findPreference(getString(R.string.version_key)).summary = activity?.packageManager?.getPackageInfo(activity?.packageName, 0)?.versionName ?: ""
     }
 
@@ -118,6 +121,22 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
         }
         return true
     }
+
+    override fun onPreferenceClick(preference: Preference?): Boolean {
+        if (preference == null)
+            return false
+
+        when (preference.key) {
+            getString(R.string.feedback_key) -> {
+                val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "volker.s1994@gmail.com", null))
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback zur EBU Jugend App")
+                startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
+                return true
+            }
+        }
+        return true
+    }
+
 
     private fun resetNotifications() {
         if (activity == null)

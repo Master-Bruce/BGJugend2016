@@ -10,8 +10,10 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.PreferenceManager
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
@@ -73,6 +75,8 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
             contact_phone.text = event!!.contact?.telephone ?: ""
             contact_mail.text = event!!.contact?.mail ?: ""
 
+            hideEmptyTextViews(listOf(contact_name, contact_address, contact_phone, contact_mail))
+
             val imageReference = storage.getReference("event_img/${event!!.imagePath}")
             val eventImage = view.findViewById<ImageView>(R.id.event_image)
 
@@ -88,14 +92,19 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
                 if (this.imageUrl == null)
                     return@setOnClickListener
 
-                val hierarchyBuilder = GenericDraweeHierarchyBuilder.newInstance(resources)
-                        .setProgressBarImage(getProgressBar(activity!!, 10f, 100f))
+                try {
+                    val hierarchyBuilder = GenericDraweeHierarchyBuilder.newInstance(resources)
+                            .setProgressBarImage(getProgressBar(activity!!, 10f, 100f))
 
-                ImageViewer.Builder(activity, mutableListOf(this.imageUrl!!))
-                        .setCustomDraweeHierarchyBuilder(hierarchyBuilder)
-                        .setStartPosition(0)
-                        .show()
+                    ImageViewer.Builder(activity, mutableListOf(this.imageUrl!!))
+                            .setCustomDraweeHierarchyBuilder(hierarchyBuilder)
+                            .setStartPosition(0)
+                            .show()
 
+                }
+                catch (e: Exception){
+                    Log.e(TAG, "Error on image clicked: $e")
+                }
             }
         }
 
@@ -194,6 +203,15 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Anmeldung für ${event?.title}")
         emailIntent.putExtra(Intent.EXTRA_TEXT, generateMailText(activity!!, event!!, sharedPrefs))
         startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
+    }
+
+    private fun hideEmptyTextViews(textViews: List<TextView>) {
+        for (textView in textViews) {
+            if (textView.text.trim() == "")
+                textView.visibility = View.GONE
+            else
+                textView.visibility = View.VISIBLE
+        }
     }
 
     companion object {

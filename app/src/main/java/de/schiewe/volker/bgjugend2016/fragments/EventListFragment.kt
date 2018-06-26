@@ -29,8 +29,9 @@ class EventListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as AppCompatActivity).setSupportActionBar(toolbar as Toolbar)
-        (toolbar as Toolbar).title = getString(R.string.title_events)
+        val toolbar = toolbar as Toolbar
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        toolbar.title = getString(R.string.title_events)
         val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
@@ -41,7 +42,7 @@ class EventListFragment : Fragment() {
                 getString(R.string.birthday_key)
         )
 
-        filter_button.setOnClickListener({ _ -> itemSelectedListener?.onFilterButtonClicked() })
+        filter_button.setOnClickListener { _ -> itemSelectedListener?.onFilterButtonClicked() }
         // Set the adapter
         val databaseHelper = DatabaseHelper(activity!!)
         with(list) {

@@ -89,7 +89,7 @@
             android:title="Wieso brauche ich Internet?" />
 
         <Preference
-            android:key="pref_feedback"
+            android:key="@string/feedback_key"
             android:summary="Created by Volker Schiewe"
             android:title="Feedback senden" />
 

@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.provider.CalendarContract
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.CircularProgressDrawable
 import android.support.v7.preference.PreferenceManager
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
@@ -69,23 +70,30 @@ fun isNewVersion(sharedPrefs: SharedPreferences, lastVersionKey: String): Boolea
 }
 
 fun migrateToCurrentVersion(context: Context) {
-    //TODO set only when preference is empty
     val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
     with(sharedPref.edit()) {
         // migrate notification settings
-        putBoolean(context.getString(R.string.deadline_notification_key), sharedPref.getBoolean("notifications_deadline", false))
-        putBoolean(context.getString(R.string.date_notification_key), sharedPref.getBoolean("notifications_date", false))
-        putString(context.getString(R.string.notification_day_key), sharedPref.getString("notification_list", "7"))
+        if (!sharedPref.contains(context.getString(R.string.deadline_notification_key)))
+            putBoolean(context.getString(R.string.deadline_notification_key), sharedPref.getBoolean("notifications_deadline", false))
+        if (!sharedPref.contains(context.getString(R.string.date_notification_key)))
+            putBoolean(context.getString(R.string.date_notification_key), sharedPref.getBoolean("notifications_date", false))
+        if (!sharedPref.contains(context.getString(R.string.notification_day_key)))
+            putString(context.getString(R.string.notification_day_key), sharedPref.getString("notification_list", "7"))
         val hourOfDay: String = sharedPref.getString("notification_time", "")
-        if (hourOfDay != "")
+        if (hourOfDay != "" && !sharedPref.contains(context.getString(R.string.notification_time_key)))
             putString(context.getString(R.string.notification_time_key), "$hourOfDay:00")
 
         // migrate user data
-        putString(context.getString(R.string.name_key), sharedPref.getString("pref_name", ""))
-        putString(context.getString(R.string.street_key), sharedPref.getString("pref_street", ""))
-        putString(context.getString(R.string.place_key), sharedPref.getString("pref_city", ""))
-        putString(context.getString(R.string.birthday_key), sharedPref.getString("pref_birthday", ""))
-        putString(context.getString(R.string.telephone_key), sharedPref.getString("pref_telephone", ""))
+        if (!sharedPref.contains(context.getString(R.string.name_key)))
+            putString(context.getString(R.string.name_key), sharedPref.getString("pref_name", ""))
+        if (!sharedPref.contains(context.getString(R.string.street_key)))
+            putString(context.getString(R.string.street_key), sharedPref.getString("pref_street", ""))
+        if (!sharedPref.contains(context.getString(R.string.place_key)))
+            putString(context.getString(R.string.place_key), sharedPref.getString("pref_city", ""))
+        if (!sharedPref.contains(context.getString(R.string.birthday_key)))
+            putString(context.getString(R.string.birthday_key), sharedPref.getString("pref_birthday", ""))
+        if (!sharedPref.contains(context.getString(R.string.telephone_key)))
+            putString(context.getString(R.string.telephone_key), sharedPref.getString("pref_telephone", ""))
         apply()
     }
 }
@@ -148,7 +156,7 @@ fun getProgressBar(context: Context, stroke: Float, radius: Float): CircularProg
     val circularProgressDrawable = CircularProgressDrawable(context)
     circularProgressDrawable.strokeWidth = stroke
     circularProgressDrawable.centerRadius = radius
-    circularProgressDrawable.setColorSchemeColors(context.resources.getColor(R.color.white))
+    circularProgressDrawable.setColorSchemeColors(ContextCompat.getColor(context, R.color.white))
     circularProgressDrawable.start()
 
     return circularProgressDrawable

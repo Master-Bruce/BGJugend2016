@@ -34,7 +34,7 @@ class InfoFragment : Fragment() {
             databaseHelper.getGeneralData().observe(this@InfoFragment, Observer { generalData: GeneralData? ->
                 if (generalData != null) {
                     (adapter).setYouthWorkers(generalData.professionals)
-                    youth_team.text = generalData.youthTeam
+                    youth_team.text = context.getString(R.string.current_youth_team, generalData.youthTeam)
                 }
             })
         }

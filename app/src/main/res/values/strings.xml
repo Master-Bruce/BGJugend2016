@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BGJugend2016</string>
+    <string name="app_name">EBU Jugend</string>
     <string name="title_events">Veranstaltungen</string>
     <string name="title_info">Info</string>
     <string name="title_informations">Informationen</string>
@@ -35,4 +35,8 @@
     <string name="input_plz_and_place">PLZ und Ort eingeben!</string>
     <string name="input_street">Straße eingeben!</string>
     <string name="input_name">Namen eingeben!</string>
+    <string name="feedback_key">FEEDBACK_KEY</string>
+    <string name="event_image">Veranstaltungsbild</string>
+    <string name="explanation_youth_team">Das Planungsteam ist ein Team, bestehend sowohl aus dem Jugendsynodalen, der auf sechs Jahre gewählt wird und die Jugend auf der Synode vertritt, als auch aus vier Jugendlichen, die von der Werkstatt für jeweils zwei Jahre gewählt werden.</string>
+    <string name="current_youth_team">Aktuell im PT: %1$s </string>
 </resources>
