@@ -30,6 +30,7 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
     private val TAG = this.javaClass.simpleName
     private var event: Event? = null
     private var menu: Menu? = null
+    private var imageUrl: Uri? = null
     private var menuItems: List<Int> = listOf(R.id.menu_register, R.id.menu_notification, R.id.menu_calender, R.id.menu_map, R.id.menu_share)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +41,13 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
         val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
         sharedViewModel.getSelected().observe(activity!!, Observer { item ->
             event = item
+            val storage: FirebaseStorage = FirebaseStorage.getInstance()
+            val imageReference = storage.getReference("event_img/${event!!.imagePath}")
+            imageReference.downloadUrl.addOnSuccessListener { url ->
+                this.imageUrl = url
+            }
         })
+
         return rootView
     }
 
@@ -78,16 +85,17 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
                     .into(eventImage)
 
             event_image.setOnClickListener { _: View? ->
-                imageReference.downloadUrl.addOnSuccessListener { url ->
-                    val list = mutableListOf<Uri>(url)
-                    val hierarchyBuilder = GenericDraweeHierarchyBuilder.newInstance(resources)
-                            .setProgressBarImage(getProgressBar(activity!!, 10f, 100f))
+                if (this.imageUrl == null)
+                    return@setOnClickListener
 
-                    ImageViewer.Builder(activity, list)
-                            .setCustomDraweeHierarchyBuilder(hierarchyBuilder)
-                            .setStartPosition(0)
-                            .show()
-                }
+                val hierarchyBuilder = GenericDraweeHierarchyBuilder.newInstance(resources)
+                        .setProgressBarImage(getProgressBar(activity!!, 10f, 100f))
+
+                ImageViewer.Builder(activity, mutableListOf(this.imageUrl!!))
+                        .setCustomDraweeHierarchyBuilder(hierarchyBuilder)
+                        .setStartPosition(0)
+                        .show()
+
             }
         }
 

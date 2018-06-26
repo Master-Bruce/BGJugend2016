@@ -31,7 +31,6 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:src="@drawable/ic_filter_black_24dp"
-            android:theme="@style/FloatingActionButtonTheme"
             app:fabSize="normal" />
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
