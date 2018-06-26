@@ -30,7 +30,7 @@ class DatabaseHelper(private val context: FragmentActivity) {
 
 
     companion object {
-        var mDatabase: FirebaseDatabase? = null
+        private var mDatabase: FirebaseDatabase? = null
         fun getDatabase(): FirebaseDatabase {
             if (mDatabase == null) {
                 mDatabase = FirebaseDatabase.getInstance()

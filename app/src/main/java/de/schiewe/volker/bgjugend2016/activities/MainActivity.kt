@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.PreferenceManager
 import android.view.MenuItem
+import com.facebook.drawee.backends.pipeline.Fresco
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.fragments.*
 import de.schiewe.volker.bgjugend2016.helper.DatabaseHelper
@@ -33,6 +34,8 @@ class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedLi
         }
 
         if (savedInstanceState == null) {
+            Fresco.initialize(this)
+
             // Open default Fragment
             openFragment(EventListFragment.newInstance())
         }

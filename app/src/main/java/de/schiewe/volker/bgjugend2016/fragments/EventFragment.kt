@@ -14,7 +14,9 @@ import android.view.*
 import android.widget.ImageView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.google.firebase.storage.FirebaseStorage
+import com.stfalcon.frescoimageviewer.ImageViewer
 import de.schiewe.volker.bgjugend2016.*
 import de.schiewe.volker.bgjugend2016.helper.AppBarStateChangeListener
 import de.schiewe.volker.bgjugend2016.helper.GlideApp
@@ -75,7 +77,20 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
                     .error(R.drawable.youth_sheep)
                     .into(eventImage)
 
+            event_image.setOnClickListener { _: View? ->
+                imageReference.downloadUrl.addOnSuccessListener { url ->
+                    val list = mutableListOf<Uri>(url)
+                    val hierarchyBuilder = GenericDraweeHierarchyBuilder.newInstance(resources)
+                            .setProgressBarImage(getProgressBar(activity!!, 10f, 100f))
+
+                    ImageViewer.Builder(activity, list)
+                            .setCustomDraweeHierarchyBuilder(hierarchyBuilder)
+                            .setStartPosition(0)
+                            .show()
+                }
+            }
         }
+
         fab_register.setOnClickListener { onRegisterClick() }
         button_register.setOnClickListener { onRegisterClick() }
         place_text.setOnClickListener { openMap() }
