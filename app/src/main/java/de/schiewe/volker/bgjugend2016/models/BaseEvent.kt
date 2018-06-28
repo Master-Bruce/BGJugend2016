@@ -11,10 +11,16 @@ open class BaseEvent : Comparable<BaseEvent> {
     open var startDate: Long? = null
     open var endDate: Long? = null
     open var place: String = ""
+    open var dateText: String? = null
 
     fun dateString(): String {
-        val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
-        return "${formatDate(this.startDate, sdf)} - ${formatDate(this.endDate, sdf)}"
+        if (this.dateText != null)
+            return this.dateText!!
+        if (startDate != null && endDate != null){
+            val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
+            return "${formatDate(this.startDate, sdf)} - ${formatDate(this.endDate, sdf)}"
+        }
+        return ""
     }
 
     companion object Factory {

@@ -131,6 +131,7 @@ fun generateMailText(context: Context, event: Event, sharedPrefs: SharedPreferen
     val city = sharedPrefs.getString(context.getString(R.string.place_key), "")
     val birthday = sharedPrefs.getString(context.getString(R.string.birthday_key), "")
     val telephone = sharedPrefs.getString(context.getString(R.string.telephone_key), "")
+    val nameString = if (name.split(" ").isNotEmpty()) name.split(" ")[0] else name
 
     return "Hallo $contactFirstName, \n" +
             "Ich möchte mich für die Veranstaltung ${event.title} vom ${event.dateString()} anmelden.\n\n" +
@@ -139,7 +140,7 @@ fun generateMailText(context: Context, event: Event, sharedPrefs: SharedPreferen
             "$city\n" +
             "$birthday\n" +
             "$telephone\n\n" +
-            "Viele Grüße\n ${name.split(" ")[0]}"
+            "Viele Grüße\n ${nameString}"
 }
 
 fun validateDateString(date: String): Boolean {

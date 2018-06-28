@@ -32,15 +32,19 @@ class Event : BaseEvent() {
     fun ageString(): String {
         if (this.ageText != null)
             return this.ageText!!
-        if (this.maxAge == null)
+        if (this.maxAge == null && this.minAge != null)
             return "ab ${this.minAge} Jahren"
-        return "von ${this.minAge} bis ${this.maxAge} Jahren"
+        else if (this.maxAge != null && this.minAge != null)
+            return "von ${this.minAge} bis ${this.maxAge} Jahren"
+        return ""
     }
 
     fun costString(): String {
-        var text = "${this.cost} € "
+        if (this.cost == null)
+            return ""
+        var text = "${this.cost} €"
         if (this.costText != null)
-            text += this.costText
+            text += " " + this.costText
         return text
     }
 
@@ -53,14 +57,6 @@ class Event : BaseEvent() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             return Html.fromHtml(this.text, Html.FROM_HTML_MODE_COMPACT)
         return Html.fromHtml(this.text)
-    }
-
-    fun getStartDateCalendar(): Calendar? {
-        if (this.startDate == null)
-            return null
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = this.startDate!!
-        return calendar
     }
 
     companion object Factory {
