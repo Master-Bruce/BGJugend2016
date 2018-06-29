@@ -1,14 +1,14 @@
 package de.schiewe.volker.bgjugend2016
 
-import android.content.Context
 import android.content.SharedPreferences
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import de.schiewe.volker.bgjugend2016.models.Contact
 import de.schiewe.volker.bgjugend2016.models.Event
+import de.schiewe.volker.bgjugend2016.models.UserData
 import org.junit.Assert
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,26 +30,6 @@ class UtilsUnitTest {
     }
 
     @Test
-    fun test_get_age_empty_string() {
-        Assert.assertEquals(-1, getAge("", Calendar.getInstance()))
-    }
-
-    @Test
-    fun test_get_age_correct_string() {
-        val calendar = Calendar.getInstance()
-        calendar.set(2018, 1, 1)
-        Assert.assertEquals(1, getAge("01.01.2017", calendar))
-        Assert.assertEquals(21, getAge("01.01.1997", calendar))
-    }
-
-    @Test
-    fun test_get_age_wrong_string() {
-        val calendar = Calendar.getInstance()
-        calendar.set(2018, 1, 1)
-        Assert.assertEquals(-1, getAge("Test", calendar))
-    }
-
-    @Test
     fun test_get_id_from_string() {
         var id = getIdFromString("Fußball Österreich")
         Assert.assertEquals("FUSSBALL_OESTERREICH", id)
@@ -59,24 +39,27 @@ class UtilsUnitTest {
 
     @Test
     fun test_is_new_version() {
-        val sharedPrefs = Mockito.mock(SharedPreferences::class.java)
-        Mockito.`when`(sharedPrefs.getInt(anyString(), anyInt())).thenReturn(BuildConfig.VERSION_CODE)
+        val sharedPrefs: SharedPreferences = mock()
+        whenever(sharedPrefs.getInt(any(), any())).thenReturn(BuildConfig.VERSION_CODE)
         val value = isNewVersion(sharedPrefs, "")
         Assert.assertFalse(value)
     }
 
     @Test
-    fun test_generate_mail_text(){
-        val sharedPrefs = Mockito.mock(SharedPreferences::class.java)
-        val context = Mockito.mock(Context::class.java)
-        val event = Mockito.mock(Event::class.java)
-        val contact = Mockito.mock(Contact::class.java)
-        Mockito.`when`(context.getString(anyInt())).thenReturn("Test")
-        Mockito.`when`(sharedPrefs.getString(anyString(), anyString())).thenReturn("Test test")
-        Mockito.`when`(event.title).thenReturn("Test test")
-        Mockito.`when`(event.dateString()).thenReturn("Test test")
-        Mockito.`when`(contact.name).thenReturn("Test test")
-        Mockito.`when`(event.contact).thenReturn(contact)
+    fun test_generate_mail_text() {
+        val event: Event = mock()
+        val contact: Contact = mock()
+        val user: UserData = mock()
+
+        whenever(event.title).thenReturn("Test test")
+        whenever(event.dateString()).thenReturn("Test test")
+        whenever(contact.name).thenReturn("Test test")
+        whenever(event.contact).thenReturn(contact)
+        whenever(user.name).thenReturn("Test test")
+        whenever(user.street).thenReturn("Test test")
+        whenever(user.place).thenReturn("Test test")
+        whenever(user.birthday).thenReturn("Test test")
+        whenever(user.telephone).thenReturn("Test test")
 
         val mailText = "Hallo Test, \n" +
                 "Ich möchte mich für die Veranstaltung Test test vom Test test anmelden.\n\n" +
@@ -87,23 +70,25 @@ class UtilsUnitTest {
                 "Test test\n\n" +
                 "Viele Grüße\n Test"
 
-        Assert.assertEquals(mailText, generateMailText(context, event, sharedPrefs))
+        Assert.assertEquals(mailText, generateMailText(event, user))
     }
 
     @Test
-    fun test_validate_date_string_true(){
+    fun test_validate_date_string_true() {
         val string = "12.12.2018"
         val result = validateDateString(string)
         Assert.assertTrue(result)
     }
+
     @Test
-    fun test_validate_date_string_false(){
+    fun test_validate_date_string_false() {
         val string = "12. Mai 2018"
         val result = validateDateString(string)
         Assert.assertFalse(result)
     }
+
     @Test
-    fun test_validate_date_string_empty(){
+    fun test_validate_date_string_empty() {
         val string = ""
         val result = validateDateString(string)
         Assert.assertFalse(result)

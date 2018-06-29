@@ -15,6 +15,7 @@
     <string name="notification_day_key">NOTIFIACTION_DAY_KEY</string>
     <string name="deadline_notification_key">DEADLINE_NOTIFICATION_KEY</string>
     <string name="date_notification_key">DATE_NOTIFICATION_KEY</string>
+    <string name="feedback_key">FEEDBACK_KEY</string>
 
     <string name="notification_day">Benachrichtigungstag</string>
     <string name="notification_time">Benachrichtigungszeit</string>
@@ -33,4 +34,11 @@
     <string name="privacy_text">Alle eingegebenen Daten werden lokal auf dem Gerät gespeichert. \nSie werden ausschließlich dazu verwendet dem Nutzer Funktionen zur Verfügung zu stellen und Arbeit abzunehmen.</string>
     <string name="internet_text">Die Daten der Veranstaltungen sind auf einem Server gespeichert. Immer wenn Du die App öffnest wird geprüft, ob es Aktualisierungen gibt. Trotzdem ist die App mit all ihren Funktionen offline nutzbar.</string>
     <string name="missing_birthday">Du musst erst deinen Geburtstag in den Einstellungen speichern.</string>
+
+    <string name="feedback_to_app">Feedback zur EBU Jugend App</string>
+
+    <plurals name="days_previously">
+        <item quantity="one">%1$s Tag davor</item>
+        <item quantity="other">%1$s Tage davor</item>
+    </plurals>
 </resources>

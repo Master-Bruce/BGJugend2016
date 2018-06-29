@@ -1,8 +1,10 @@
 package de.schiewe.volker.bgjugend2016.models
 
+import android.content.Context
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
+import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.formatDate
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,13 +31,13 @@ class Event : BaseEvent() {
     var imagePath: String = ""
     var url: String = ""
 
-    fun ageString(): String {
+    fun ageString(context: Context): String {
         if (this.ageText != null)
             return this.ageText!!
         if (this.maxAge == null && this.minAge != null)
-            return "ab ${this.minAge} Jahren"
+            return context.getString(R.string.from_x_years, this.minAge)
         else if (this.maxAge != null && this.minAge != null)
-            return "von ${this.minAge} bis ${this.maxAge} Jahren"
+            return context.getString(R.string.from_x_until_y_years, this.minAge, this.maxAge)
         return ""
     }
 
@@ -58,9 +60,4 @@ class Event : BaseEvent() {
             return Html.fromHtml(this.text, Html.FROM_HTML_MODE_COMPACT)
         return Html.fromHtml(this.text)
     }
-
-    companion object Factory {
-        fun create(): Event = Event()
-    }
-
 }

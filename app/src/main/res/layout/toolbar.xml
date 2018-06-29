@@ -5,5 +5,5 @@
     android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
     app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-    app:title="@string/app_title"
+    app:title="@string/app_name"
     app:titleTextColor="@color/white" />

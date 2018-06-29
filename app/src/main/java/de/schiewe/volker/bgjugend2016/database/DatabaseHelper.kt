@@ -8,6 +8,10 @@ import com.google.firebase.database.FirebaseDatabase
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.GeneralData
 
+const val EVENT_REFERENCE = "events"
+const val GENERAL_DATA_REFERENCE = "generalData"
+const val INFO_REFERENCE = "infos"
+
 class DatabaseHelper(private val context: FragmentActivity) {
 
     fun getEvents(): LiveData<List<BaseEvent>> {

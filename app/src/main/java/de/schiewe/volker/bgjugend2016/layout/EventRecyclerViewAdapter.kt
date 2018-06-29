@@ -1,6 +1,8 @@
 package de.schiewe.volker.bgjugend2016.layout
 
+import android.content.Context
 import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +10,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import de.schiewe.volker.bgjugend2016.R
 
-
-import de.schiewe.volker.bgjugend2016.fragments.EventListFragment.OnListItemSelectedListener
-import de.schiewe.volker.bgjugend2016.getAge
+import de.schiewe.volker.bgjugend2016.interfaces.OnListItemSelectedListener
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info
+import de.schiewe.volker.bgjugend2016.models.UserData
 import de.schiewe.volker.bgjugend2016.views.SharedViewModel
 
 import kotlinx.android.synthetic.main.item_event.view.*
@@ -23,33 +24,15 @@ private const val EVENT_VIEW_TYPE = 0
 private const val INFO_VIEW_TYPE = 1
 
 class EventRecyclerViewAdapter(
-        private var mValues: List<BaseEvent>,
-        private val mListener: OnListItemSelectedListener?,
-        private val mViewModel: SharedViewModel,
-        private val sharedPref: SharedPreferences,
-
-        private val filterInfoKey: String,
-        private val filterAgeKey: String,
-        private val filterOldEventsKey: String,
-        private val birthdayKey: String
-) : RecyclerView.Adapter<EventRecyclerViewAdapter.ViewHolder>(), SharedPreferences.OnSharedPreferenceChangeListener {
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (preferencesKeys.contains(key))
-            this.filterItems()
-    }
-
-    private val mOnClickListener: View.OnClickListener
+        private val itemSelectedListener: OnListItemSelectedListener?,
+        private val sharedViewModel: SharedViewModel,
+        private val context: Context
+) : RecyclerView.Adapter<EventRecyclerViewAdapter.ViewHolder>(), SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
+    private var mValues: List<BaseEvent> = listOf()
     private var mFilteredValues: MutableList<BaseEvent> = mutableListOf()
-    private val preferencesKeys: List<String> = listOf(filterInfoKey, filterAgeKey, filterOldEventsKey)
+    private val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     init {
-        mOnClickListener = View.OnClickListener { v ->
-            if (v.tag is Event) {
-                mViewModel.select(v.tag as Event)
-                mListener?.onEventSelected()
-            }
-        }
         for (item in mValues)
             mFilteredValues.add(item)
         sharedPref.registerOnSharedPreferenceChangeListener(this)
@@ -95,11 +78,28 @@ class EventRecyclerViewAdapter(
             holder.date.text = item.dateText
         with(holder.mView) {
             tag = item
-            setOnClickListener(mOnClickListener)
+            setOnClickListener(this@EventRecyclerViewAdapter)
         }
     }
 
     override fun getItemCount(): Int = mFilteredValues.size
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        val preferencesKeys: List<String> = listOf(
+                context.getString(R.string.filter_infos_key),
+                context.getString(R.string.filter_age_key),
+                context.getString(R.string.filter_old_events_key)
+        )
+        if (preferencesKeys.contains(key))
+            this.filterItems()
+    }
+
+    override fun onClick(v: View?) {
+        if (v != null && v.tag is Event) {
+            sharedViewModel.select(v.tag as Event)
+            itemSelectedListener?.onEventSelected()
+        }
+    }
 
     fun setEvents(data: List<BaseEvent>) {
         mValues = data.sorted()
@@ -110,30 +110,29 @@ class EventRecyclerViewAdapter(
         mFilteredValues = mutableListOf()
         for (item in mValues) {
             var shouldAddItem = true
-            if (sharedPref.getBoolean(filterInfoKey, false) && item is Info)
+            if (sharedPref.getBoolean(context.getString(R.string.filter_infos_key), false) && item is Info)
                 shouldAddItem = false
-            if (sharedPref.getBoolean(filterAgeKey, false) && item is Event) {
-                val age = getAge(sharedPref.getString(birthdayKey, ""), Calendar.getInstance())
+            if (sharedPref.getBoolean(context.getString(R.string.filter_age_key), false) && item is Event) {
+                val user = UserData(context, sharedPref)
+                val age = user.getAge(Calendar.getInstance())
                 val minAge = if (item.minAge != null) item.minAge!! else 0
                 val maxAge = if (item.maxAge != null) item.maxAge!! else 100
-                if (age != -1 && minAge > age || maxAge < age)
+                if (age != null && (minAge > age || maxAge < age))
                     shouldAddItem = false
             }
             val eventDate = if (item.endDate != null) item.endDate!! else if (item.startDate != null) item.startDate!! else Date().time
-            if (!sharedPref.getBoolean(filterOldEventsKey, true) && eventDate < Date().time)
+            if (!sharedPref.getBoolean(context.getString(R.string.filter_old_events_key), false) && eventDate < Date().time)
                 shouldAddItem = false
 
             if (shouldAddItem)
                 mFilteredValues.add(item)
         }
         notifyDataSetChanged()
-
     }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val title: TextView = mView.title
         val place: TextView = mView.place
         val date: TextView = mView.date
-
     }
 }

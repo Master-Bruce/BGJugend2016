@@ -14,6 +14,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.fragments.*
+import de.schiewe.volker.bgjugend2016.interfaces.OnListItemSelectedListener
 import de.schiewe.volker.bgjugend2016.isNewVersion
 import de.schiewe.volker.bgjugend2016.migrateToCurrentVersion
 import de.schiewe.volker.bgjugend2016.models.Event
@@ -21,7 +22,7 @@ import de.schiewe.volker.bgjugend2016.views.SharedViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,6 @@ class MainActivity : AppCompatActivity(), EventListFragment.OnListItemSelectedLi
 
         if (savedInstanceState == null) {
             Fresco.initialize(this)
-
             // Open default Fragment
             openFragment(EventListFragment.newInstance())
         }

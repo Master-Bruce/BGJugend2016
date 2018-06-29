@@ -47,8 +47,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
             if (key == getString(R.string.notification_day_key)) {
                 val value = preference.sharedPreferences.getString(key, "")
                 if (value != "") {
-                    val dayString = if (value == "1") "Tag" else "Tage"
-                    preference.summary = "$value $dayString vorher"
+                    preference.summary = resources.getQuantityString(R.plurals.days_previously, value.toInt(), value)
                 }
             }
         }
@@ -107,8 +106,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
                 resetNotifications()
             }
             getString(R.string.notification_day_key) -> {
-                val dayString = if (newValue == "1") "Tag" else "Tage"
-                preference.summary = "$newValue $dayString vorher"
+                preference.summary = resources.getQuantityString(R.plurals.days_previously, (newValue as String).toInt(), newValue)
                 resetNotifications()
             }
             getString(R.string.notification_time_key) -> {
@@ -129,7 +127,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
         when (preference.key) {
             getString(R.string.feedback_key) -> {
                 val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "volker.s1994@gmail.com", null))
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback zur EBU Jugend App")
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_to_app))
                 startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
                 return true
             }

@@ -12,9 +12,6 @@ import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info
 
-const val EVENT_REFERENCE = "events"
-private const val INFO_REFERENCE = "infos"
-
 class EventViewModel : ViewModel() {
     private val TAG: String = this.javaClass.name
 

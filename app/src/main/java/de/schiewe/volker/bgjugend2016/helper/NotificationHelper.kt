@@ -124,16 +124,16 @@ class NotificationHelper(val context: Context) {
         when (type) {
             DATE_NOTIFICATION -> {
                 return if (daysLeft == "1") {
-                    "Morgen gehts los!"
+                    context.getString(R.string.starts_tomorrow)
                 } else {
-                    "Nur noch $daysLeft Tage!"
+                    context.getString(R.string.x_days_left, daysLeft)
                 }
             }
             DEADLINE_NOTIFICATION -> {
                 return if (daysLeft == "1") {
-                    "Bis morgen anmelden!"
+                    context.getString(R.string.register_tomorrow)
                 } else {
-                    "Noch $daysLeft Tage um Dich anzumelden!"
+                    context.getString(R.string.x_days_to_register, daysLeft)
                 }
             }
         }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="our_youth_workers">Unsere Jugendbeauftragten</string>
+    <string name="the_youth_team">Das Planungsteam</string>
+    <string name="explanation_youth_team">Das Planungsteam ist ein Team, bestehend sowohl aus dem Jugendsynodalen, der auf sechs Jahre gewählt wird und die Jugend auf der Synode vertritt, als auch aus vier Jugendlichen, die von der Werkstatt für jeweils zwei Jahre gewählt werden.</string>
+    <string name="current_youth_team">Aktuell im PT: %1$s</string>
+    <string name="sponsoring_association">Der Förderverein</string>
+    <string name="text_sponsoring">Um die Jugendarbeit der Herrnhuter Brüdergemeine zu unterstützen wurde der „Förderverein der Jugendarbeit der Evangelischen Brüder-Unität Herrnhuter Brüdergemeine“ gegründet. \nMit den Einnahmen aus der Vermarktung von alten Herrnhuter Spielen versucht der Verein Projekte unsere Jugendarbeit zu fördern.</string>
+    <string name="bank_account"><b>Spendenkonto:</b>\nFörderverein Jugendarbeit\nIBAN: DE09120300001020195143\nBIC: BYLADEM1001\nDeutsche Kreditbank</string>
+    <string name="more_information">Weiter Informationen:  http://herrnhuterspiele.de</string>
+</resources>

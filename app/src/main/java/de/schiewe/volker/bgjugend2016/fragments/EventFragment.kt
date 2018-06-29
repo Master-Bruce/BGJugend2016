@@ -5,11 +5,11 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
@@ -23,13 +23,16 @@ import de.schiewe.volker.bgjugend2016.*
 import de.schiewe.volker.bgjugend2016.helper.GlideApp
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
 import de.schiewe.volker.bgjugend2016.interfaces.AppBarStateChangeListener
+import de.schiewe.volker.bgjugend2016.interfaces.UserDataSubmitListener
 import de.schiewe.volker.bgjugend2016.models.Event
+import de.schiewe.volker.bgjugend2016.models.UserData
 import de.schiewe.volker.bgjugend2016.views.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_event.*
 
+const val EVENT_IMG = "event_img"
 
-class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottomSheet.UserDataSubmitListener {
-    private val TAG = this.javaClass.simpleName
+class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListener {
+    private val classTag = this.javaClass.simpleName
     private var event: Event? = null
     private var menu: Menu? = null
     private var imageUrl: Uri? = null
@@ -44,7 +47,7 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
         sharedViewModel.getSelected().observe(activity!!, Observer { item ->
             event = item
             val storage: FirebaseStorage = FirebaseStorage.getInstance()
-            val imageReference = storage.getReference("event_img/${event!!.imagePath}")
+            val imageReference = storage.getReference("$EVENT_IMG/${event!!.imagePath}")
             imageReference.downloadUrl.addOnSuccessListener { url ->
                 this.imageUrl = url
             }
@@ -59,12 +62,12 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
         main_appbar.addOnOffsetChangedListener(this)
         val storage: FirebaseStorage = FirebaseStorage.getInstance()
 
-        if (event != null) {
+        if (event != null && activity != null) {
             event_toolbar.title = event!!.title
             header_text.text = event!!.header
             place_text.text = event!!.place
             event_text.text = event!!.formattedText()
-            age_text.text = event!!.ageString()
+            age_text.text = event!!.ageString(activity!!)
             people_text.text = event!!.peopleNumber.toString()
             cost_text.text = event!!.costString()
             deadline_text.text = event!!.deadlineString()
@@ -77,7 +80,7 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
 
             hideEmptyTextViews(listOf(contact_name, contact_address, contact_phone, contact_mail))
 
-            val imageReference = storage.getReference("event_img/${event!!.imagePath}")
+            val imageReference = storage.getReference("$EVENT_IMG/${event!!.imagePath}")
             val eventImage = view.findViewById<ImageView>(R.id.event_image)
 
             GlideApp.with(this@EventFragment)
@@ -101,9 +104,8 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
                             .setStartPosition(0)
                             .show()
 
-                }
-                catch (e: Exception){
-                    Log.e(TAG, "Error on image clicked: $e")
+                } catch (e: Exception) {
+                    Log.e(classTag, "Error on image clicked: $e")
                 }
             }
         }
@@ -134,11 +136,11 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
                     val snackbarText = if (notifications.setNotification(event!!, newValue)) {
                         item.isChecked = newValue
                         if (newValue)
-                            "Benachrichtigung erstellt."
+                            getString(R.string.notification_created)
                         else
-                            "Benachrichtigung entfernt"
+                            getString(R.string.notification_removed)
                     } else
-                        "Schon zu spät"
+                        getString(R.string.already_too_late)
 
                     view?.let { Snackbar.make(it, snackbarText, Snackbar.LENGTH_LONG).show() }
                 }
@@ -194,14 +196,13 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataModalBottom
 
     override fun onUserDataSubmit() {
         (childFragmentManager.findFragmentByTag(USER_DATA_BOTTOM_SHEET) as UserDataModalBottomSheet).dismiss()
-        if (event == null)
+        if (event == null || activity == null)
             return
-        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity)
 
         val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", event?.contact?.mail, null))
         // TODO correct grammar
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Anmeldung für ${event?.title}")
-        emailIntent.putExtra(Intent.EXTRA_TEXT, generateMailText(activity!!, event!!, sharedPrefs))
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.registration_for, event?.title))
+        emailIntent.putExtra(Intent.EXTRA_TEXT, generateMailText(event!!, UserData(activity!!, PreferenceManager.getDefaultSharedPreferences(activity))))
         startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
     }
 

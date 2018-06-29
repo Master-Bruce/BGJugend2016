@@ -13,7 +13,7 @@ class GeneralDataViewModel : ViewModel() {
     private var generalData: MutableLiveData<GeneralData> = MutableLiveData()
 
     fun getGeneralData(): LiveData<GeneralData> {
-        DatabaseHelper.getDatabase().getReference("generalData")
+        DatabaseHelper.getDatabase().getReference(GENERAL_DATA_REFERENCE)
                 .addValueEventListener(
                         object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {

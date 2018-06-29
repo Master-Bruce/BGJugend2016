@@ -11,6 +11,7 @@ import android.support.v4.widget.CircularProgressDrawable
 import android.support.v7.preference.PreferenceManager
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
+import de.schiewe.volker.bgjugend2016.models.UserData
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,23 +21,6 @@ fun formatDate(timestamp: Long?, simpleDateFormat: SimpleDateFormat): String {
     if (timestamp == null)
         return ""
     return simpleDateFormat.format(Date(timestamp))
-}
-
-fun getAge(dateString: String, today: Calendar): Int {
-    if (dateString == "")
-        return -1
-    return try {
-        val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
-        val date: Date = sdf.parse(dateString)
-        val calendar = Calendar.getInstance()
-        calendar.time = date
-        var age = today.get(Calendar.YEAR) - calendar.get(Calendar.YEAR)
-        if (today.get(Calendar.DAY_OF_YEAR) < calendar.get(Calendar.DAY_OF_YEAR))
-            age--
-        age
-    } catch (e: ParseException) {
-        -1
-    }
 }
 
 fun getByteArrayFromBase64(base64String: String): ByteArray {
@@ -124,13 +108,14 @@ fun shareEvent(context: Context, event: Event) {
     context.startActivity(shareIntent)
 }
 
-fun generateMailText(context: Context, event: Event, sharedPrefs: SharedPreferences): String {
+fun generateMailText(event: Event, user: UserData): String {
+
     val contactFirstName = event.contact?.name?.split(" ")!![0]
-    val name = sharedPrefs.getString(context.getString(R.string.name_key), "")
-    val street = sharedPrefs.getString(context.getString(R.string.street_key), "")
-    val city = sharedPrefs.getString(context.getString(R.string.place_key), "")
-    val birthday = sharedPrefs.getString(context.getString(R.string.birthday_key), "")
-    val telephone = sharedPrefs.getString(context.getString(R.string.telephone_key), "")
+    val name = user.name
+    val street = user.street
+    val city = user.place
+    val birthday = user.birthday
+    val telephone = user.telephone
     val nameString = if (name.split(" ").isNotEmpty()) name.split(" ")[0] else name
 
     return "Hallo $contactFirstName, \n" +

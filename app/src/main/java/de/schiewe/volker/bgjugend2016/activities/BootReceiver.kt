@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.database.EVENT_REFERENCE
+import de.schiewe.volker.bgjugend2016.database.GENERAL_DATA_REFERENCE
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.GeneralData
@@ -26,7 +27,7 @@ class BootReceiver : BroadcastReceiver() {
         if (context == null)
             return
 
-        DatabaseHelper.getDatabase().getReference("generalData")
+        DatabaseHelper.getDatabase().getReference(GENERAL_DATA_REFERENCE)
                 .addValueEventListener(
                         object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {

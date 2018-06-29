@@ -10,11 +10,6 @@ class TimePreference(ctxt: Context, attrs: AttributeSet) : DialogPreference(ctxt
     private var lastHour = 0
     private var lastMinute = 0
 
-    init {
-        positiveButtonText = "Ok"
-        negativeButtonText = "Abbrechen"
-    }
-
     fun setTime(hour: Int, minute: Int) {
         val newValue = "${getTimeString(hour)}:${getTimeString(minute)}"
         this.persistString(newValue)

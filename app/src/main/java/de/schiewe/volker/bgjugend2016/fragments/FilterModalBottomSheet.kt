@@ -21,7 +21,7 @@ class FilterModalBottomSheet : BottomSheetDialogFragment() {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
         val filterInfos = sharedPref.getBoolean(getString(R.string.filter_infos_key), false)
         val filterAge = sharedPref.getBoolean(getString(R.string.filter_age_key), false)
-        val filterOldEvents = sharedPref.getBoolean(getString(R.string.filter_old_events_key), true)
+        val filterOldEvents = sharedPref.getBoolean(getString(R.string.filter_old_events_key), false)
 
         switch_info_filter.isChecked = filterInfos
         switch_age_filter.isChecked = filterAge
@@ -35,7 +35,7 @@ class FilterModalBottomSheet : BottomSheetDialogFragment() {
             if (sharedPref.getString(getString(R.string.birthday_key), "") != "")
                 this.handleFilterClick(sharedPref, switch_age_filter, getString(R.string.filter_age_key))
             else
-                Toast.makeText(activity, getString(R.string.missing_birthday), Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, getString(R.string.missing_birthday), Toast.LENGTH_SHORT).show()
         }
 
         container_old_events_filer.setOnClickListener { _: View ->
