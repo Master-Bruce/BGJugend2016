@@ -14,7 +14,7 @@ import java.util.*
 
 class UtilsUnitTest {
     @Test
-    fun test_format_date() {
+    fun testFormatDate() {
         val simpleDateFormat = SimpleDateFormat("dd.MM.YYYY")
         val date = Calendar.getInstance()
         date.set(2018, 0, 1)
@@ -23,14 +23,14 @@ class UtilsUnitTest {
     }
 
     @Test
-    fun test_format_date_empty() {
+    fun testFormatDateEmpty() {
         val simpleDateFormat = SimpleDateFormat("dd.MM.YYYY")
         val formattedDate = formatDate(null, simpleDateFormat)
         Assert.assertEquals("", formattedDate)
     }
 
     @Test
-    fun test_get_id_from_string() {
+    fun testGetIdFromString() {
         var id = getIdFromString("Fußball Österreich")
         Assert.assertEquals("FUSSBALL_OESTERREICH", id)
         id = getIdFromString("Älterer Übergang")
@@ -38,7 +38,7 @@ class UtilsUnitTest {
     }
 
     @Test
-    fun test_is_new_version() {
+    fun testIsNewVersion() {
         val sharedPrefs: SharedPreferences = mock()
         whenever(sharedPrefs.getInt(any(), any())).thenReturn(BuildConfig.VERSION_CODE)
         val value = isNewVersion(sharedPrefs, "")
@@ -46,7 +46,7 @@ class UtilsUnitTest {
     }
 
     @Test
-    fun test_generate_mail_text() {
+    fun testGenerateMailText() {
         val event: Event = mock()
         val contact: Contact = mock()
         val user: UserData = mock()
@@ -74,21 +74,21 @@ class UtilsUnitTest {
     }
 
     @Test
-    fun test_validate_date_string_true() {
+    fun testValidateDateStringTrue() {
         val string = "12.12.2018"
         val result = validateDateString(string)
         Assert.assertTrue(result)
     }
 
     @Test
-    fun test_validate_date_string_false() {
+    fun testValidateDateStringFalse() {
         val string = "12. Mai 2018"
         val result = validateDateString(string)
         Assert.assertFalse(result)
     }
 
     @Test
-    fun test_validate_date_string_empty() {
+    fun testValidateDateStringEmpty() {
         val string = ""
         val result = validateDateString(string)
         Assert.assertFalse(result)

@@ -16,18 +16,18 @@ class UserDataUnitTest {
     private var context: Context = mock()
     private val sharedPrefs: SharedPreferences = mock()
 
-    @Before fun mock_context(){
+    @Before fun mockContext(){
         whenever(context.getString(any())).thenReturn("")
     }
     @Test
-    fun test_get_age_empty_string() {
+    fun testGetAgeEmptyString() {
         val user = UserData(context, sharedPrefs)
         whenever(sharedPrefs.getString(any(), any())).thenReturn("")
         Assert.assertEquals(null, user.getAge(Calendar.getInstance()))
     }
 
     @Test
-    fun test_get_age_correct_string() {
+    fun testGetAgeCorrectString() {
         val user = UserData(context, sharedPrefs)
         val calendar = Calendar.getInstance()
         calendar.set(2018, 1, 1)
@@ -39,7 +39,7 @@ class UserDataUnitTest {
     }
 
     @Test
-    fun test_get_age_wrong_string() {
+    fun testGetAgeWrongString() {
         val user = UserData(context, sharedPrefs)
         val calendar = Calendar.getInstance()
         calendar.set(2018, 1, 1)
@@ -50,19 +50,19 @@ class UserDataUnitTest {
 
 
     @Test
-    fun test_name_validation() {
+    fun testNameValidation() {
         Assert.assertEquals(false, UserData.validateName(""))
         Assert.assertEquals(true, UserData.validateName("FirstName Name"))
     }
 
     @Test
-    fun test_street_validation() {
+    fun testStreetValidation() {
         Assert.assertEquals(false, UserData.validateStreet(""))
         Assert.assertEquals(true, UserData.validateStreet("Street"))
     }
 
     @Test
-    fun test_place_validation() {
+    fun testPlaceValidation() {
         Assert.assertEquals(false, UserData.validatePlace(""))
         Assert.assertEquals(false, UserData.validatePlace("Place"))
         Assert.assertEquals(false, UserData.validatePlace("12345"))
@@ -70,7 +70,7 @@ class UserDataUnitTest {
     }
 
     @Test
-    fun test_birthday_validation() {
+    fun testBirthdayValidation() {
         Assert.assertEquals(true, UserData.validateBirthday(""))
         Assert.assertEquals(false, UserData.validateBirthday("Birthday"))
         Assert.assertEquals(false, UserData.validateBirthday("12. May 1994"))
@@ -78,11 +78,10 @@ class UserDataUnitTest {
     }
 
     @Test
-    fun test_telephone_validation() {
+    fun testTelephoneValidation() {
         Assert.assertEquals(true, UserData.validateTelephone(""))
         Assert.assertEquals(false, UserData.validateTelephone("Telephone"))
         Assert.assertEquals(true, UserData.validateTelephone("0123456789"))
         Assert.assertEquals(true, UserData.validateTelephone("+49134/234234"))
     }
-
 }

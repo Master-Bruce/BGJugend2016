@@ -10,7 +10,7 @@ import org.junit.Test
 class EventUnitTest{
     private val event = Event()
     @Test
-    fun test_age_string_min_max(){
+    fun testAgeStringMinMax(){
         val context:Context = mock()
         whenever(context.getString(R.string.from_x_until_y_years, 12, 13)).thenReturn("von 12 bis 13 Jahren")
         event.minAge = 12
@@ -20,7 +20,7 @@ class EventUnitTest{
     }
 
     @Test
-    fun test_age_string_min(){
+    fun testAgeStringMin(){
         val context:Context = mock()
         whenever(context.getString(R.string.from_x_years, 12)).thenReturn("ab 12 Jahren")
         event.minAge = 12
@@ -29,7 +29,7 @@ class EventUnitTest{
     }
 
     @Test
-    fun test_age_string_with_age_text(){
+    fun testAgeStringWithAgeText(){
         val context:Context = mock()
         event.minAge = 12
         event.maxAge = 16
@@ -39,20 +39,20 @@ class EventUnitTest{
     }
 
     @Test
-    fun test_age_string_empty(){
+    fun testAgeStringEmpty(){
         val expected = ""
 //        Assert.assertEquals(expected, event.ageString())
     }
 
     @Test
-    fun test_cost_string_only_cost(){
+    fun testCostStringOnlyCost(){
         event.cost = 30
         val expected = "30 €"
         Assert.assertEquals(expected, event.costString())
     }
 
     @Test
-    fun test_cost_string_cost_and_cost_text(){
+    fun testCostStringCostAndCostText(){
         event.cost = 30
         event.costText = "something else"
         val expected = "30 € something else"
@@ -60,20 +60,20 @@ class EventUnitTest{
     }
 
     @Test
-    fun test_cost_string_empty(){
+    fun testCostStringEmpty(){
         val expected = ""
         Assert.assertEquals(expected, event.costString())
     }
 
     @Test
-    fun test_deadline_string(){
+    fun testDeadlineString(){
         event.deadline = 1518735600000
         val expected = "16.02.2018"
         Assert.assertEquals(expected, event.deadlineString())
     }
 
     @Test
-    fun test_deadline_string_empty(){
+    fun testDeadlineStringEmpty(){
         val expected = ""
         Assert.assertEquals(expected, event.deadlineString())
     }

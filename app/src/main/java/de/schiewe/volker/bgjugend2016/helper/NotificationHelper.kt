@@ -97,10 +97,12 @@ class NotificationHelper(val context: Context) {
         // cancel notification on date
         var pendingIntent = PendingIntent.getBroadcast(context, eventId, receiverIntent, 0)
         alarmManager.cancel(pendingIntent)
+        pendingIntent.cancel()
 
         // cancel notification on deadline
         pendingIntent = PendingIntent.getBroadcast(context, 100 + eventId, receiverIntent, 0)
         alarmManager.cancel(pendingIntent)
+        pendingIntent.cancel()
 
     }
 

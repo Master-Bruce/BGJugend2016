@@ -6,14 +6,14 @@ import org.junit.Test
 
 class BaseEventUnitTest{
     @Test
-    fun test_date_string_empty(){
+    fun testDateStringEmpty(){
         val event = BaseEvent()
         val expected = ""
         Assert.assertEquals(expected, event.dateString())
     }
 
     @Test
-    fun test_date_string_start_end(){
+    fun testDateStringStartEnd(){
         val event = BaseEvent()
         event.startDate = 1518562800000
         event.endDate = 1518908400000
@@ -22,7 +22,7 @@ class BaseEventUnitTest{
     }
 
     @Test
-    fun test_date_string_date_text(){
+    fun testDateStringDateText(){
         val event = BaseEvent()
         event.dateText = "Oktober 2018"
         val expected = "Oktober 2018"
