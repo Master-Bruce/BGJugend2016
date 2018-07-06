@@ -65,7 +65,7 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
         if (event != null && activity != null) {
             event_toolbar.title = event!!.title
             header_text.text = event!!.header
-            place_text.text = event!!.place
+            place_date_text.text = activity!!.getString(R.string.date_and_place, event!!.dateString(), event!!.place)
             event_text.text = event!!.formattedText()
             age_text.text = event!!.ageString(activity!!)
             people_text.text = event!!.peopleNumber.toString()
@@ -112,7 +112,7 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
 
         fab_register.setOnClickListener { onRegisterClick() }
         button_register.setOnClickListener { onRegisterClick() }
-        place_text.setOnClickListener { openMap() }
+        place_date_text.setOnClickListener { openMap() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

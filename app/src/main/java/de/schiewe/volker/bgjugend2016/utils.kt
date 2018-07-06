@@ -91,8 +91,9 @@ fun openPlaceOnMap(context: Context, place: String) {
 fun addEventToCalender(context: Context, event: BaseEvent) {
     val calenderIntent = Intent(Intent.ACTION_INSERT)
             .setType("vnd.android.cursor.item/event")
-            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.startDate)
-            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.endDate)
+            // Add 12 hours to timestamp to avoid wrong end date
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.startDate?.plus(43200000))
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.endDate?.plus(43200000))
             .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true)
             .putExtra(CalendarContract.Events.TITLE, event.title)
             .putExtra(CalendarContract.Events.EVENT_LOCATION, event.place)

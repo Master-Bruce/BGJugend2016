@@ -6,8 +6,6 @@ import android.text.Html
 import android.text.Spanned
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.formatDate
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class Event : BaseEvent() {
@@ -51,7 +49,6 @@ class Event : BaseEvent() {
     }
 
     fun deadlineString(): String {
-        val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
         return formatDate(this.deadline, sdf)
     }
 

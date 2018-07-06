@@ -13,11 +13,12 @@ open class BaseEvent : Comparable<BaseEvent> {
     open var place: String = ""
     open var dateText: String? = null
 
+    protected val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
+
     fun dateString(): String {
         if (this.dateText != null)
             return this.dateText!!
-        if (startDate != null && endDate != null){
-            val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
+        if (startDate != null && endDate != null) {
             return "${formatDate(this.startDate, sdf)} - ${formatDate(this.endDate, sdf)}"
         }
         return ""

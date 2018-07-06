@@ -75,12 +75,15 @@
                     android:id="@+id/header_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:paddingEnd="50dp"
+                    android:paddingStart="0dp"
                     android:text="@{event.header, default=Header}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/colorPrimary" />
 
                 <TextView
-                    android:id="@+id/place_text"
+                    android:id="@+id/place_date_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{event.place, default=Place}"
@@ -95,7 +98,7 @@
                     android:text="@{event.formattedText(), default=Text}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/place_text" />
+                    app:layout_constraintTop_toBottomOf="@+id/place_date_text" />
 
                 <!-- Data -->
                 <android.support.constraint.ConstraintLayout
