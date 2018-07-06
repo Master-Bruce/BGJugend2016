@@ -3,6 +3,7 @@ package de.schiewe.volker.bgjugend2016.fragments
 
 import android.app.TimePickerDialog
 import android.arch.lifecycle.Observer
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
@@ -16,6 +17,7 @@ import android.view.View
 import android.widget.TimePicker
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
+import de.schiewe.volker.bgjugend2016.helper.Analytics
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.validateDateString
@@ -135,6 +137,11 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
         return true
     }
 
+    override fun onAttach(context: Context?) {
+        if (activity != null)
+            Analytics.setScreen(activity!!, javaClass.simpleName)
+        super.onAttach(context)
+    }
 
     private fun resetNotifications() {
         if (activity == null)

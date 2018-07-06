@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import de.schiewe.volker.bgjugend2016.R
+import de.schiewe.volker.bgjugend2016.helper.Analytics
 import de.schiewe.volker.bgjugend2016.interfaces.UserDataSubmitListener
 import de.schiewe.volker.bgjugend2016.models.UserData
 import kotlinx.android.synthetic.main.user_data_modal_bottom_sheet.*
@@ -82,6 +83,9 @@ class UserDataModalBottomSheet : BottomSheetDialogFragment(), View.OnClickListen
         val parent = parentFragment
         if (parent != null) {
             mUserDataSubmitListener = parent as UserDataSubmitListener
+        }
+        if (activity != null) {
+            Analytics.setScreen(activity!!, javaClass.simpleName)
         }
     }
 

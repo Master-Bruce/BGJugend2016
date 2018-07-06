@@ -1,5 +1,6 @@
 package de.schiewe.volker.bgjugend2016.fragments
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.Toast
 import de.schiewe.volker.bgjugend2016.R
+import de.schiewe.volker.bgjugend2016.helper.Analytics
 import kotlinx.android.synthetic.main.fragment_filter_bottom_sheet.*
 
 class FilterModalBottomSheet : BottomSheetDialogFragment() {
@@ -51,6 +53,12 @@ class FilterModalBottomSheet : BottomSheetDialogFragment() {
             apply()
         }
         switch.isChecked = !currentValue
+    }
+
+    override fun onAttach(context: Context?) {
+        if (activity != null)
+            Analytics.setScreen(activity!!, javaClass.simpleName)
+        super.onAttach(context)
     }
 
 }

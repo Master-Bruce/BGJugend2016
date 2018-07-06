@@ -1,15 +1,16 @@
 package de.schiewe.volker.bgjugend2016.fragments
 
 import android.arch.lifecycle.Observer
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
+import de.schiewe.volker.bgjugend2016.helper.Analytics
 import de.schiewe.volker.bgjugend2016.layout.StaticGridLayoutManager
 import de.schiewe.volker.bgjugend2016.layout.YouthWorkerRecyclerViewAdapter
 import de.schiewe.volker.bgjugend2016.models.GeneralData
@@ -38,6 +39,11 @@ class InfoFragment : Fragment() {
                 }
             })
         }
+    }
+    override fun onAttach(context: Context?) {
+        if (activity != null)
+            Analytics.setScreen(activity!!, javaClass.simpleName)
+        super.onAttach(context)
     }
 
     companion object {

@@ -2,6 +2,7 @@ package de.schiewe.volker.bgjugend2016.fragments
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.google.firebase.storage.FirebaseStorage
 import com.stfalcon.frescoimageviewer.ImageViewer
 import de.schiewe.volker.bgjugend2016.*
+import de.schiewe.volker.bgjugend2016.helper.Analytics
 import de.schiewe.volker.bgjugend2016.helper.GlideApp
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
 import de.schiewe.volker.bgjugend2016.interfaces.AppBarStateChangeListener
@@ -94,7 +96,7 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
             event_image.setOnClickListener { _: View? ->
                 if (this.imageUrl == null)
                     return@setOnClickListener
-
+                Analytics.logEvent(activity!!, "View Image")
                 try {
                     val hierarchyBuilder = GenericDraweeHierarchyBuilder.newInstance(resources)
                             .setProgressBarImage(getProgressBar(activity!!, 10f, 100f))
@@ -115,6 +117,12 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
         place_date_text.setOnClickListener { openMap() }
     }
 
+    override fun onAttach(context: Context?) {
+        if (activity != null)
+            Analytics.setScreen(activity!!, javaClass.simpleName)
+        super.onAttach(context)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         this.menu = menu
         inflater?.inflate(R.menu.main_menu, menu)
@@ -128,10 +136,13 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (activity == null)
+            return false
         when (item?.itemId) {
             R.id.menu_notification -> {
-                if (event != null && activity != null) {
+                if (event != null) {
                     val newValue = !item.isChecked
+                    Analytics.logEvent(activity!!, "Notification $newValue")
                     val notifications = NotificationHelper(activity!!)
                     val snackbarText = if (notifications.setNotification(event!!, newValue)) {
                         item.isChecked = newValue
@@ -146,8 +157,10 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
                 }
             }
             R.id.menu_calender -> {
-                if (event != null && activity != null)
+                if (event != null) {
+                    Analytics.logEvent(activity!!, "Add to Calendar")
                     addEventToCalender(activity!!, event!!)
+                }
             }
             R.id.menu_map -> {
                 this.openMap()
@@ -156,8 +169,10 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
                 this.onRegisterClick()
             }
             R.id.menu_share -> {
-                if (event != null && activity != null)
+                if (event != null && activity != null) {
+                    Analytics.logEvent(activity!!, "Share Event")
                     shareEvent(activity!!, event!!)
+                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -186,8 +201,10 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
     }
 
     private fun openMap() {
-        if (event != null && activity != null)
+        if (event != null && activity != null) {
+            Analytics.logEvent(activity!!, "Open Map")
             openPlaceOnMap(activity!!, event!!.place)
+        }
     }
 
     private fun onRegisterClick() {
@@ -204,6 +221,7 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.registration_for, event?.title))
         emailIntent.putExtra(Intent.EXTRA_TEXT, generateMailText(event!!, UserData(activity!!, PreferenceManager.getDefaultSharedPreferences(activity))))
         startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
+        Analytics.logEvent(activity!!, "Register")
     }
 
     private fun hideEmptyTextViews(textViews: List<TextView>) {
