@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.PreferenceManager
@@ -84,13 +85,15 @@ class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavi
 
     private fun handleIntentData(uri: Uri) {
         DatabaseHelper(this).getEvents().observe(this, Observer { events ->
-            val event = events?.single { event -> event is Event && Uri.parse(event.url) == uri }
+            val event = events?.singleOrNull { event -> event is Event && Uri.parse(event.url) == uri }
             if (event != null) {
                 val sharedViewModel = ViewModelProviders.of(this).get(SharedViewModel::class.java)
                 sharedViewModel.select(event as Event)
                 openFragment(EventFragment.newInstance())
-                DatabaseHelper(this).getEvents().removeObservers(this@MainActivity)
+            } else {
+                Snackbar.make(container, "Falscher Link!", Snackbar.LENGTH_LONG).show()
             }
+            DatabaseHelper(this).getEvents().removeObservers(this@MainActivity)
         })
     }
 
