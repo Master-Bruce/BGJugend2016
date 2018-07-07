@@ -12,7 +12,8 @@ licenses:
 jdk:
     - oraclejdk8
 script:
-    - ./gradlew clean test
+    - ./gradlew clean test --stacktrace
+    - ./gradlew clean build connectedCheck -PdisablePreDex --stacktrace
 
 cache:
   directories:
