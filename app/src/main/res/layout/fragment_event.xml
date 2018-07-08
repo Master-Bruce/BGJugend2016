@@ -24,26 +24,16 @@
             app:expandedTitleMarginStart="16dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <FrameLayout
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/event_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax">
+                android:background="@color/colorAccent"
+                android:contentDescription="@string/event_image"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax" />
 
-                <ImageView
-                    android:id="@+id/event_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:background="@color/colorAccent"
-                    app:layout_collapseMode="parallax"
-                    android:contentDescription="@string/event_image" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/image_gradient" />
-            </FrameLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/event_toolbar"

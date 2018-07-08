@@ -52,6 +52,7 @@ class Event : BaseEvent() {
         return formatDate(this.deadline, sdf)
     }
 
+    @SuppressWarnings("deprecation")
     fun formattedText(): Spanned {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             return Html.fromHtml(this.text, Html.FROM_HTML_MODE_COMPACT)

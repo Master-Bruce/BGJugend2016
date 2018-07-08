@@ -5,12 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
+import com.facebook.drawee.generic.RoundingParams
+import com.facebook.drawee.view.SimpleDraweeView
 import de.schiewe.volker.bgjugend2016.R
-import de.schiewe.volker.bgjugend2016.getByteArrayFromBase64
-import de.schiewe.volker.bgjugend2016.getProgressBar
-import de.schiewe.volker.bgjugend2016.helper.GlideApp
 import de.schiewe.volker.bgjugend2016.models.Contact
 import kotlinx.android.synthetic.main.item_youth_worker.view.*
 
@@ -26,11 +24,7 @@ class YouthWorkerRecyclerViewAdapter(
         holder.phone.text = item.telephone
         holder.mail.text = item.mail
         if (item.image != "" && context != null) {
-            val progressbar = getProgressBar(context, 5f, 50f)
-            GlideApp.with(holder.view)
-                    .load(getByteArrayFromBase64(item.image))
-                    .placeholder(progressbar)
-                    .into(holder.image)
+            holder.image.setImageURI(item.image)
         }
     }
 
@@ -48,10 +42,16 @@ class YouthWorkerRecyclerViewAdapter(
     override fun getItemCount(): Int = mValues.count()
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.youth_worker_image
         val name: TextView = view.youth_worker_name
         val address: TextView = view.youth_worker_address
         val phone: TextView = view.youth_worker_phone
         val mail: TextView = view.youth_worker_mail
+        val image: SimpleDraweeView = view.youth_worker_image
+
+        init {
+            val imageRounding = RoundingParams()
+            imageRounding.roundAsCircle = true
+            this.image.hierarchy.roundingParams = imageRounding
+        }
     }
 }

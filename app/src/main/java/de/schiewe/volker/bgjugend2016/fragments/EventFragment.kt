@@ -10,19 +10,17 @@ import android.preference.PreferenceManager
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.*
-import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
+import com.facebook.drawee.view.SimpleDraweeView
 import com.google.firebase.storage.FirebaseStorage
 import com.stfalcon.frescoimageviewer.ImageViewer
 import de.schiewe.volker.bgjugend2016.*
 import de.schiewe.volker.bgjugend2016.helper.Analytics
-import de.schiewe.volker.bgjugend2016.helper.GlideApp
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
 import de.schiewe.volker.bgjugend2016.interfaces.AppBarStateChangeListener
 import de.schiewe.volker.bgjugend2016.interfaces.UserDataSubmitListener
@@ -48,11 +46,6 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
         val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
         sharedViewModel.getSelected().observe(activity!!, Observer { item ->
             event = item
-            val storage: FirebaseStorage = FirebaseStorage.getInstance()
-            val imageReference = storage.getReference("$EVENT_IMG/${event!!.imagePath}")
-            imageReference.downloadUrl.addOnSuccessListener { url ->
-                this.imageUrl = url
-            }
         })
 
         return rootView
@@ -83,15 +76,19 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
             hideEmptyTextViews(listOf(contact_name, contact_address, contact_phone, contact_mail))
 
             val imageReference = storage.getReference("$EVENT_IMG/${event!!.imagePath}")
-            val eventImage = view.findViewById<ImageView>(R.id.event_image)
+            val eventImage = view.findViewById<SimpleDraweeView>(R.id.event_image)
 
-            GlideApp.with(this@EventFragment)
-                    .load(imageReference)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(getProgressBar(activity!!, 10f, 100f))
-                    .transition(DrawableTransitionOptions.withCrossFade(300))
-                    .error(R.drawable.youth_sheep)
-                    .into(eventImage)
+            eventImage.hierarchy = GenericDraweeHierarchyBuilder.newInstance(resources)
+                    .setPlaceholderImage(getProgressBar(activity!!, 10f, 100f))
+                    .setFailureImage(R.drawable.youth_sheep)
+                    .setOverlay(ContextCompat.getDrawable(activity!!, R.drawable.image_gradient))
+                    .setFadeDuration(300)
+                    .build()
+
+            imageReference.downloadUrl.addOnSuccessListener { url ->
+                this.imageUrl = url
+                eventImage.setImageURI(imageUrl.toString())
+            }
 
             event_image.setOnClickListener { _: View? ->
                 if (this.imageUrl == null)
@@ -99,7 +96,8 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
                 Analytics.logEvent(activity!!, "View Image")
                 try {
                     val hierarchyBuilder = GenericDraweeHierarchyBuilder.newInstance(resources)
-                            .setProgressBarImage(getProgressBar(activity!!, 10f, 100f))
+                            .setPlaceholderImage(getProgressBar(activity!!, 10f, 100f))
+                            .setFadeDuration(300)
 
                     ImageViewer.Builder(activity, mutableListOf(this.imageUrl!!))
                             .setCustomDraweeHierarchyBuilder(hierarchyBuilder)
