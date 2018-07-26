@@ -26,8 +26,8 @@ class UserDataModalBottomSheet : BottomSheetDialogFragment(), View.OnClickListen
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (activity != null) {
-            val user = UserData(activity!!, PreferenceManager.getDefaultSharedPreferences(activity))
+        activity?.let {
+            val user = UserData(it, PreferenceManager.getDefaultSharedPreferences(it))
             user_name.setText(user.name, TextView.BufferType.EDITABLE)
             user_street.setText(user.street, TextView.BufferType.EDITABLE)
             user_place.setText(user.place, TextView.BufferType.EDITABLE)
@@ -67,8 +67,8 @@ class UserDataModalBottomSheet : BottomSheetDialogFragment(), View.OnClickListen
     }
 
     private fun saveAndSubmitData() {
-        if (activity != null) {
-            val user = UserData(activity!!, PreferenceManager.getDefaultSharedPreferences(activity))
+        activity?.let {
+            val user = UserData(it, PreferenceManager.getDefaultSharedPreferences(it))
             user.name = user_name.text.toString()
             user.street = user_street.text.toString()
             user.place = user_place.text.toString()
@@ -84,9 +84,7 @@ class UserDataModalBottomSheet : BottomSheetDialogFragment(), View.OnClickListen
         if (parent != null) {
             mUserDataSubmitListener = parent as UserDataSubmitListener
         }
-        if (activity != null) {
-            Analytics.setScreen(activity!!, javaClass.simpleName)
-        }
+        activity?.let { Analytics.setScreen(it, javaClass.simpleName) }
     }
 
     override fun onDetach() {

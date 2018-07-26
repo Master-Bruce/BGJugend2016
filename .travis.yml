@@ -8,21 +8,25 @@ android:
     - add-on
     - extra
 licenses:
-    - 'android-sdk-license-.+'
+  - 'android-sdk-license-.+'
 jdk:
-    - oraclejdk8
+  - oraclejdk8
+env:
+  - TZ=Europe/Berlin
+before_install:
+  - chmod +x ./gradlew
+  - yes | sdkmanager "platforms;android-27"
+  - yes | sdkmanager "build-tools;27.0.0"
+before_script:
+  - adb shell settings put global time_zone Europe/Berlin
 script:
-    - ./gradlew clean test --stacktrace
-    - ./gradlew clean build connectedCheck -PdisablePreDex --stacktrace
+  - ./gradlew clean test --stacktrace
+  - ./gradlew clean build connectedCheck -PdisablePreDex --stacktrace
 
 cache:
   directories:
     - $HOME/.m2
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-before_install:
-      - chmod +x ./gradlew
-      - yes | sdkmanager "platforms;android-27"
-      - yes | sdkmanager "build-tools;27.0.0"
 notifications:
   email: false

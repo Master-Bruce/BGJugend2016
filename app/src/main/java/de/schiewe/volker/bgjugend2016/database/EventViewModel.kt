@@ -51,7 +51,7 @@ class EventViewModel : ViewModel() {
                                     dataSnapshot.children.forEach {
                                         try {
                                             val event: Event? = it.getValue(Event::class.java)
-                                            eventList.add(event!!)
+                                            event?.let { eventList.add(it)  }
                                         } catch (e: Exception) {
                                             Log.d(TAG, "Event could not be parsed (key: ${it.key}, Exception: $e)")
                                         }
@@ -75,7 +75,7 @@ class EventViewModel : ViewModel() {
                                     dataSnapshot.children.forEach {
                                         try {
                                             val info: Info? = it.getValue(Info::class.java)
-                                            infoList.add(info!!)
+                                            info?.let { infoList.add(it) }
                                         } catch (e: Exception) {
                                             Log.d(TAG, "Info could not be parsed (key: ${it.key}, Exception: $e)")
                                         }

@@ -13,7 +13,6 @@ const val GENERAL_DATA_REFERENCE = "generalData"
 const val INFO_REFERENCE = "infos"
 
 class DatabaseHelper(private val context: FragmentActivity) {
-
     fun getEvents(): LiveData<List<BaseEvent>> {
         val eventViewModel = ViewModelProviders.of(context).get(EventViewModel::class.java)
         val generalDataViewModel = ViewModelProviders.of(context).get(GeneralDataViewModel::class.java)
@@ -30,13 +29,12 @@ class DatabaseHelper(private val context: FragmentActivity) {
         return generalDataViewModel.getGeneralData()
     }
 
-
     companion object {
         private var mDatabase: FirebaseDatabase? = null
         fun getDatabase(): FirebaseDatabase {
             if (mDatabase == null) {
                 mDatabase = FirebaseDatabase.getInstance()
-                mDatabase!!.setPersistenceEnabled(true)
+                mDatabase?.setPersistenceEnabled(true)
             }
             return mDatabase!!
         }

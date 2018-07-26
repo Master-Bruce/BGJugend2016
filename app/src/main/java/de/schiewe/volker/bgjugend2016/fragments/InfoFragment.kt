@@ -25,24 +25,27 @@ class InfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (toolbar as Toolbar).title = getString(R.string.title_informations)
-        val databaseHelper = DatabaseHelper(activity!!)
+        activity?.let {
+            val databaseHelper = DatabaseHelper(it)
 
-        val adapter = YouthWorkerRecyclerViewAdapter(listOf(), context)
-        with(list_youth_worker) {
-            this.layoutManager = StaticGridLayoutManager(context, 2)
+            val adapter = YouthWorkerRecyclerViewAdapter()
+            with(list_youth_worker) {
+                this.layoutManager = StaticGridLayoutManager(context, 2)
 
-            this.adapter = adapter
-            databaseHelper.getGeneralData().observe(this@InfoFragment, Observer { generalData: GeneralData? ->
-                if (generalData != null) {
-                    (adapter).setYouthWorkers(generalData.professionals)
-                    youth_team.text = context.getString(R.string.current_youth_team, generalData.youthTeam)
-                }
-            })
+                this.adapter = adapter
+                databaseHelper.getGeneralData().observe(this@InfoFragment, Observer { generalData: GeneralData? ->
+                    if (generalData != null) {
+                        (adapter).setYouthWorkers(generalData.professionals)
+                        youth_team.text = context.getString(R.string.current_youth_team, generalData.youthTeam)
+                    }
+                })
+            }
         }
     }
     override fun onAttach(context: Context?) {
-        if (activity != null)
-            Analytics.setScreen(activity!!, javaClass.simpleName)
+         activity?.let {
+             Analytics.setScreen(it, javaClass.simpleName)
+         }
         super.onAttach(context)
     }
 

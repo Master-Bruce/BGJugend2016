@@ -56,8 +56,9 @@ class FilterModalBottomSheet : BottomSheetDialogFragment() {
     }
 
     override fun onAttach(context: Context?) {
-        if (activity != null)
-            Analytics.setScreen(activity!!, javaClass.simpleName)
+        activity?.let {
+            Analytics.setScreen(it, javaClass.simpleName)
+        }
         super.onAttach(context)
     }
 

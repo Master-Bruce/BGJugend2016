@@ -64,27 +64,27 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference?) {
-        if (activity == null || preference == null)
-            return
-        when (preference) {
-            is InfoDialogPreference -> {
-                val builder = AlertDialog.Builder(activity!!)
-                builder.setMessage(preference.dialogMessage)
-                        .setTitle(preference.title)
-                        .setPositiveButton(preference.positiveButtonText)
-                        { dialogInterface: DialogInterface, _: Int -> dialogInterface.dismiss() }
-                val dialog = builder.create()
-                dialog.show()
-            }
-            is TimePreference -> {
-                val onTimeSetListener = TimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
-                    preference.setTime(hourOfDay, minute)
+        activity?.let {
+            when (preference) {
+                is InfoDialogPreference -> {
+                    val builder = AlertDialog.Builder(it)
+                    builder.setMessage(preference.dialogMessage)
+                            .setTitle(preference.title)
+                            .setPositiveButton(preference.positiveButtonText)
+                            { dialogInterface: DialogInterface, _: Int -> dialogInterface.dismiss() }
+                    val dialog = builder.create()
+                    dialog.show()
                 }
-                val dialog = TimePickerDialog(activity, onTimeSetListener, preference.getHour(), preference.getMinute(), true)
-                dialog.show()
-            }
-            else -> {
-                super.onDisplayPreferenceDialog(preference)
+                is TimePreference -> {
+                    val onTimeSetListener = TimePickerDialog.OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
+                        preference.setTime(hourOfDay, minute)
+                    }
+                    val dialog = TimePickerDialog(it, onTimeSetListener, preference.getHour(), preference.getMinute(), true)
+                    dialog.show()
+                }
+                else -> {
+                    super.onDisplayPreferenceDialog(preference)
+                }
             }
         }
     }
@@ -99,8 +99,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
                     preference.summary = newValue
                     true
                 } else {
-                    if (view != null)
-                        Snackbar.make(view!!, getString(R.string.wrong_date_format), Snackbar.LENGTH_LONG).show()
+                    view?.let { Snackbar.make(it, getString(R.string.wrong_date_format), Snackbar.LENGTH_LONG).show() }
                     false
                 }
             }
@@ -138,26 +137,24 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
     }
 
     override fun onAttach(context: Context?) {
-        if (activity != null)
-            Analytics.setScreen(activity!!, javaClass.simpleName)
+        activity?.let { Analytics.setScreen(it, javaClass.simpleName) }
         super.onAttach(context)
     }
 
     private fun resetNotifications() {
-        if (activity == null)
-            return
-
-        val notificationHelper = NotificationHelper(activity!!)
-        val databaseHelper = DatabaseHelper(activity!!)
-        if (events.isEmpty()) {
-            databaseHelper.getEvents().observe(activity!!, Observer { baseEvents ->
-                if (baseEvents != null) {
-                    val events = baseEvents.filter { baseEvent -> baseEvent is Event }.map { baseEvent -> baseEvent as Event }
-                    notificationHelper.restoreNotifications(events, true)
-                }
-            })
-        } else {
-            notificationHelper.restoreNotifications(events)
+        activity?.let {
+            val notificationHelper = NotificationHelper(it)
+            val databaseHelper = DatabaseHelper(it)
+            if (events.isEmpty()) {
+                databaseHelper.getEvents().observe(it, Observer { baseEvents ->
+                    if (baseEvents != null) {
+                        val events = baseEvents.filter { baseEvent -> baseEvent is Event }.map { baseEvent -> baseEvent as Event }
+                        notificationHelper.restoreNotifications(events, true)
+                    }
+                })
+            } else {
+                notificationHelper.restoreNotifications(events)
+            }
         }
     }
 

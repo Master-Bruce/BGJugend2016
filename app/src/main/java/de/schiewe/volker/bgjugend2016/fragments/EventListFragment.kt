@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
@@ -30,23 +31,30 @@ class EventListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val toolbar = toolbar as Toolbar
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        toolbar.title = getString(R.string.title_events)
-        val sharedViewModel = ViewModelProviders.of(activity!!).get(SharedViewModel::class.java)
-        event_list_progress.visibility = View.VISIBLE
-        val adapter = EventRecyclerViewAdapter(itemSelectedListener, sharedViewModel, activity!!)
+        activity?.let {
+            (it as AppCompatActivity).setSupportActionBar(toolbar)
+            toolbar.title = getString(R.string.title_events)
+            val sharedViewModel = ViewModelProviders.of(it).get(SharedViewModel::class.java)
+            event_list_progress.visibility = View.VISIBLE
+            val adapter = EventRecyclerViewAdapter(itemSelectedListener, sharedViewModel, it)
 
-        filter_button.setOnClickListener { _ -> itemSelectedListener?.onFilterButtonClicked() }
-        // Set the adapter
-        val databaseHelper = DatabaseHelper(activity!!)
-        with(list) {
-            this.layoutManager = LinearLayoutManager(context)
-            this.adapter = adapter
-            databaseHelper.getEvents().observe(this@EventListFragment, Observer<List<BaseEvent>> { events ->
-                (adapter).setEvents(events!!)
-                event_list_progress.visibility = View.GONE
-            })
+            filter_button.setOnClickListener { _ -> itemSelectedListener?.onFilterButtonClicked() }
+            // Set the adapter
+            val databaseHelper = DatabaseHelper(it)
+            with(list) {
+                this.layoutManager = LinearLayoutManager(context)
+                this.adapter = adapter
+                this.addItemDecoration(DividerItemDecoration(it,
+                        DividerItemDecoration.VERTICAL))
+                databaseHelper.getEvents().observe(this@EventListFragment, Observer<List<BaseEvent>> { events ->
+                    if (events != null){
+                        adapter.setEvents(events)
+                        event_list_progress.visibility = View.GONE
+                    }
+                })
+            }
         }
+
     }
 
     override fun onAttach(context: Context) {

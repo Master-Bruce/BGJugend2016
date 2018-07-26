@@ -115,12 +115,10 @@ class EventRecyclerViewAdapter(
             if (sharedPref.getBoolean(context.getString(R.string.filter_age_key), false) && item is Event) {
                 val user = UserData(context, sharedPref)
                 val age = user.getAge(Calendar.getInstance())
-                val minAge = if (item.minAge != null) item.minAge!! else 0
-                val maxAge = if (item.maxAge != null) item.maxAge!! else 100
-                if (age != null && (minAge > age || maxAge < age))
+                if (age != null && (item.minAge > age || item.maxAge < age))
                     shouldAddItem = false
             }
-            val eventDate = if (item.endDate != null) item.endDate!! else if (item.startDate != null) item.startDate!! else Date().time
+            val eventDate = item.endDate ?: (item.startDate ?: Date().time)
             if (!sharedPref.getBoolean(context.getString(R.string.filter_old_events_key), false) && eventDate < Date().time)
                 shouldAddItem = false
 

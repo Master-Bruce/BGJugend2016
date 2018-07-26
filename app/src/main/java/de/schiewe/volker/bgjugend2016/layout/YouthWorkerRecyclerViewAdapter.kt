@@ -1,6 +1,5 @@
 package de.schiewe.volker.bgjugend2016.layout
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,18 +11,15 @@ import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.models.Contact
 import kotlinx.android.synthetic.main.item_youth_worker.view.*
 
-class YouthWorkerRecyclerViewAdapter(
-        private var mValues: List<Contact>,
-        private val context: Context?
-) : RecyclerView.Adapter<YouthWorkerRecyclerViewAdapter.ViewHolder>() {
-
+class YouthWorkerRecyclerViewAdapter: RecyclerView.Adapter<YouthWorkerRecyclerViewAdapter.ViewHolder>() {
+    private var mValues = listOf<Contact>()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
         holder.name.text = item.name
         holder.address.text = item.formattedAddress()
         holder.phone.text = item.telephone
         holder.mail.text = item.mail
-        if (item.image != "" && context != null) {
+        if (item.image != "") {
             holder.image.setImageURI(item.image)
         }
     }

@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavi
     }
 
     override fun onFilterButtonClicked() {
-        FilterModalBottomSheet().show(supportFragmentManager!!, "Sheet")
+        FilterModalBottomSheet().show(supportFragmentManager, "Sheet")
     }
 
     override fun onEventSelected() {
