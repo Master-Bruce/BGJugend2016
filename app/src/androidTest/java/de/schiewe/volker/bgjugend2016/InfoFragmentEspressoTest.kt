@@ -28,6 +28,10 @@ class InfoFragmentEspressoTest {
     @Test
     fun testYouthWorkers(){
         onView(withId(R.id.list_youth_worker)).check(matches(isDisplayed()))
+//        onData(withId(R.id.youth_worker_name))
+//                .inAdapterView(withId(R.id.list_youth_worker))
+//                .atPosition(0)
+//                .check(matches(isDisplayed()))
 //        onView(withId(R.id.youth_worker_name)).check(matches(isDisplayed())) // TODO Match multiple nodes
 //        onView(withId(R.id.youth_team)).check(matches(withText("Bla")))  // TODO check text is displayed
 
