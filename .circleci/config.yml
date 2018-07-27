@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Run Lint Tests
           command: ./gradlew lint test
-       - run:
+      - run:
           name: Run Unit Tests
           command:  ./gradlew clean test --stacktrace
       - store_artifacts:
