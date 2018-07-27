@@ -6,14 +6,13 @@ jobs:
       - image: circleci/android:api-27-alpha
     environment:
       JVM_OPTS: -Xmx3200m
-#      TZ: "/usr/share/zoneinfo/Germany/Berlin"
       TZ: Europe/Berlin
     steps:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+         name: Chmod permissions
          command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
@@ -28,9 +27,9 @@ jobs:
       - run:
           name: Run Unit Tests
           command:  ./gradlew clean test --stacktrace
+
       - store_artifacts:
           path: app/build/reports
           destination: reports
       - store_test_results:
           path: app/build/test-results
-      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
