@@ -111,7 +111,11 @@ fun shareEvent(context: Context, event: Event) {
 
 fun generateMailText(event: Event, user: UserData): String {
 
-    val contactFirstName = event.contact?.name?.split(" ")!![0]
+    var contactFirstName = ""
+    val contactNameArray = event.contact?.name?.split(" ")
+    if (contactNameArray != null && contactNameArray.isNotEmpty()) {
+        contactFirstName = contactNameArray[0]
+    }
     val name = user.name
     val street = user.street
     val city = user.place

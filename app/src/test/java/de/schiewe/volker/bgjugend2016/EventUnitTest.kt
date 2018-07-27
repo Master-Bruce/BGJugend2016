@@ -4,7 +4,7 @@ import android.content.Context
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import de.schiewe.volker.bgjugend2016.models.Event
-import junit.framework.Assert
+import org.junit.Assert
 import org.junit.Test
 
 class EventUnitTest{
@@ -40,7 +40,7 @@ class EventUnitTest{
 
     @Test
     fun testAgeStringEmpty(){
-        val expected = ""
+//        val expected = ""
 //        Assert.assertEquals(expected, event.ageString())
     }
 

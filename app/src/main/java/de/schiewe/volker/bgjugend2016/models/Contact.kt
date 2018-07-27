@@ -12,6 +12,8 @@ class Contact {
     val mail: String = ""
     val image: String = ""
 
+
+    @SuppressWarnings("deprecation")
     fun formattedAddress():Spanned{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             return Html.fromHtml(this.address, Html.FROM_HTML_MODE_COMPACT)

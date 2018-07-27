@@ -59,7 +59,7 @@ class NotificationHelper(val context: Context) {
         return returnValue
     }
 
-    fun isNotificationEnabled(eventId: Int): Boolean {
+    fun isNotificationEnabled(eventId: Int?): Boolean {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
         return sharedPref.getBoolean(NOTIFICATION_KEY_PREFIX + eventId, false)
     }

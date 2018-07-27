@@ -56,12 +56,12 @@ class BootReceiver : BroadcastReceiver() {
                                     dataSnapshot.children.forEach {
                                         try {
                                             val event: Event? = it.getValue(Event::class.java)
-                                            eventList.add(event!!)
-                                        } catch (e: Exception) {
+                                            event?.let { eventList.add(event) }
+                                        } catch (e: Exception) {  // TODO Get correct exception
                                             Log.d(TAG, "Could not parse: ${it.key}")
                                         }
                                     }
-                                    restoreNotifications(eventList, context)
+                                    context?.let { restoreNotifications(eventList, it) }
                                 }
                             }
 
@@ -72,8 +72,8 @@ class BootReceiver : BroadcastReceiver() {
                 )
     }
 
-    private fun restoreNotifications(events: List<Event>, context: Context?) {
-        val notifications = NotificationHelper(context!!)
+    private fun restoreNotifications(events: List<Event>, context: Context) {
+        val notifications = NotificationHelper(context)
         notifications.restoreNotifications(events)
     }
 }
