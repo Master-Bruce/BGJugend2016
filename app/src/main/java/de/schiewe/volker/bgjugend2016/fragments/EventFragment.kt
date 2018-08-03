@@ -23,6 +23,7 @@ import com.stfalcon.frescoimageviewer.ImageViewer
 import de.schiewe.volker.bgjugend2016.*
 import de.schiewe.volker.bgjugend2016.helper.Analytics
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
+import de.schiewe.volker.bgjugend2016.helper.TopProgressBarDrawable
 import de.schiewe.volker.bgjugend2016.interfaces.AppBarStateChangeListener
 import de.schiewe.volker.bgjugend2016.interfaces.UserDataSubmitListener
 import de.schiewe.volker.bgjugend2016.models.Event
@@ -81,8 +82,12 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
 
                 val imageReference = storage.getReference("$EVENT_IMG/${event?.imagePath}")
                 val eventImage = view.findViewById<SimpleDraweeView>(R.id.event_image)
-
+                val progressBarDrawable = TopProgressBarDrawable()
+                progressBarDrawable.color = ContextCompat.getColor(it, R.color.white)
+                progressBarDrawable.backgroundColor = ContextCompat.getColor(it, R.color.colorAccent)
+                progressBarDrawable.setPadding(0)
                 eventImage.hierarchy = GenericDraweeHierarchyBuilder.newInstance(resources)
+                        .setProgressBarImage(progressBarDrawable)
                         .setPlaceholderImage(getProgressBar(it, 10f, 100f))
                         .setFailureImage(R.drawable.youth_sheep)
                         .setOverlay(ContextCompat.getDrawable(it, R.drawable.image_gradient))
