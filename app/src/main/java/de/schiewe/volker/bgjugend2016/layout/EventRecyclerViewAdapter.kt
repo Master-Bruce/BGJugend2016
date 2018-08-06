@@ -1,22 +1,23 @@
 package de.schiewe.volker.bgjugend2016.layout
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.preference.PreferenceManager
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import de.schiewe.volker.bgjugend2016.R
-
 import de.schiewe.volker.bgjugend2016.interfaces.OnListItemSelectedListener
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info
 import de.schiewe.volker.bgjugend2016.models.UserData
 import de.schiewe.volker.bgjugend2016.views.SharedViewModel
-
 import kotlinx.android.synthetic.main.item_event.view.*
 import java.util.*
 
@@ -98,6 +99,19 @@ class EventRecyclerViewAdapter(
         if (v != null && v.tag is Event) {
             sharedViewModel.select(v.tag as Event)
             itemSelectedListener?.onEventSelected()
+        } else if (v != null && v.tag is Info) {
+            val info = v.tag as Info
+            val builder = AlertDialog.Builder(context)
+
+            val dialog = builder.setMessage(info.dialogText(context))
+                    .setTitle(info.title)
+                    .setPositiveButton(context.getString(R.string.send_mail)) { _, _ ->
+                        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", info.getMail(), null))
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, info.title)
+                        context.startActivity(Intent.createChooser(emailIntent, context.getString(R.string.send_mail)))
+                    }
+                    .create()
+            dialog.show()
         }
     }
 

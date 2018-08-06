@@ -44,17 +44,15 @@ class EventListFragment : Fragment() {
             with(list) {
                 this.layoutManager = LinearLayoutManager(context)
                 this.adapter = adapter
-                this.addItemDecoration(DividerItemDecoration(it,
-                        DividerItemDecoration.VERTICAL))
+                this.addItemDecoration(DividerItemDecoration(it, DividerItemDecoration.VERTICAL))
                 databaseHelper.getEvents().observe(this@EventListFragment, Observer<List<BaseEvent>> { events ->
-                    if (events != null){
+                    if (events != null) {
                         adapter.setEvents(events)
                         event_list_progress.visibility = View.GONE
                     }
                 })
             }
         }
-
     }
 
     override fun onAttach(context: Context) {
@@ -62,7 +60,7 @@ class EventListFragment : Fragment() {
         if (context is OnListItemSelectedListener) {
             itemSelectedListener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnListItemSelectedListener")
+            throw RuntimeException(context::class.java.toString() + " must implement OnListItemSelectedListener")
         }
     }
 

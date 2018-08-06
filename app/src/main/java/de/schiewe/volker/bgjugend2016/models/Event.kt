@@ -1,11 +1,10 @@
 package de.schiewe.volker.bgjugend2016.models
 
 import android.content.Context
-import android.os.Build
-import android.text.Html
 import android.text.Spanned
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.formatDate
+import de.schiewe.volker.bgjugend2016.fromHtml
 
 
 class Event : BaseEvent() {
@@ -53,10 +52,7 @@ class Event : BaseEvent() {
         return formatDate(this.deadline, sdf)
     }
 
-    @SuppressWarnings("deprecation")
     fun formattedText(): Spanned {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            return Html.fromHtml(this.text, Html.FROM_HTML_MODE_COMPACT)
-        return Html.fromHtml(this.text)
+        return fromHtml(this.text)
     }
 }

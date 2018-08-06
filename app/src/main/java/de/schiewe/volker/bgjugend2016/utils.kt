@@ -9,6 +9,8 @@ import android.provider.CalendarContract
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.CircularProgressDrawable
 import android.support.v7.preference.PreferenceManager
+import android.text.Html
+import android.text.Spanned
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.UserData
@@ -151,4 +153,11 @@ fun getProgressBar(context: Context, stroke: Float, radius: Float): CircularProg
     circularProgressDrawable.start()
 
     return circularProgressDrawable
+}
+
+fun fromHtml(string: String):Spanned{
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+        return Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT)
+    @Suppress("DEPRECATION")
+    return Html.fromHtml(string)
 }
