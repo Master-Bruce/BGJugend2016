@@ -102,14 +102,15 @@ class EventRecyclerViewAdapter(
         } else if (v != null && v.tag is Info) {
             val info = v.tag as Info
             val builder = AlertDialog.Builder(context)
-
+            val mail = info.getMail()
+            if (mail != null)
+                builder.setPositiveButton(context.getString(R.string.send_mail)) { _, _ ->
+                    val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", info.getMail(), null))
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, info.title)
+                    context.startActivity(Intent.createChooser(emailIntent, context.getString(R.string.send_mail)))
+                }
             val dialog = builder.setMessage(info.dialogText(context))
                     .setTitle(info.title)
-                    .setPositiveButton(context.getString(R.string.send_mail)) { _, _ ->
-                        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", info.getMail(), null))
-                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, info.title)
-                        context.startActivity(Intent.createChooser(emailIntent, context.getString(R.string.send_mail)))
-                    }
                     .create()
             dialog.show()
         }
