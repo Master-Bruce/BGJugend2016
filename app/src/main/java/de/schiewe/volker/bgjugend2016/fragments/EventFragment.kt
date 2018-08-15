@@ -25,19 +25,19 @@ import de.schiewe.volker.bgjugend2016.helper.Analytics
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
 import de.schiewe.volker.bgjugend2016.helper.TopProgressBarDrawable
 import de.schiewe.volker.bgjugend2016.interfaces.AppBarStateChangeListener
+import de.schiewe.volker.bgjugend2016.interfaces.DownloadUrlListener
 import de.schiewe.volker.bgjugend2016.interfaces.UserDataSubmitListener
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.UserData
 import de.schiewe.volker.bgjugend2016.views.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_event.*
 
-const val EVENT_IMG = "event_img"
 
 class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListener {
     private val classTag = this.javaClass.simpleName
     private var event: Event? = null
     private var menu: Menu? = null
-    private var imageUrl: Uri? = null
+    private var imageUrl: String? = null
     private var menuItems: List<Int> = listOf(R.id.menu_register, R.id.menu_notification, R.id.menu_calender, R.id.menu_map, R.id.menu_share)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -80,7 +80,6 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
 
                 hideEmptyTextViews(listOf(contact_name, contact_address, contact_phone, contact_mail))
 
-                val imageReference = storage.getReference("$EVENT_IMG/${event?.imagePath}")
                 val eventImage = view.findViewById<SimpleDraweeView>(R.id.event_image)
                 val progressBarDrawable = TopProgressBarDrawable()
                 progressBarDrawable.color = ContextCompat.getColor(it, R.color.white)
@@ -93,11 +92,12 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
                         .setOverlay(ContextCompat.getDrawable(it, R.drawable.image_gradient))
                         .setFadeDuration(300)
                         .build()
-
-                imageReference.downloadUrl.addOnSuccessListener { url ->
-                    this.imageUrl = url
-                    eventImage.setImageURI(imageUrl.toString())
-                }
+                event?.downloadUrlListener(storage, object : DownloadUrlListener {
+                    override fun onSuccess(url: String) {
+                        this@EventFragment.imageUrl = url
+                        eventImage.setImageURI(imageUrl.toString())
+                    }
+                })
 
                 event_image.setOnClickListener { _: View? ->
                     if (this.imageUrl == null)

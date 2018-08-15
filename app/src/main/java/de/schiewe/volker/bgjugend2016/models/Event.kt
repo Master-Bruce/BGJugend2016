@@ -1,11 +1,15 @@
 package de.schiewe.volker.bgjugend2016.models
 
 import android.content.Context
+import android.net.Uri
 import android.text.Spanned
+import com.google.firebase.storage.FirebaseStorage
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.formatDate
 import de.schiewe.volker.bgjugend2016.fromHtml
+import de.schiewe.volker.bgjugend2016.interfaces.DownloadUrlListener
 
+const val EVENT_IMG = "event_img"
 
 class Event : BaseEvent() {
     override var title: String = ""
@@ -27,6 +31,8 @@ class Event : BaseEvent() {
     val contact: Contact? = null
     var imagePath: String = ""
     var url: String = ""
+
+    private var imageDownloadUrl: String? = null
 
     fun ageString(context: Context): String {
         val ageText = this.ageText
@@ -55,4 +61,17 @@ class Event : BaseEvent() {
     fun formattedText(): Spanned {
         return fromHtml(this.text)
     }
+
+    fun downloadUrlListener(storage: FirebaseStorage, listener: DownloadUrlListener) {
+        val imageDownloadUrl = this.imageDownloadUrl
+        if (imageDownloadUrl != null)
+            listener.onSuccess(imageDownloadUrl)
+        else {
+            storage.getReference("$EVENT_IMG/${this.imagePath}").downloadUrl.addOnSuccessListener { uri: Uri? ->
+                this.imageDownloadUrl = uri.toString()
+                listener.onSuccess(uri.toString())
+            }
+        }
+    }
+
 }
