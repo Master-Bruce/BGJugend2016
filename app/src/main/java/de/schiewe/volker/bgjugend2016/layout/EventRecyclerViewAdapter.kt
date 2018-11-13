@@ -11,11 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.facebook.drawee.generic.RoundingParams
-import com.facebook.drawee.view.SimpleDraweeView
 import com.google.firebase.storage.FirebaseStorage
 import de.schiewe.volker.bgjugend2016.R
-import de.schiewe.volker.bgjugend2016.interfaces.DownloadUrlListener
 import de.schiewe.volker.bgjugend2016.interfaces.OnListItemSelectedListener
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
 import de.schiewe.volker.bgjugend2016.models.Event
@@ -82,13 +79,7 @@ class EventRecyclerViewAdapter(
         holder.date.text = item.dateString()
         if (item is Info && item.dateText != null)
             holder.date.text = item.dateText
-        if (item is Event) {
-            item.downloadUrlListener(storage, object : DownloadUrlListener {
-                override fun onSuccess(url: String) {
-                    holder.image?.setImageURI(url)
-                }
-            })
-        }
+
         with(holder.mView) {
             tag = item
             setOnClickListener(this@EventRecyclerViewAdapter)
@@ -159,12 +150,5 @@ class EventRecyclerViewAdapter(
         val title: TextView = mView.title
         val place: TextView = mView.place
         val date: TextView = mView.date
-        val image: SimpleDraweeView? = mView.event_list_image
-
-        init {
-            val imageRounding = RoundingParams()
-            imageRounding.roundAsCircle = true
-            image?.hierarchy?.roundingParams = imageRounding
-        }
     }
 }

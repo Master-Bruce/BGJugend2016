@@ -10,8 +10,11 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.PreferenceManager
+import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.google.firebase.auth.FirebaseAuth
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.fragments.*
@@ -24,33 +27,47 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
+    private val TAG: String = this.javaClass.simpleName
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val intentData = intent.data
-        if (intentData is Uri) {
-            // Deep Link and Notification click handling
-            handleIntentData(intentData)
-        }
-
-        if (savedInstanceState == null) {
-            Fresco.initialize(this)
-            // Open default Fragment
-            openFragment(EventListFragment.newInstance())
-        }
-
         if (isNewVersion(PreferenceManager.getDefaultSharedPreferences(this), getString(R.string.last_version_key))) {
             migrateToCurrentVersion(this)
         }
+        Fresco.initialize(this)
+
+        auth = FirebaseAuth.getInstance()
+        auth.signInAnonymously()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "Authentication successful")
+                        main_progress.visibility = View.GONE
+                        val intentData = intent.data
+                        if (intentData is Uri) {
+                            // Deep Link and Notification click handling
+                            handleIntentData(intentData)
+                        } else if (savedInstanceState == null) {
+                            // Open default Fragment
+                            openFragment(EventListFragment.newInstance())
+                        }
+
+                    } else
+                        Log.d(TAG, "Authentication failed.", task.exception)
+                }
+
+
 
         navigation.setOnNavigationItemSelectedListener(this)
     }
 
     override fun onNewIntent(intent: Intent?) {
         if (intent != null && intent.data is Uri)
-            handleIntentData(intent.data)
+            intent.data?.let { data ->
+                handleIntentData(data)
+            }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

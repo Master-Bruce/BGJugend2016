@@ -1,10 +1,13 @@
 package de.schiewe.volker.bgjugend2016.models
 
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.net.Uri
+import android.support.v4.app.FragmentActivity
 import android.text.Spanned
 import com.google.firebase.storage.FirebaseStorage
 import de.schiewe.volker.bgjugend2016.R
+import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.formatDate
 import de.schiewe.volker.bgjugend2016.fromHtml
 import de.schiewe.volker.bgjugend2016.interfaces.DownloadUrlListener
@@ -62,15 +65,21 @@ class Event : BaseEvent() {
         return fromHtml(this.text)
     }
 
-    fun downloadUrlListener(storage: FirebaseStorage, listener: DownloadUrlListener) {
+    fun downloadUrlListener(context: FragmentActivity, storage: FirebaseStorage, listener: DownloadUrlListener) {
         val imageDownloadUrl = this.imageDownloadUrl
         if (imageDownloadUrl != null)
             listener.onSuccess(imageDownloadUrl)
         else {
-            storage.getReference("$EVENT_IMG/${this.imagePath}").downloadUrl.addOnSuccessListener { uri: Uri? ->
-                this.imageDownloadUrl = uri.toString()
-                listener.onSuccess(uri.toString())
-            }
+            val db = DatabaseHelper(context)
+            db.getGeneralData().observe(context, Observer { generalData ->
+                if (generalData != null){
+                    val year = generalData.currentDatabaseName
+                    storage.getReference("$EVENT_IMG/$year/${this.imagePath}").downloadUrl.addOnSuccessListener { uri: Uri? ->
+                        this.imageDownloadUrl = uri.toString()
+                        listener.onSuccess(uri.toString())
+                    }
+                }
+            })
         }
     }
 

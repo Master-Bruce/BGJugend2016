@@ -92,7 +92,7 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
                         .setOverlay(ContextCompat.getDrawable(it, R.drawable.image_gradient))
                         .setFadeDuration(300)
                         .build()
-                event?.downloadUrlListener(storage, object : DownloadUrlListener {
+                event?.downloadUrlListener(it, storage, object : DownloadUrlListener {
                     override fun onSuccess(url: String) {
                         this@EventFragment.imageUrl = url
                         eventImage.setImageURI(imageUrl.toString())
