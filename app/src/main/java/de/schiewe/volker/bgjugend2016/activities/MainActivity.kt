@@ -13,6 +13,7 @@ import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import com.crashlytics.android.Crashlytics
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.firebase.auth.FirebaseAuth
 import de.schiewe.volker.bgjugend2016.R
@@ -24,6 +25,7 @@ import de.schiewe.volker.bgjugend2016.migrateToCurrentVersion
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.views.SharedViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import io.fabric.sdk.android.Fabric
 
 
 class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavi
             migrateToCurrentVersion(this)
         }
         Fresco.initialize(this)
+        Fabric.with(this, Crashlytics())
 
         auth = FirebaseAuth.getInstance()
         auth.signInAnonymously()
