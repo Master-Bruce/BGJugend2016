@@ -63,30 +63,35 @@
 
                 <TextView
                     android:id="@+id/header_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:paddingEnd="50dp"
+                    android:layout_marginEnd="50dp"
                     android:paddingStart="0dp"
+                    android:paddingEnd="50dp"
                     android:text="@{event.header, default=Header}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/place_date_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@{event.place, default=Place}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/header_text" />
 
                 <TextView
                     android:id="@+id/event_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@{event.formattedText(), default=Text}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/place_date_text" />
 
@@ -112,11 +117,13 @@
 
                     <TextView
                         android:id="@+id/age_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
                         android:text="@{event.ageString(), default=18}"
                         android:textAppearance="?android:attr/textAppearanceMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/title_age" />
 
@@ -132,11 +139,13 @@
 
                     <TextView
                         android:id="@+id/people_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
                         android:text="@{event.peopleNumber.toString(), default=20}"
                         android:textAppearance="?android:attr/textAppearanceMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/people_number_title" />
 
@@ -153,11 +162,13 @@
 
                     <TextView
                         android:id="@+id/cost_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
                         android:text="@{event.costString(), default=30}"
                         android:textAppearance="?android:attr/textAppearanceMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/cost_title" />
 
@@ -173,11 +184,13 @@
 
                     <TextView
                         android:id="@+id/deadline_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
                         android:text="@{event.deadlineString(), default=30}"
                         android:textAppearance="?android:attr/textAppearanceMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/deadline_title" />
 
@@ -193,12 +206,13 @@
 
                     <TextView
                         android:id="@+id/team_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginStart="16dp"
-                        android:text="@{event.team, default=PeterMax}"
+                        android:layout_marginEnd="8dp"
+                        android:text="Peter und Max"
                         android:textAppearance="?android:attr/textAppearanceMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/team_title" />
 
@@ -223,32 +237,40 @@
 
                     <TextView
                         android:id="@+id/contact_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@{event.contact.name, default=Name}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/registration_title" />
 
                     <TextView
                         android:id="@+id/contact_address"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@{event.contact.formattedAddress(), default=Address}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/contact_name" />
 
                     <TextView
                         android:id="@+id/contact_phone"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:autoLink="phone"
                         android:text="@{event.contact.telephone, default=Telephone}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/contact_address" />
 
                     <TextView
                         android:id="@+id/contact_mail"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:autoLink="email"
                         android:text="@{event.contact.mail, default=mail}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/contact_phone" />
                 </android.support.constraint.ConstraintLayout>
 
