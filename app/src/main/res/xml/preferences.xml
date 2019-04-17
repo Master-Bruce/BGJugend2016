@@ -1,118 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
-        android:key="pref_show_pastevents"
-        android:title="@string/pref_show_pastevents"
-        android:defaultValue="false" />
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/title_settings">
 
-    <CheckBoxPreference
-        android:key="pref_age"
-        android:title="Alter filtern"
-        android:defaultValue="false"
-        android:dependency="pref_birthday"
-        android:summary="Zeige nur Veranstaltungen für mein Alter" />
-
-    <PreferenceCategory android:title="Benachrichtigungen">
-        <CheckBoxPreference
-            android:key="notifications_deadline"
-            android:title="@string/pref_title_deadline_notifications"
-            android:defaultValue="true" />
+    <PreferenceCategory
+        android:id="@+id/toolbar"
+        android:title="@string/notifications">
 
         <CheckBoxPreference
-            android:key="notifications_date"
-            android:title="@string/pref_title_vibrate"
-            android:defaultValue="true" />
+            android:key="@string/deadline_notification_key"
+            android:title="@string/deadline_notification" />
+
+        <!--<CheckBoxPreference-->
+            <!--android:key="@string/date_notification_key"-->
+            <!--android:title="@string/date_notification" />-->
 
         <ListPreference
-            android:key="notification_list"
-            android:title="@string/pref_notification_list_title"
             android:defaultValue="7"
-            android:entries="@array/notification_entries"
-            android:entryValues="@array/notification_entries_values" />
+            android:entries="@array/notification_day_list"
+            android:entryValues="@array/notification_day_values"
+            android:key="@string/notification_day_key"
+            android:title="@string/notification_day" />
 
-        <EditTextPreference
-            android:key="notification_time"
-            android:title="@string/pref_notification_time_title"
-            android:defaultValue="9"
-            android:inputType="number"
-            android:singleLine="true"
-            android:selectAllOnFocus="true" />
-
+        <de.schiewe.volker.bgjugend2016.views.TimePreference
+            android:key="@string/notification_time_key"
+            android:title="@string/notification_time" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Deine Daten">
-        <EditTextPreference
-            android:key="pref_name"
-            android:title="@string/pref_user_name"
-            android:defaultValue="@string/pref_default_name"
-            android:selectAllOnFocus="true"
-            android:inputType="textCapWords"
-            android:capitalize="words"
-            android:singleLine="true"
-            android:maxLines="1" />
+    <PreferenceCategory android:title="@string/your_data">
 
         <EditTextPreference
-            android:key="pref_street"
-            android:title="@string/pref_user_street"
-            android:defaultValue="@string/pref_default_street"
-            android:selectAllOnFocus="true"
-            android:inputType="textCapWords"
             android:capitalize="words"
+            android:inputType="textCapWords"
+            android:key="@string/name_key"
+            android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:maxLines="1" />
+            android:title="@string/name" />
 
         <EditTextPreference
-            android:key="pref_city"
-            android:title="@string/pref_user_city"
-            android:defaultValue="@string/pref_default_city"
-            android:selectAllOnFocus="true"
-            android:inputType="textCapWords"
             android:capitalize="words"
+            android:inputType="textCapWords"
+            android:key="@string/street_key"
+            android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:maxLines="1" />
+            android:title="@string/street" />
 
         <EditTextPreference
-            android:key="pref_birthday"
-            android:title="@string/pref_user_birthday"
+            android:capitalize="words"
+            android:inputType="textCapWords"
+            android:key="@string/place_key"
             android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/plz_and_place" />
+
+        <EditTextPreference
+            android:capitalize="words"
             android:inputType="date"
-            android:capitalize="words"
+            android:key="@string/birthday_key"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:maxLines="1" />
+            android:title="@string/birthday" />
 
         <EditTextPreference
-            android:key="pref_telephone"
-            android:title="@string/pref_user_telephone"
-            android:defaultValue="@string/pref_default_telephone"
-            android:selectAllOnFocus="true"
-            android:inputType="number"
+            android:id="@+id/hello"
             android:capitalize="words"
+            android:inputType="number"
+            android:key="@string/telephone_key"
+            android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:maxLines="1" />
+            android:title="@string/telephone" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="info_category"
         android:title="Info">
         <Preference
-            android:key="pref_info"
+            android:key="@string/version_key"
             android:title="Jugendarbeit BG" />
 
-        <de.schiewe.volker.bgjugend2016.views.PrivacyDialogPreference
-            android:title="Was passiert mit meinen Daten?"
-            android:dialogMessage="@string/pref_privacy"
-            android:positiveButtonText="OK" />
+        <de.schiewe.volker.bgjugend2016.views.InfoDialogPreference
+            android:dialogMessage="@string/privacy_text"
+            android:positiveButtonText="OK"
+            android:title="Was passiert mit meinen Daten?" />
 
-        <de.schiewe.volker.bgjugend2016.views.PrivacyDialogPreference
-            android:title="Wieso brauche ich Internet?"
+        <de.schiewe.volker.bgjugend2016.views.InfoDialogPreference
             android:dialogMessage="@string/internet_text"
             android:positiveButtonText="OK"
-            />
+            android:title="Wieso brauche ich Internet?" />
 
         <Preference
-            android:key="pref_feedback"
-            android:title="Feedback senden"
-            android:summary="Created by Volker Schiewe" />
+            android:key="@string/feedback_key"
+            android:summary="Created by Volker Schiewe"
+            android:title="Feedback senden" />
 
     </PreferenceCategory>
 </PreferenceScreen>

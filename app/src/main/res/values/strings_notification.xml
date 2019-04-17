@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="starts_tomorrow">Morgen gehts los!</string>
+    <string name="x_days_left">Nur noch %1$s Tage!</string>
+    <string name="register_tomorrow">Bis morgen anmelden!</string>
+    <string name="x_days_to_register">Noch %1$s Tage um Dich anzumelden!</string>
+</resources>

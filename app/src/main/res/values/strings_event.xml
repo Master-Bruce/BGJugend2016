@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="age">Alter</string>
+    <string name="people_number">Teilnehmeranzahl</string>
+    <string name="cost">Kosten</string>
+    <string name="deadline">Anmeldeschluss</string>
+    <string name="team">Team</string>
+    <string name="registration">Anmeldung</string>
+    <string name="register">Anmelden</string>
+
+    <string name="add_to_calender">Zum Kalender hinzufügen</string>
+    <string name="share">Teilen</string>
+    <string name="show_on_map">Auf der Karte anzeigen</string>
+    <string name="send_mail">E-Mail senden</string>
+    <string name="is_your_data_correct">Sind deine Daten richtig?</string>
+    <string name="use_correct_phonenumber">Korrekte Telefonnummer eingeben!</string>
+    <string name="input_plz_and_place">PLZ und Ort überprüfen!</string>
+    <string name="input_street">Straße eingeben!</string>
+    <string name="input_name">Namen eingeben!</string>
+    <string name="event_image">Veranstaltungsbild</string>
+    <string name="notification_created">Benachrichtigung erstellt.</string>
+    <string name="notification_removed">Benachrichtigung entfernt</string>
+    <string name="already_too_late">Schon zu spät</string>
+    <string name="registration_for">Anmeldung für %1$s</string>
+
+    <string name="from_x_years">ab %1$d Jahren</string>
+    <string name="from_x_until_y_years">von %1$d bis %2$d Jahren</string>
+    <string name="date_and_place">%1$s, %2$s</string>
+
+    <!--Info Dialog Strings-->
+    <string name="info_when_and_where"><![CDATA[<b>Wann & Wo: </b><br>%1$s<br>%2$s<br><br>]]></string>
+    <string name="info_who"><![CDATA[<b>Wer:</b><br>%1s<br><br>]]></string>
+    <string name="info_registration"><![CDATA[<b>Anmeldung:</b><br>%1s]]></string>
+</resources>

@@ -1,74 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- general -->
     <string name="app_name">Jugendarbeit EBU</string>
-    <string name="open">Auf</string>
-    <string name="close">Zu</string>
-    <string name="settings">Einstellungen</string>
-    <string name="dot">\\.</string>
-    <string name="event_noti_text">Die Veranstaltung beginnt </string>
-    <string name="deadline_noti_text">Der Anmeldeschluss läuft bald ab!</string>
+    <string name="title_events">Veranstaltungen</string>
+    <string name="title_info">Info</string>
+    <string name="title_informations">Informationen</string>
+    <string name="title_contact">Kontakt</string>
+    <string name="title_settings">Einstellungen</string>
 
-    <string name="nav_home">Startseite</string>
-    <string name="nav_events">Veranstaltungen</string>
-    <string name="nav_infos">Infoseite</string>
-    <string name="nav_contact">Kontakt</string>
-    <string name="nav_donate">Spenden</string>
-    <string name="nav_settings">Einstellungen</string>
-
-
-    <!--homeFragment-->
-    <string name="home_title">Willkommen bei der Jugend der Herrnhuter Brüdergemeine</string>
-    <string name="home_text">Hier findest du alle Veranstaltungen der Brüdergemeine und du kannst dich direkt dafür anmelden. \nWenn ein Ausrufezeichen neben einer Veranstaltung ist, bedeutet das, dass der Anmeldeschluss schon vorbei ist. Du kannst Dir auch Benachrichtigungen einstellen, damit Du nichts verpasst.</string>
-
-    <!-- eventsFragment -->
-    <string name="events_header">Veranstaltungen</string>
-    <string name="contentDescription">Anmeldeschluss abgelaufen</string>
-
-    <!--infoFragment-->
-    <string name="info_header">Infoseite</string>
-
-    <!-- contactFragment -->
-    <string name="contact_header">Kontakt</string>
-    <string name="email">e-mail</string>
-    <string name="anschrift">Anschrift:</string>
-    <string name="telefon">Telefon:</string>
-    <string name="jbTitle">Unsere Jugendbeauftragten</string>
-    <string name="ptTitle">Das Planungsteam</string>
-    <string name="pt_string">Anne, Sophia, Damaris, Hauke, Rosa</string>
-    <string name="mail_pt">jptebu@gmail.com</string>
-    <string name="uebersicht">Übersicht:</string>
-
-    <!-- eventFragment -->
-    <string name="infos_anmeldung"><![CDATA[Infos & Anmeldung]]></string>
-    <string name="age">Alter:</string>
-    <string name="peoplenumber">Teilnehmerzahl:</string>
-    <string name="costs">Kosten:</string>
-    <string name="deadline">Anmeldeschluss:</string>
-    <string name="team">Leitungsteam:</string>
-    <string name="button_apply">Anmelden</string>
-    <string name="next_event">Nächste Veranstaltung:</string>
-    <string name="button_events">Veranstaltungen</string>
-    <string name="button_contact">Kontakt</string>
-
-    <!--Strings for possible PreferenceActivity Back/Next buttons -->
-    <string name="back_button_label">Back</string>
-    <string name="next_button_label">Next</string>
-    <!--Optional button to Skip a PreferenceActivity [CHAR LIMIT=20]-->
-    <string name="skip_button_label">Skip</string>
-    <string name="title_activity_notification">NotificationActivity</string>
-
-    <!--Menu Items-->
-    <string name="menu_notification">Benachrichtigung</string>
-    <string name="menu_calender">Zum Kalender hinzufügen</string>
-    <string name="menu_register">Anmelden</string>
-    <string name="menu_test">Test</string>
-
-    <!--Donate Fragment-->
-    <string name="donate_description">Um die Jugendarbeit der Herrnhuter Brüdergemeine zu unterstützen wurde der „Förderverein der Jugendarbeit der Evangelischen Brüder-Unität Herrnhuter Brüdergemeine“ gegründet. \nMit den Einnahmen aus der Vermarktung von alten Herrnhuter Spielen versucht der Verein Projekte unsere Jugendarbeit zu fördern.</string>
-    <string name="konto">Spendenkonto:</string>
-    <string name="konto_data">Förderverein Jugendarbeit\nIBAN: DE09120300001020195143\nBIC: BYLADEM1001\nDeutsche Kreditbank</string>
-    <string name="more_informations">Weiter Informationen:\n http://herrnhuterspiele.de/</string>
-    <string name="menu_share">Teilen</string>
+    <string name="title_filter">Filter</string>
+    <string name="hide_infos">Infos ausblenden</string>
+    <string name="filter_age">Nach Alter filtern</string>
+    <string name="filter_old_events">Alte Veranstaltungen anzeigen</string>
 
 </resources>

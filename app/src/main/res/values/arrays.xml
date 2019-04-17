@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="notification_day_list">
+        <item>1 Tag vorher</item>
+        <item>2 Tage Vorher</item>
+        <item>3 Tage vorher</item>
+        <item>1 Woche vorher</item>
+        <item>10 Tage vorher</item>
+    </string-array>
+
+    <string-array name="notification_day_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>7</item>
+        <item>10</item>
+    </string-array>
+</resources>
