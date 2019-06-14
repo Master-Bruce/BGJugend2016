@@ -47,15 +47,15 @@ class UserDataModalBottomSheet : BottomSheetDialogFragment(), View.OnClickListen
             user_street.error = getString(R.string.input_street)
             formIsValid = false
         }
-        if (!UserData.validatePlace(user_place.text.toString())) {
+        if (!UserData.validatePlace(user_place.text.toString().trim())) {
             user_place.error = getString(R.string.input_plz_and_place)
             formIsValid = false
         }
-        if (!UserData.validateBirthday(user_birthday.text.toString())) {
+        if (!UserData.validateBirthday(user_birthday.text.toString().trim())) {
             user_birthday.error = getString(R.string.wrong_date_format)
             formIsValid = false
         }
-        if (!UserData.validateTelephone(user_telephone.text.toString())) {
+        if (!UserData.validateTelephone(user_telephone.text.toString().trim())) {
             user_telephone.error = getString(R.string.use_correct_phonenumber)
             formIsValid = false
         }

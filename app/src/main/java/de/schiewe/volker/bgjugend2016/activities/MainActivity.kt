@@ -62,8 +62,6 @@ class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavi
                 }
 
 
-
-
         navigation.setOnNavigationItemSelectedListener(this)
     }
 
