@@ -2,17 +2,17 @@ package de.schiewe.volker.bgjugend2016.fragments
 
 
 import android.app.TimePickerDialog
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AlertDialog
-import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceFragmentCompat
-import android.support.v7.widget.Toolbar
+import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AlertDialog
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.widget.TimePicker
 import de.schiewe.volker.bgjugend2016.R

@@ -3,7 +3,7 @@ package de.schiewe.volker.bgjugend2016.views
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.support.v7.preference.DialogPreference
+import androidx.preference.DialogPreference
 import android.util.AttributeSet
 
 class TimePreference(ctxt: Context, attrs: AttributeSet) : DialogPreference(ctxt, attrs) {

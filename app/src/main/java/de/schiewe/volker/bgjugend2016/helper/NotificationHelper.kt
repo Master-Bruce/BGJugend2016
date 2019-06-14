@@ -9,8 +9,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.media.RingtoneManager
 import android.net.Uri
 import android.preference.PreferenceManager
-import android.support.v4.app.NotificationCompat
-import android.support.v4.content.res.ResourcesCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.content.res.ResourcesCompat
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.activities.MainActivity
 import de.schiewe.volker.bgjugend2016.activities.NotificationReceiver

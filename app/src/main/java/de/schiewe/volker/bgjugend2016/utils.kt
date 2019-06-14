@@ -6,9 +6,9 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.provider.CalendarContract
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.CircularProgressDrawable
-import android.support.v7.preference.PreferenceManager
+import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import androidx.preference.PreferenceManager
 import android.text.Html
 import android.text.Spanned
 import de.schiewe.volker.bgjugend2016.models.BaseEvent

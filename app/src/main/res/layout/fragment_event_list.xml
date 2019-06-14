@@ -12,11 +12,11 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
             android:name="de.schiewe.volker.bgjugend2016.Fragments.EventFragment"
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:layout_gravity="center"
             android:visibility="visible"/>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/filter_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,5 +40,5 @@
             android:layout_margin="16dp"
             android:src="@drawable/ic_filter_black_24dp"
             app:fabSize="normal" />
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

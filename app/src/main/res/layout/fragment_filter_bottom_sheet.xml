@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -15,7 +16,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_info_filer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,6 +26,7 @@
             android:id="@+id/icon_info_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/hide_infos"
             android:src="@drawable/ic_info_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,11 +46,12 @@
             android:id="@+id/switch_info_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             app:layout_constraintEnd_toEndOf="parent"
-            android:clickable="false"/>
-    </android.support.constraint.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_age_filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,6 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_people_black_24dp"
+            android:contentDescription="@string/filter_age"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -77,11 +81,12 @@
             android:id="@+id/switch_age_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             app:layout_constraintEnd_toEndOf="parent"
-            android:clickable="false"/>
-    </android.support.constraint.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_old_events_filer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -92,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_today_black_24dp"
+            android:contentDescription="@string/filter_old_events"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -110,8 +116,9 @@
             android:id="@+id/switch_old_events_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             app:layout_constraintEnd_toEndOf="parent"
-            android:clickable="false"/>
-    </android.support.constraint.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp">
@@ -11,9 +12,10 @@
         android:layout_height="wrap_content"
         android:text="@string/is_your_data_correct"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:theme="@style/TextInputLayoutStyle"
         android:id="@+id/user_name_layout"
         android:layout_width="match_parent"
@@ -27,10 +29,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"
-            android:inputType="textCapWords"/>
-    </android.support.design.widget.TextInputLayout>
+            android:inputType="textCapWords"
+            android:autofillHints="name"
+            tools:targetApi="o" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:theme="@style/TextInputLayoutStyle"
         android:id="@+id/user_street_layout"
         android:layout_width="match_parent"
@@ -44,10 +48,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:hint="@string/street" />
-    </android.support.design.widget.TextInputLayout>
+            android:hint="@string/street"
+            android:autofillHints="postalAddress"
+            tools:targetApi="o" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:theme="@style/TextInputLayoutStyle"
         android:id="@+id/user_place_layout"
         android:layout_width="match_parent"
@@ -61,10 +67,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:hint="@string/plz_and_place" />
-    </android.support.design.widget.TextInputLayout>
+            android:hint="@string/plz_and_place"
+            android:autofillHints="postalCode"
+            tools:targetApi="o" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:theme="@style/TextInputLayoutStyle"
         android:id="@+id/user_birthday_layout"
         android:layout_width="match_parent"
@@ -78,10 +86,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="date"
-            android:hint="@string/birthday" />
-    </android.support.design.widget.TextInputLayout>
+            android:hint="@string/birthday"
+            android:autofillHints="date"
+            tools:targetApi="o" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:theme="@style/TextInputLayoutStyle"
         android:id="@+id/user_telephone_layout"
         android:layout_width="match_parent"
@@ -95,8 +105,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
-            android:hint="@string/telephone" />
-    </android.support.design.widget.TextInputLayout>
+            android:hint="@string/telephone"
+            android:autofillHints="phone"
+            tools:targetApi="o" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/user_data_register"
@@ -104,4 +116,4 @@
         android:layout_height="wrap_content"
         android:text="@string/register"
         app:layout_constraintTop_toBottomOf="@id/user_telephone_layout" />
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

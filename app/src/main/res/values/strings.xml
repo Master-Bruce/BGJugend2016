@@ -10,5 +10,6 @@
     <string name="hide_infos">Infos ausblenden</string>
     <string name="filter_age">Nach Alter filtern</string>
     <string name="filter_old_events">Alte Veranstaltungen anzeigen</string>
+    <string name="logo">logo</string>
 
 </resources>

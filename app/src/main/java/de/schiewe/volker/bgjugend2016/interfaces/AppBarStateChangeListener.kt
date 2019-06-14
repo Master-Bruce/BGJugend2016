@@ -1,6 +1,6 @@
 package de.schiewe.volker.bgjugend2016.interfaces
 
-import android.support.design.widget.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout
 
 interface AppBarStateChangeListener : AppBarLayout.OnOffsetChangedListener {
 

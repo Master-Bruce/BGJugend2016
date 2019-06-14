@@ -1,9 +1,9 @@
 package de.schiewe.volker.bgjugend2016.models
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Context
 import android.net.Uri
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.text.Spanned
 import com.google.firebase.storage.FirebaseStorage
 import de.schiewe.volker.bgjugend2016.R

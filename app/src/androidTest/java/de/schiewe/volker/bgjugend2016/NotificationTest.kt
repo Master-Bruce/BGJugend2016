@@ -2,9 +2,9 @@ package de.schiewe.volker.bgjugend2016
 
 import android.app.PendingIntent
 import android.content.Intent
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
-import android.support.v7.preference.PreferenceManager
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.preference.PreferenceManager
 import de.schiewe.volker.bgjugend2016.activities.NotificationReceiver
 import de.schiewe.volker.bgjugend2016.helper.NOTIFICATION_KEY_PREFIX
 import de.schiewe.volker.bgjugend2016.helper.NotificationHelper
@@ -22,7 +22,7 @@ import java.util.*
 @RunWith(AndroidJUnit4::class)
 class NotificationTest {
     private val event = Event()
-    private val context = InstrumentationRegistry.getTargetContext()
+    private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Before
     fun initEvent() {
