@@ -8,9 +8,9 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class UserData(val context: Context, val sharedPrefs: SharedPreferences) {
+class UserData(val context: Context, private val sharedPrefs: SharedPreferences) {
     var name: String
-        get() = sharedPrefs.getString(context.getString(R.string.name_key), "")
+        get() = sharedPrefs.getString(context.getString(R.string.name_key), "")!!
         set(value) {
             with(sharedPrefs.edit()) {
                 putString(context.getString(R.string.name_key), value)
@@ -19,7 +19,7 @@ class UserData(val context: Context, val sharedPrefs: SharedPreferences) {
         }
 
     var street: String
-        get() = sharedPrefs.getString(context.getString(R.string.street_key), "")
+        get() = sharedPrefs.getString(context.getString(R.string.street_key), "")!!
         set(value) {
             with(sharedPrefs.edit()) {
                 putString(context.getString(R.string.street_key), value)
@@ -28,7 +28,7 @@ class UserData(val context: Context, val sharedPrefs: SharedPreferences) {
         }
 
     var place: String
-        get() = sharedPrefs.getString(context.getString(R.string.place_key), "")
+        get() = sharedPrefs.getString(context.getString(R.string.place_key), "")!!
         set(value) {
             with(sharedPrefs.edit()) {
                 putString(context.getString(R.string.place_key), value)
@@ -37,7 +37,7 @@ class UserData(val context: Context, val sharedPrefs: SharedPreferences) {
         }
 
     var birthday: String
-        get() = sharedPrefs.getString(context.getString(R.string.birthday_key), "")
+        get() = sharedPrefs.getString(context.getString(R.string.birthday_key), "")!!
         set(value) {
             with(sharedPrefs.edit()) {
                 putString(context.getString(R.string.birthday_key), value)
@@ -46,7 +46,7 @@ class UserData(val context: Context, val sharedPrefs: SharedPreferences) {
         }
 
     var telephone: String
-        get() = sharedPrefs.getString(context.getString(R.string.telephone_key), "")
+        get() = sharedPrefs.getString(context.getString(R.string.telephone_key), "")!!
         set(value) {
             with(sharedPrefs.edit()) {
                 putString(context.getString(R.string.telephone_key), value)

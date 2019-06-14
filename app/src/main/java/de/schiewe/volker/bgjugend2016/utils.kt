@@ -65,7 +65,7 @@ fun migrateToCurrentVersion(context: Context) {
             putBoolean(context.getString(R.string.date_notification_key), sharedPref.getBoolean("notifications_date", false))
         if (!sharedPref.contains(context.getString(R.string.notification_day_key)))
             putString(context.getString(R.string.notification_day_key), sharedPref.getString("notification_list", "7"))
-        val hourOfDay: String = sharedPref.getString("notification_time", "")
+        val hourOfDay: String? = sharedPref.getString("notification_time", "")
         if (hourOfDay != "" && !sharedPref.contains(context.getString(R.string.notification_time_key)))
             putString(context.getString(R.string.notification_time_key), "$hourOfDay:00")
 

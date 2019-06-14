@@ -48,7 +48,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
             preference.summary = preference.sharedPreferences.getString(key, "")
             if (key == getString(R.string.notification_day_key)) {
                 val value = preference.sharedPreferences.getString(key, "")
-                if (value != "") {
+                if (!value.isNullOrEmpty()){
                     preference.summary = resources.getQuantityString(R.plurals.days_previously, value.toInt(), value)
                 }
             }

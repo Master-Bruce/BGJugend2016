@@ -109,7 +109,7 @@ class NotificationHelper(val context: Context) {
     private fun getAlarmTime(eventStartDate: Long?): Calendar? {
         val notificationDay = sharedPref.getString(context.getString(R.string.notification_day_key), "7")
         val notificationTime = sharedPref.getString(context.getString(R.string.notification_time_key), "18:00")
-        if (notificationDay == "" || notificationTime == "" || eventStartDate == null)
+        if (notificationDay.isNullOrEmpty() || notificationTime.isNullOrEmpty() || eventStartDate == null)
             return null
         val hourOfDay = notificationTime.split(":".toRegex())[0].toInt()
         val minute = notificationTime.split(":".toRegex())[1].toInt()
