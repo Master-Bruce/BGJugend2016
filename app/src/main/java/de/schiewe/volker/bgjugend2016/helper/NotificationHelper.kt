@@ -5,12 +5,10 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.media.RingtoneManager
 import android.net.Uri
 import android.preference.PreferenceManager
 import androidx.core.app.NotificationCompat
-import androidx.core.content.res.ResourcesCompat
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.activities.MainActivity
 import de.schiewe.volker.bgjugend2016.activities.NotificationReceiver
@@ -152,7 +150,7 @@ class NotificationHelper(val context: Context) {
                 .setContentText(createNotificationText(type))
                 .setAutoCancel(true)
                 .setSmallIcon(R.drawable.ic_notication)
-                .setLargeIcon((ResourcesCompat.getDrawable(context.resources, R.drawable.youth_sheep, null) as BitmapDrawable).bitmap)
+//                .setLargeIcon((ResourcesCompat.getDrawable(context.resources, R.drawable.youth_sheep, null) as BitmapDrawable).bitmap)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(resultPendingIntent)
 
