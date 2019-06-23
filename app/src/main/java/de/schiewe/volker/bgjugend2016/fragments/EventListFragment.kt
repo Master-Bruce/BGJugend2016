@@ -38,7 +38,7 @@ class EventListFragment : Fragment() {
             event_list_progress.visibility = View.VISIBLE
             val adapter = EventRecyclerViewAdapter(itemSelectedListener, sharedViewModel, it)
 
-            filter_button.setOnClickListener { _ -> itemSelectedListener?.onFilterButtonClicked() }
+            filter_button.setOnClickListener { itemSelectedListener?.onFilterButtonClicked() }
             // Set the adapter
             val databaseHelper = DatabaseHelper(it)
             with(list) {

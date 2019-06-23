@@ -29,7 +29,7 @@ class FilterModalBottomSheet : BottomSheetDialogFragment() {
         switch_age_filter.isChecked = filterAge
         switch_old_events_filter.isChecked = filterOldEvents
 
-        container_info_filer.setOnClickListener { _: View ->
+        container_info_filer.setOnClickListener {
             this.handleFilterClick(sharedPref, switch_info_filter, getString(R.string.filter_infos_key))
         }
 

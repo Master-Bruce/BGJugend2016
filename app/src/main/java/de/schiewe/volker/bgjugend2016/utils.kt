@@ -132,7 +132,7 @@ fun generateMailText(event: Event, user: UserData): String {
             "$city\n" +
             "$birthday\n" +
             "$telephone\n\n" +
-            "Viele Grüße\n ${nameString}"
+            "Viele Grüße\n $nameString"
 }
 
 fun validateDateString(date: String): Boolean {

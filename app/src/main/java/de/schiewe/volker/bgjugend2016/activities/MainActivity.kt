@@ -1,20 +1,19 @@
 package de.schiewe.volker.bgjugend2016.activities
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.snackbar.Snackbar
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.PreferenceManager
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import com.crashlytics.android.Crashlytics
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
@@ -24,8 +23,8 @@ import de.schiewe.volker.bgjugend2016.isNewVersion
 import de.schiewe.volker.bgjugend2016.migrateToCurrentVersion
 import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.views.SharedViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 import io.fabric.sdk.android.Fabric
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
