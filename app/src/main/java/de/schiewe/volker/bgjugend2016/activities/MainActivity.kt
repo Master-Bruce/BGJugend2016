@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavi
         auth = FirebaseAuth.getInstance()
         auth.signInAnonymously()
                 .addOnCompleteListener { task ->
-//                    main_progress.visibility = View.GONE
+                    //                    main_progress.visibility = View.GONE
                     if (task.isSuccessful) {
                         Log.d(TAG, "Authentication successful")
                         val intentData = intent.data
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavi
                             // Open default Fragment
                             openFragment(EventListFragment.newInstance())
                         }
-                    } else{
+                    } else {
                         Log.d(TAG, "Authentication failed.", task.exception)
                         // TODO show error screen
                     }
@@ -103,13 +103,15 @@ class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavi
 
     private fun handleIntentData(uri: Uri) {
         DatabaseHelper(this).getEvents().observe(this, Observer { events ->
-            val event = events?.singleOrNull { event -> event is Event && Uri.parse(event.url) == uri }
+            val event = events?.singleOrNull { event -> event is Event && event.url !== "" && uri.toString().startsWith(event.url) }
             if (event != null) {
                 val sharedViewModel = ViewModelProviders.of(this).get(SharedViewModel::class.java)
                 sharedViewModel.select(event as Event)
                 openFragment(EventFragment.newInstance())
             } else {
                 Snackbar.make(container, "Falscher Link!", Snackbar.LENGTH_LONG).show()
+                openFragment(EventListFragment.newInstance())
+
             }
             DatabaseHelper(this).getEvents().removeObservers(this@MainActivity)
         })
