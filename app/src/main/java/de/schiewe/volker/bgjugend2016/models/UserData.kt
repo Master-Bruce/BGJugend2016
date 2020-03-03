@@ -84,7 +84,7 @@ class UserData(val context: Context, private val sharedPrefs: SharedPreferences)
             return if (place == "") {
                 false
             } else {
-                val regex = """^\d+\s\w+$""".toRegex()
+                val regex = """^\d{4,5}(\s?.{2})?\s.+${'$'}""".toRegex()
                 return regex matches place
             }
         }
