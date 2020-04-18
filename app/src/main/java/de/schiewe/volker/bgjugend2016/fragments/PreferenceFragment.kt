@@ -43,19 +43,19 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
                 getString(R.string.notification_day_key)
         )
         for (key in keys) {
-            val preference = preferenceScreen.findPreference(key)
-            preference.onPreferenceChangeListener = this
-            preference.summary = preference.sharedPreferences.getString(key, "")
+            val preference = preferenceScreen.findPreference<Preference>(key)
+            preference?.onPreferenceChangeListener = this
+            preference?.summary = preference?.sharedPreferences?.getString(key, "")
             if (key == getString(R.string.notification_day_key)) {
-                val value = preference.sharedPreferences.getString(key, "")
+                val value = preference?.sharedPreferences?.getString(key, "")
                 if (!value.isNullOrEmpty()){
                     preference.summary = resources.getQuantityString(R.plurals.days_previously, value.toInt(), value)
                 }
             }
         }
-        preferenceScreen.findPreference(getString(R.string.deadline_notification_key)).onPreferenceChangeListener = this
-        preferenceScreen.findPreference(getString(R.string.feedback_key)).onPreferenceClickListener = this
-        preferenceScreen.findPreference(getString(R.string.version_key)).summary = activity?.packageManager?.getPackageInfo(activity?.packageName, 0)?.versionName ?: ""
+        preferenceScreen.findPreference<Preference>(getString(R.string.deadline_notification_key))?.onPreferenceChangeListener = this
+        preferenceScreen.findPreference<Preference>(getString(R.string.feedback_key))?.onPreferenceClickListener = this
+        preferenceScreen.findPreference<Preference>(getString(R.string.version_key))?.summary = activity?.packageManager?.getPackageInfo(activity?.packageName, 0)?.versionName ?: ""
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -136,7 +136,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
         return true
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         activity?.let { Analytics.setScreen(it, javaClass.simpleName) }
         super.onAttach(context)
     }

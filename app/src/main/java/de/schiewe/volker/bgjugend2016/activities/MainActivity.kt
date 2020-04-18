@@ -8,7 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.crashlytics.android.Crashlytics
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
-    private val TAG: String = this.javaClass.simpleName
+    private val tag: String = this.javaClass.simpleName
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavi
                 .addOnCompleteListener { task ->
                     //                    main_progress.visibility = View.GONE
                     if (task.isSuccessful) {
-                        Log.d(TAG, "Authentication successful")
+                        Log.d(tag, "Authentication successful")
                         val intentData = intent.data
                         if (intentData is Uri) {
                             // Deep Link and Notification click handling
@@ -55,17 +55,17 @@ class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavi
                             openFragment(EventListFragment.newInstance())
                         }
                     } else {
-                        Log.d(TAG, "Authentication failed.", task.exception)
+                        Log.d(tag, "Authentication failed.", task.exception)
                         // TODO show error screen
                     }
                 }
 
-
         navigation.setOnNavigationItemSelectedListener(this)
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        if (intent != null && intent.data is Uri)
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.data is Uri)
             intent.data?.let { data ->
                 handleIntentData(data)
             }
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(), OnListItemSelectedListener, BottomNavi
         DatabaseHelper(this).getEvents().observe(this, Observer { events ->
             val event = events?.singleOrNull { event -> event is Event && event.url !== "" && uri.toString().startsWith(event.url) }
             if (event != null) {
-                val sharedViewModel = ViewModelProviders.of(this).get(SharedViewModel::class.java)
+                val sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
                 sharedViewModel.select(event as Event)
                 openFragment(EventFragment.newInstance())
             } else {

@@ -35,13 +35,13 @@ fun getByteArrayFromBase64(base64String: String): ByteArray {
 
 fun getIdFromString(string: String): String {
     return string
-            .toLowerCase()
+            .toLowerCase(Locale.getDefault())
             .replace("ö", "oe")
             .replace("ä", "ae")
             .replace("ü", "ue")
             .replace("ß", "ss")
             .replace(" ", "_")
-            .toUpperCase()
+            .toUpperCase(Locale.getDefault())
 }
 
 fun isNewVersion(sharedPrefs: SharedPreferences, lastVersionKey: String): Boolean {

@@ -33,7 +33,7 @@ class InfoFragment : Fragment() {
                 this.layoutManager = StaticGridLayoutManager(context, 2)
 
                 this.adapter = adapter
-                databaseHelper.getGeneralData().observe(this@InfoFragment, Observer { generalData: GeneralData? ->
+                databaseHelper.getGeneralData().observe(viewLifecycleOwner, Observer { generalData: GeneralData? ->
                     if (generalData != null) {
                         (adapter).setYouthWorkers(generalData.professionals)
                         youth_team.text = context.getString(R.string.current_youth_team, generalData.youthTeam)
@@ -42,7 +42,7 @@ class InfoFragment : Fragment() {
             }
         }
     }
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
          activity?.let {
              Analytics.setScreen(it, javaClass.simpleName)
          }

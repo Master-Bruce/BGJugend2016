@@ -3,7 +3,7 @@ package de.schiewe.volker.bgjugend2016.fragments
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +55,7 @@ class FilterModalBottomSheet : BottomSheetDialogFragment() {
         switch.isChecked = !currentValue
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         activity?.let {
             Analytics.setScreen(it, javaClass.simpleName)
         }

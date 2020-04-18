@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.util.Log
 import android.view.*
 import android.widget.TextView
@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.material.appbar.AppBarLayout
@@ -43,7 +43,7 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
         val rootView = inflater.inflate(R.layout.fragment_event, container, false)
         if (activity != null) {
             val activity = activity as AppCompatActivity
-            val sharedViewModel = ViewModelProviders.of(activity).get(SharedViewModel::class.java)
+            val sharedViewModel = ViewModelProvider(activity).get(SharedViewModel::class.java)
             sharedViewModel.getSelected().observe(activity, Observer { item ->
                 event = item
             })
@@ -118,29 +118,30 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
         place_date_text.setOnClickListener { openMap() }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         activity?.let {
             Analytics.setScreen(it, javaClass.simpleName)
         }
         super.onAttach(context)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         this.menu = menu
-        inflater?.inflate(R.menu.main_menu, menu)
+        inflater.inflate(R.menu.main_menu, menu)
         changeMenuVisibility(false)
         val activity = activity
-        if (menu != null && event != null && activity != null) {
+        val event = event
+        if (event != null && activity != null) {
             val notificationHelper = NotificationHelper(activity)
             val notificationItem = menu.findItem(R.id.menu_notification)
-            notificationItem.isChecked = notificationHelper.isNotificationEnabled(event?.pk)
+            notificationItem.isChecked = notificationHelper.isNotificationEnabled(event.pk)
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val activity = activity
         val event = event
-        when (item?.itemId) {
+        when (item.itemId) {
             R.id.menu_notification -> {
                 if (event != null && activity != null) {
                     val newValue = !item.isChecked
@@ -216,13 +217,19 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
     override fun onUserDataSubmit() {
         (childFragmentManager.findFragmentByTag(USER_DATA_BOTTOM_SHEET) as UserDataModalBottomSheet).dismiss()
         val event = event
-        if (event != null && activity != null) {
+        if (activity != null && event != null && event.contact !== null) {
             val fragmentActivity = activity as FragmentActivity
-            val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", event.contact?.mail, null))
-            // TODO correct grammar
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.registration_for, event.title))
-            emailIntent.putExtra(Intent.EXTRA_TEXT, generateMailText(event, UserData(fragmentActivity, PreferenceManager.getDefaultSharedPreferences(activity))))
-            startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
+            val subject = getString(R.string.registration_for, event.title)
+            val body = generateMailText(event, UserData(fragmentActivity, PreferenceManager.getDefaultSharedPreferences(activity)))
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:" + event.contact.mail + "?subject=" + subject + "&body=" + body)
+                putExtra(Intent.EXTRA_EMAIL, listOf(event.contact.mail).toTypedArray())
+                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.registration_for, event.title))
+                putExtra(Intent.EXTRA_TEXT, body)
+            }
+            if (intent.resolveActivity(fragmentActivity.packageManager) != null) {
+                startActivity(intent)
+            }
             Analytics.logEvent(fragmentActivity, "Register")
         }
 
