@@ -4,14 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.google.firebase.storage.FirebaseStorage
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.interfaces.OnListItemSelectedListener
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
@@ -33,7 +32,6 @@ class EventRecyclerViewAdapter(
     private var mValues: List<BaseEvent> = listOf()
     private var mFilteredValues: MutableList<BaseEvent> = mutableListOf()
     private val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-    private val storage: FirebaseStorage = FirebaseStorage.getInstance()
 
     init {
         for (item in mValues)

@@ -45,7 +45,7 @@ class EventListFragment : Fragment() {
                 this.layoutManager = LinearLayoutManager(context)
                 this.adapter = adapter
                 this.addItemDecoration(DividerItemDecoration(it, DividerItemDecoration.VERTICAL))
-                databaseHelper.getEvents().observe(this@EventListFragment, Observer<List<BaseEvent>> { events ->
+                databaseHelper.getEvents().observe(viewLifecycleOwner, Observer<List<BaseEvent>> { events ->
                     if (events != null) {
                         adapter.setEvents(events)
                         event_list_progress.visibility = View.GONE

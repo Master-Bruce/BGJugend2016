@@ -29,6 +29,9 @@ class Event : BaseEvent() {
 
     var imageUrl: String? = null
 
+    @field:JvmField
+    var isRegistrationDisabled: Boolean = false
+
     fun ageString(context: Context): String {
         val ageText = this.ageText
         if (ageText != null)

@@ -2,7 +2,7 @@ package de.schiewe.volker.bgjugend2016.database
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.fragment.app.FragmentActivity
 import com.google.firebase.database.FirebaseDatabase
 import de.schiewe.volker.bgjugend2016.models.BaseEvent
@@ -14,8 +14,8 @@ const val INFO_REFERENCE = "infos"
 
 class DatabaseHelper(private val context: FragmentActivity) {
     fun getEvents(): LiveData<List<BaseEvent>> {
-        val eventViewModel = ViewModelProviders.of(context).get(EventViewModel::class.java)
-        val generalDataViewModel = ViewModelProviders.of(context).get(GeneralDataViewModel::class.java)
+        val eventViewModel = ViewModelProvider(context).get(EventViewModel::class.java)
+        val generalDataViewModel = ViewModelProvider(context).get(GeneralDataViewModel::class.java)
         generalDataViewModel.getGeneralData().observe(context, Observer { generalData: GeneralData? ->
             if (generalData != null) {
                 eventViewModel.databaseName = generalData.currentDatabaseName
@@ -25,7 +25,7 @@ class DatabaseHelper(private val context: FragmentActivity) {
     }
 
     fun getGeneralData(): LiveData<GeneralData> {
-        val generalDataViewModel = ViewModelProviders.of(context).get(GeneralDataViewModel::class.java)
+        val generalDataViewModel = ViewModelProvider(context).get(GeneralDataViewModel::class.java)
         return generalDataViewModel.getGeneralData()
     }
 

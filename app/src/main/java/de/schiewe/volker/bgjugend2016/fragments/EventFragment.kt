@@ -29,6 +29,7 @@ import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.UserData
 import de.schiewe.volker.bgjugend2016.views.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_event.*
+import java.util.*
 
 
 class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListener {
@@ -211,7 +212,14 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
     }
 
     private fun onRegisterClick() {
-        UserDataModalBottomSheet().show(childFragmentManager, USER_DATA_BOTTOM_SHEET)
+        val event = event
+        val startDate = event?.startDate
+        if (event != null) {
+            if (event.isRegistrationDisabled || startDate != null && startDate < Date().time)
+                view?.let { Snackbar.make(it, "Keine Anmeldung mehr möglich.", Snackbar.LENGTH_LONG).show() }
+            else
+                UserDataModalBottomSheet().show(childFragmentManager, USER_DATA_BOTTOM_SHEET)
+        }
     }
 
     override fun onUserDataSubmit() {

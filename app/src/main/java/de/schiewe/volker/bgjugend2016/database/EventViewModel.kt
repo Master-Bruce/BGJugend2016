@@ -13,7 +13,7 @@ import de.schiewe.volker.bgjugend2016.models.Event
 import de.schiewe.volker.bgjugend2016.models.Info
 
 class EventViewModel : ViewModel() {
-    private val TAG: String = this.javaClass.name
+    private val tag: String = this.javaClass.name
 
     private var baseEvents: MediatorLiveData<List<BaseEvent>> = MediatorLiveData()
     private var events: MutableLiveData<List<Event>> = MutableLiveData()
@@ -48,12 +48,12 @@ class EventViewModel : ViewModel() {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                 if (dataSnapshot.exists()) {
                                     val eventList: MutableList<Event> = mutableListOf()
-                                    dataSnapshot.children.forEach {
+                                    dataSnapshot.children.forEach { snapshot ->
                                         try {
-                                            val event: Event? = it.getValue(Event::class.java)
+                                            val event: Event? = snapshot.getValue(Event::class.java)
                                             event?.let { eventList.add(it)  }
                                         } catch (e: Exception) {
-                                            Log.d(TAG, "Event could not be parsed (key: ${it.key}, Exception: $e)")
+                                            Log.d(tag, "Event could not be parsed (key: ${snapshot.key}, Exception: $e)")
                                         }
                                     }
                                     events.value = eventList
@@ -72,12 +72,12 @@ class EventViewModel : ViewModel() {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                 if (dataSnapshot.exists()) {
                                     val infoList: MutableList<Info> = mutableListOf()
-                                    dataSnapshot.children.forEach {
+                                    dataSnapshot.children.forEach { snapshot ->
                                         try {
-                                            val info: Info? = it.getValue(Info::class.java)
+                                            val info: Info? = snapshot.getValue(Info::class.java)
                                             info?.let { infoList.add(it) }
                                         } catch (e: Exception) {
-                                            Log.d(TAG, "Info could not be parsed (key: ${it.key}, Exception: $e)")
+                                            Log.d(tag, "Info could not be parsed (key: ${snapshot.key}, Exception: $e)")
                                         }
                                     }
                                     infos.value = infoList
