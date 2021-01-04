@@ -1,17 +1,17 @@
 package de.schiewe.volker.bgjugend2016.fragments
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.appcompat.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.database.DatabaseHelper
 import de.schiewe.volker.bgjugend2016.interfaces.OnListItemSelectedListener
@@ -34,7 +34,7 @@ class EventListFragment : Fragment() {
         activity?.let {
             (it as AppCompatActivity).setSupportActionBar(toolbar)
             toolbar.title = getString(R.string.title_events)
-            val sharedViewModel = ViewModelProviders.of(it).get(SharedViewModel::class.java)
+            val sharedViewModel = ViewModelProvider(it).get(SharedViewModel::class.java)
             event_list_progress.visibility = View.VISIBLE
             val adapter = EventRecyclerViewAdapter(itemSelectedListener, sharedViewModel, it)
 

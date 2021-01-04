@@ -55,7 +55,8 @@ class PreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceCh
         }
         preferenceScreen.findPreference<Preference>(getString(R.string.deadline_notification_key))?.onPreferenceChangeListener = this
         preferenceScreen.findPreference<Preference>(getString(R.string.feedback_key))?.onPreferenceClickListener = this
-        preferenceScreen.findPreference<Preference>(getString(R.string.version_key))?.summary = activity?.packageManager?.getPackageInfo(activity?.packageName, 0)?.versionName ?: ""
+        preferenceScreen.findPreference<Preference>(getString(R.string.version_key))?.summary = activity?.packageName?.let { activity?.packageManager?.getPackageInfo(it, 0)?.versionName }
+                ?: ""
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

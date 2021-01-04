@@ -3,13 +3,13 @@ package de.schiewe.volker.bgjugend2016.fragments
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.preference.PreferenceManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Switch
 import android.widget.Toast
+import androidx.appcompat.widget.SwitchCompat
+import androidx.preference.PreferenceManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import de.schiewe.volker.bgjugend2016.R
 import de.schiewe.volker.bgjugend2016.helper.Analytics
 import kotlinx.android.synthetic.main.fragment_filter_bottom_sheet.*
@@ -45,7 +45,7 @@ class FilterModalBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private fun handleFilterClick(sharedPref: SharedPreferences, switch: Switch, preferencesKey: String) {
+    private fun handleFilterClick(sharedPref: SharedPreferences, switch: SwitchCompat, preferencesKey: String) {
         val currentValue: Boolean = switch.isChecked
         with(sharedPref.edit())
         {

@@ -44,9 +44,9 @@ class Event : BaseEvent() {
     }
 
     fun costString(): String {
-        if (this.cost == null)
-            return ""
-        var text = "${this.cost} €"
+        var text = ""
+        if (this.cost != null)
+            text += "${this.cost} €"
         if (this.costText != null)
             text += " " + this.costText
         return text

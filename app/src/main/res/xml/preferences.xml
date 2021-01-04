@@ -29,7 +29,6 @@
     <PreferenceCategory android:title="@string/your_data">
 
         <EditTextPreference
-            android:capitalize="words"
             android:inputType="textCapWords"
             android:key="@string/name_key"
             android:selectAllOnFocus="true"
@@ -37,7 +36,6 @@
             android:title="@string/name" />
 
         <EditTextPreference
-            android:capitalize="words"
             android:inputType="textCapWords"
             android:key="@string/street_key"
             android:selectAllOnFocus="true"
@@ -45,7 +43,6 @@
             android:title="@string/street" />
 
         <EditTextPreference
-            android:capitalize="words"
             android:inputType="textCapWords"
             android:key="@string/place_key"
             android:selectAllOnFocus="true"
@@ -53,7 +50,6 @@
             android:title="@string/plz_and_place" />
 
         <EditTextPreference
-            android:capitalize="words"
             android:inputType="date"
             android:key="@string/birthday_key"
             android:maxLines="1"
@@ -63,7 +59,6 @@
 
         <EditTextPreference
             android:id="@+id/hello"
-            android:capitalize="words"
             android:inputType="number"
             android:key="@string/telephone_key"
             android:selectAllOnFocus="true"
