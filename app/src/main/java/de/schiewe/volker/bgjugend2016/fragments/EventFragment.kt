@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.preference.PreferenceManager
 import android.util.Log
 import android.view.*
 import android.widget.TextView
@@ -14,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.material.appbar.AppBarLayout
@@ -235,9 +235,8 @@ class EventFragment : Fragment(), AppBarStateChangeListener, UserDataSubmitListe
                 putExtra(Intent.EXTRA_SUBJECT, getString(R.string.registration_for, event.title))
                 putExtra(Intent.EXTRA_TEXT, body)
             }
-            if (intent.resolveActivity(fragmentActivity.packageManager) != null) {
-                startActivity(intent)
-            }
+            startActivity(Intent.createChooser(intent, getString(R.string.send_mail)))
+
             Analytics.logEvent(fragmentActivity, "Register")
         }
 
